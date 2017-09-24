@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 营业点管理-->
+<mapper namespace="cn.llf.framework.dao.dto.UserInfo">
+
+<!--查询人员对应的信息 -->
+	<select id="findUser" parameterType="String"  resultType="java.util.Map">
+        select * from user_info
+	</select>
+
+
+
+</mapper>

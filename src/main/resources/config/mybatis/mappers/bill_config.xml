@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 发票配置-->
+<mapper namespace="cn.llf.framework.dao.dto.OcBillConfig">
+
+    <!--查询发票信息 -->
+    <select id="findBillConfigSimple"  resultType="java.util.Map">
+        select * from oc_bill_config
+    </select>
+
+
+</mapper>
