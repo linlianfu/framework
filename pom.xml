@@ -103,6 +103,11 @@
       <artifactId>hibernate-jpa-2.0-api</artifactId>
       <version>1.0.1.Final</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-mongodb</artifactId>
+      <version>1.10.4.RELEASE</version>
+    </dependency>
     <!--elasticsearch-->
     <dependency>
       <groupId>org.elasticsearch</groupId>
