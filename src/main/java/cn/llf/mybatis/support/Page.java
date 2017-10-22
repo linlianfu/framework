@@ -32,6 +32,10 @@ public class Page {
      * 整个总记录集拥有的总记录数
      */
     protected long totalSize;
+    /**
+     * 整个总记录集拥有的总页数
+     */
+    protected long totalPageSize;
 
     /**
      * 起始页码

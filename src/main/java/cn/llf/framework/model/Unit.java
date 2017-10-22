@@ -6,6 +6,8 @@ import cn.llf.framework.services.unit.dto.UnitAffiliation;
 import cn.llf.framework.services.unit.dto.UnitManager;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,11 +15,11 @@ import java.util.List;
  * Date:  2017/10/21 0021
  */
 @Data
-public class Unit {
+public class Unit implements Serializable{
     /**
      * 单位ID
      */
-    private String unitId;
+    private String id;
 
     /**
      * 单位名称
@@ -84,4 +86,8 @@ public class Unit {
      * 管理员数量
      */
     private long managerCount;
+    /**
+     * 创建时间
+     */
+    private Date date = new Date();
 }
