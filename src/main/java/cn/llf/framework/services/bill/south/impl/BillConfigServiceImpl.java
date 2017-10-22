@@ -1,7 +1,6 @@
-package cn.llf.framework.services.bill.impl;
+package cn.llf.framework.services.bill.south.impl;
 
-import cn.llf.framework.annotation.ImportField;
-import cn.llf.framework.services.bill.BillConfigService;
+import cn.llf.framework.services.bill.south.BillConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

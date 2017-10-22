@@ -7,16 +7,13 @@ import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import cn.llf.mybatis.support.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.lucene.search.Collector;
-import org.apache.lucene.util.CollectionUtil;
-import org.springframework.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,20 +36,20 @@ public class UserInfoAction {
         UserInfoMapper userInfoMapper =sqlSession.getMapper(UserInfoMapper.class);
         Assert.notNull(userInfoMapper,"mapper 为空");
         //获取所有人员信息
-//        List<UserInfo> resultList = userInfoMapper.findAll(new UserInfo());
-//        for (UserInfo userInfo:resultList){
-//            log.info("all:"+userInfo.toString());
-//        }
+        List<UserInfo> resultList = userInfoMapper.findAll(new UserInfo());
+        for (UserInfo userInfo:resultList){
+            log.info("all:"+userInfo.toString());
+        }
 //        //条件搜索
-//        UserInfo condition = new UserInfo();
-//        condition.setUserName("林连福");
-//        condition.setUserAge(24);
-//        log.info(condition.toString());
-//        List<UserInfo> resultList1 = userInfoMapper.findByCondition(condition);
-//        log.info("符合条件的共有【{}】条",resultList1.size());
-//        for (UserInfo userInfo:resultList1){
-//            log.info("condition:"+userInfo.toString());
-//        }
+        UserInfo condition = new UserInfo();
+        condition.setUserName("林连福");
+        condition.setUserAge(24);
+        log.info(condition.toString());
+        List<UserInfo> resultList1 = userInfoMapper.findByCondition(condition);
+        log.info("符合条件的共有【{}】条",resultList1.size());
+        for (UserInfo userInfo:resultList1){
+            log.info("condition:"+userInfo.toString());
+        }
 
 //        保存数据
 //        UserInfo entity = new UserInfo();
@@ -97,8 +94,8 @@ public class UserInfoAction {
         page.setPageNo(3);
         page.setPageSize(2);
         log.info(">>>>>入参："+pageUserInfo.toString());
-        List<UserInfo> resultList1 = userInfoMapper.findPage(pageUserInfo,page);
-        log.info(">>>>>符合分页条件的共有【{}】条",resultList1.size());
+        List<UserInfo> resultList2 = userInfoMapper.findPage(pageUserInfo,page);
+        log.info(">>>>>符合分页条件的共有【{}】条",resultList2.size());
         for (UserInfo userInfo:resultList1){
             log.info(">>>>>pageUserInfo:"+userInfo.toString());
         }
@@ -122,6 +119,7 @@ public class UserInfoAction {
         list.add(u2);
         List<String> userNameList =  list.stream().map(UserInfo::getUserName).collect(Collectors.toList());
         for (String s : userNameList) {
+            System.out.println(s);
             System.out.println(s);
         }
         Map<String,UserInfo> userMap = list.stream().collect(Collectors.toMap(p->p.getUserName(),p->p));

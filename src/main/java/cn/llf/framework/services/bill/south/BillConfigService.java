@@ -1,4 +1,4 @@
-package cn.llf.framework.services.bill;
+package cn.llf.framework.services.bill.south;
 
 /**
  * Author：calvin

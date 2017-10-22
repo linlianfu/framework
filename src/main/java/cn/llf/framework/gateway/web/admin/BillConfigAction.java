@@ -1,6 +1,6 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.services.bill.BillConfigService;
+import cn.llf.framework.services.bill.south.BillConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
