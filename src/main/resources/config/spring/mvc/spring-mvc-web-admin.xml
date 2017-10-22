@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.0.xsd
-       http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd
+
+
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 指定搜索自动装配组件的路径 -->
     <mvc:annotation-driven/>
-    <context:component-scan base-package="cn.llf.framework.gateway"/>
-    <!--&lt;!&ndash;全局的service层的方法调用都会被记录日志&ndash;&gt;-->
-    <aop:config>
-        <aop:aspect id="class" ref="globalServiceLogIntercept">
-            <aop:pointcut id="log" expression="execution(* cn.llf.framework.gateway..*.*(..))"/>
-            <aop:before method="preHandle" pointcut-ref="log"/>
-            <aop:after method="afterCompletion" pointcut-ref="log"/>
-        </aop:aspect>
-    </aop:config>
+    <context:component-scan base-package="cn.llf.framework.gateway.web.admin"/>
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 </beans>
