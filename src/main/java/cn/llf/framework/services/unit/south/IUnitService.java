@@ -3,8 +3,11 @@ package cn.llf.framework.services.unit.south;
 import cn.llf.framework.model.Unit;
 import cn.llf.framework.services.unit.dto.UnitQuery;
 import cn.llf.mybatis.support.Page;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -12,6 +15,7 @@ import java.util.List;
  * Date:  2017/10/22 0022
  * 描述：
  */
+@Validated
 public interface IUnitService {
     /**
      * 增加一个单位信息
@@ -19,7 +23,7 @@ public interface IUnitService {
      */
     void add(Unit unit);
 
-    Page page(Page page,UnitQuery query);
+    Page page(@NotNull(message = "page对象不能为空") Page page, UnitQuery query);
     /**
      * 条件搜索单位
      * @param query
@@ -31,7 +35,7 @@ public interface IUnitService {
      * @param id
      * @return
      */
-    Unit getDetailById(String id);
+    Unit getDetailById(@NotBlank(message = "id不能为空") String id);
 
     /**
      * 更新单位信息

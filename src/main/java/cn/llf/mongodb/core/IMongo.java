@@ -2,13 +2,18 @@ package cn.llf.mongodb.core;
 
 
 import cn.llf.mybatis.support.Page;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Author：calvin
  * Date:  2017/10/21 0021
  * 描述：默认的集合名为类名首字母小写，所以当不传集合名字时，则类名必须和数据库集合名一致
  */
+@Validated
 public interface IMongo {
     /**
      * 新增一个实体
@@ -34,9 +39,9 @@ public interface IMongo {
      * @param page
      * @param query
      * @return
-     * todo 需要加上JSR校验，需要确认JSRjar包
+     * todo 需要加上JSR校验，需要引入hibernate的@notBlank所在的jar包
      */
-    Page page( Page page, Query query);
+    Page page(@NotNull(message = "page对象不能为空") Page page, Query query);
 
     /**
      * 更新一个实体
@@ -57,5 +62,5 @@ public interface IMongo {
      * 根据id删除数据
      * @param id
      */
-    void deleteById(String id);
+    void deleteById(@NotBlank(message = "id不能为空") String id);
 }
