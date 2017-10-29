@@ -1,4 +1,4 @@
-package cn.llf.framework.dao.dto;
+package cn.llf.framework.model;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;

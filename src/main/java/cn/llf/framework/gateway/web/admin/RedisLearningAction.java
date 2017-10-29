@@ -1,7 +1,7 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.dao.dto.OcBillConfig;
 import cn.llf.framework.dao.impl.BillConfigImpl;
+import cn.llf.framework.model.OcBillConfig;
 import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 创建者：   linlf

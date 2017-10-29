@@ -1,6 +1,6 @@
 package cn.llf.framework.dao.mapper;
 
-import cn.llf.framework.dao.dto.UserInfo;
+import cn.llf.framework.model.UserInfo;
 import cn.llf.mybatis.support.BaseSqlProvider;
 import cn.llf.mybatis.support.MapKeyConstant;
 import cn.llf.mybatis.support.MapperSqlMethod;

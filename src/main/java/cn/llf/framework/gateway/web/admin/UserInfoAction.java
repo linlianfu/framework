@@ -1,8 +1,7 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.dao.dto.UserInfo;
 import cn.llf.framework.dao.mapper.UserInfoMapper;
-import cn.llf.framework.model.Paper;
+import cn.llf.framework.model.UserInfo;
 import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import cn.llf.mybatis.support.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -103,7 +102,6 @@ public class UserInfoAction {
 
 
     public static void main(String[] arg){
-        System.out.println(Paper.LIBRARY.name());
         UserInfo u1 = new UserInfo();
         u1.setUserName("林连福");
         u1.setId("31202120");

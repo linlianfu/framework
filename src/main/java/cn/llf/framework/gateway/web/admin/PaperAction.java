@@ -1,17 +1,14 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.dao.dto.UserInfo;
 import cn.llf.framework.dao.impl.UserDaoImpl;
+import cn.llf.framework.model.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Author：calvin
