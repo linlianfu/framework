@@ -1,14 +1,12 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.dao.dto.UserInfo;
+import cn.llf.framework.model.UserInfo;
 import com.alibaba.fastjson.JSONObject;
-import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Author：calvin

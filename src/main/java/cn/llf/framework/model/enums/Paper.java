@@ -1,4 +1,4 @@
-package cn.llf.framework.model;
+package cn.llf.framework.model.enums;
 
 import lombok.Getter;
 

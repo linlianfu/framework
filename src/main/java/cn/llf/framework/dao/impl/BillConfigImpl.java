@@ -1,6 +1,6 @@
 package cn.llf.framework.dao.impl;
 
-import cn.llf.framework.dao.dto.OcBillConfig;
+import cn.llf.framework.model.OcBillConfig;
 import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
