@@ -25,7 +25,7 @@ public interface UserInfoMapper{
 
     /**
      * 删除单条数据
-     * @param
+     * @param userInfo
      * @return
      */
     @DeleteProvider(type = BaseSqlProvider.class, method = MapperSqlMethod.DELETE_BY_ID)
@@ -33,7 +33,7 @@ public interface UserInfoMapper{
 
     /**
      * 修改单条数据
-     * @param
+     * @param userInfo
      * @return
      */
     @UpdateProvider(type = BaseSqlProvider.class, method = MapperSqlMethod.UPDATE)
@@ -41,7 +41,7 @@ public interface UserInfoMapper{
 
     /**
      * 查询所有的实体
-     * @param
+     * @param userInfo
      * @return
      */
     @SelectProvider(type = BaseSqlProvider.class, method = MapperSqlMethod.FIND_ALL)

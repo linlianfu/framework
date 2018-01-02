@@ -6,7 +6,9 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
-      <!--<context:component-scan base-package="cn.llf.framework.gateway"/>-->
-      <context:component-scan base-package="cn.llf.framework.services"/>
-      <context:component-scan base-package="cn.llf.framework.dao"/>
+      <!--正确行-->
+      <!--<context:component-scan base-package="cn.llf.framework.services"/>-->
+      <!--<context:component-scan base-package="cn.llf.framework.dao"/>-->
+      <!--2018-1-02更改测试-->
+      <context:component-scan base-package="cn.llf.framework"/>
 </beans>
