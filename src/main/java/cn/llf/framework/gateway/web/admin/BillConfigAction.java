@@ -1,5 +1,6 @@
 package cn.llf.framework.gateway.web.admin;
 
+import cn.llf.framework.services.bill.dto.BillConfigDto;
 import cn.llf.framework.services.bill.south.BillConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,6 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("billConfig")
 public class BillConfigAction {
-    BillConfigAction(){
-        int i = 0;
-        log.info("BillConfigAction实例化");
-    }
     @Resource(name = "billConfigService")
     BillConfigService billConfigService;
 
@@ -29,4 +26,15 @@ public class BillConfigAction {
         log.info("action调用");
         return billConfigService.getBillConfig("linlf");
     }
+    @ResponseBody
+    @RequestMapping("getBillConfigDetail")
+    public BillConfigDto getBillConfigDetail(){
+        log.info("getBillConfigDetail调用");
+
+        return BillConfigDto.builder().billConfigId("123132")
+                .billType(2)
+                .code("123")
+                .build();
+    }
+
 }
