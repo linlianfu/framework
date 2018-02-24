@@ -19,7 +19,8 @@ import java.util.List;
  * 创建者：   linlf
  * 创建时间： 2017/12/29
  * 描述：
- */@Slf4j
+ */
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/mq.xml")
 public class Consumer {
