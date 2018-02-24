@@ -1,5 +1,6 @@
 package cn.llf.framework.utils;
 
+import lombok.Cleanup;
 import lombok.Data;
 
 import java.io.*;
@@ -42,13 +43,12 @@ public class ReadAndWriterFileUtil {
 
     public  void createTxtFileByBuffWriter(List<String> outContent,String filePath){
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath,true));
+            @Cleanup BufferedWriter bw = new BufferedWriter(new FileWriter(filePath,true));
             for (String str:outContent){
                 bw.write(str);
                 bw.newLine();
             }
             bw.flush();
-            bw.close();
         }catch (Exception e){
             System.out.println("读取文件异常："+filePath);
         }
@@ -57,13 +57,12 @@ public class ReadAndWriterFileUtil {
 
     public  void createTxtFileByOutputStreamWriter(List<String> outContent,String filePath){
         try {
-            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(filePath,true));
+            @Cleanup OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(filePath,true));
             for (String str:outContent){
                 osw.write("\r\n"+str);
                 osw.flush();
             }
             osw.flush();
-            osw.close();
         }catch (Exception e){
             System.out.println("读取文件异常："+filePath);
         }
@@ -74,7 +73,7 @@ public class ReadAndWriterFileUtil {
         List<String> content = new ArrayList<String>();
         try {
             InputStreamReader ins = new InputStreamReader(new FileInputStream(filePath),"UTF-8");
-            BufferedReader br = new BufferedReader(ins);
+            @Cleanup BufferedReader br = new BufferedReader(ins);
             char[] row = new char[100];
             String temp;
             while ((temp = br.readLine()) != null) {
