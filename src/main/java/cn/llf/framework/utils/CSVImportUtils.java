@@ -4,6 +4,7 @@ import cn.llf.framework.annotation.ImportField;
 import cn.llf.framework.async.executor.dto.ImportCol;
 import cn.llf.framework.async.executor.dto.ImportCommonDto;
 import cn.llf.framework.async.executor.dto.ImportRow;
+import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -81,7 +82,7 @@ public class CSVImportUtils {
         List<ImportRow> rows = new ArrayList<>();
         List<String> lineList = new ArrayList<String>();
         List<String> unitList = new ArrayList<>();
-        BufferedReader br = null;
+       @Cleanup BufferedReader br = null;
         br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "GBK"));
         String stemp;
         while ((stemp = br.readLine()) != null) {
