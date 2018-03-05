@@ -1,4 +1,4 @@
-package cn.llf.framework.model;
+package cn.llf.framework.model.mybatis;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;

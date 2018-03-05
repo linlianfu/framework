@@ -1,4 +1,4 @@
-package cn.llf.framework.model;
+package cn.llf.framework.model.mongo;
 
 import cn.llf.framework.services.unit.dto.Attachment;
 import cn.llf.framework.services.unit.dto.District;

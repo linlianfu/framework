@@ -3,6 +3,7 @@ package cn.llf.mongodb.core;
 import cn.llf.mybatis.support.Page;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,7 +18,12 @@ import java.util.List;
  * Date:  2017/10/21 0021
  * 描述：默认的集合名为类名首字母小写，所以当不传集合名字时，则类名必须和数据库集合名一致
  */
+@Slf4j
 public class MDSpringDaoTemplate<T extends Serializable>  implements  IMongo{
+    /**
+     * mongo数据的操作对象
+     * 依赖注入,每个继承MDSpringDaoTemplate的类实例化后，调用set从spring IOC容器取该对象的实例注入
+     */
     @Autowired
     @Setter
     @Getter

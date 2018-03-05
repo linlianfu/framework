@@ -1,6 +1,6 @@
-package cn.llf.framework.dao.impl;
+package cn.llf.framework.dao.impl.mongo;
 
-import cn.llf.framework.model.UserInfo;
+import cn.llf.framework.model.mybatis.UserInfo;
 import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

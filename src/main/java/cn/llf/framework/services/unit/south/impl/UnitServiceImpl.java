@@ -1,7 +1,7 @@
 package cn.llf.framework.services.unit.south.impl;
 
-import cn.llf.framework.dao.impl.UnitDaoImpl;
-import cn.llf.framework.model.Unit;
+import cn.llf.framework.dao.impl.mongo.UnitDaoImpl;
+import cn.llf.framework.model.mongo.Unit;
 import cn.llf.framework.services.unit.dto.District;
 import cn.llf.framework.services.unit.dto.UnitQuery;
 import cn.llf.framework.services.unit.south.IUnitService;

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("elasticsearch")
 public class ElasticsearchAction {
 
-    @Autowired
+//    @Autowired
     Client client;
     @RequestMapping("listNews")
     public void listNews(){

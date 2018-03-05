@@ -1,7 +1,7 @@
 package cn.llf.framework.gateway.web.admin;
 
 import cn.llf.framework.dao.mapper.UserInfoMapper;
-import cn.llf.framework.model.UserInfo;
+import cn.llf.framework.model.mybatis.UserInfo;
 import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import cn.llf.mybatis.support.Page;
 import lombok.extern.slf4j.Slf4j;

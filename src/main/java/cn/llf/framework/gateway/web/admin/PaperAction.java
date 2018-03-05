@@ -1,13 +1,13 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.dao.impl.UserDaoImpl;
-import cn.llf.framework.model.UserInfo;
+import cn.llf.framework.dao.impl.mongo.UserDaoImpl;
+import cn.llf.framework.model.mybatis.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("paper")
 public class PaperAction {
-    @Resource(name = "userDaoImpl")
+    @Autowired
     UserDaoImpl userDaoImpl;
     @RequestMapping("getPaper")
     public String getPaper(){

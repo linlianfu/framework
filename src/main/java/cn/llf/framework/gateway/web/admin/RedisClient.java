@@ -1,6 +1,6 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.model.UserInfo;
+import cn.llf.framework.model.mybatis.UserInfo;
 import com.alibaba.fastjson.JSONObject;
 import redis.clients.jedis.*;
 

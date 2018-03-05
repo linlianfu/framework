@@ -1,7 +1,7 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.llf.framework.dao.impl.BillConfigImpl;
-import cn.llf.framework.model.OcBillConfig;
+import cn.llf.framework.dao.impl.mybatis.BillConfigImpl;
+import cn.llf.framework.model.mybatis.OcBillConfig;
 import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class RedisLearningAction {
     @Resource(name = "billConfig")
     BillConfigImpl billConfigImpl;
 
-    @Resource(name = "jedisConnectionFactory")
+//    @Resource(name = "jedisConnectionFactory")
     JedisConnectionFactory jedisConnectionFactory;
 
     Jedis jedis = null;
