@@ -3,6 +3,7 @@ package cn.llf.framework.gateway.web.admin;
 import cn.llf.framework.model.mongo.Question;
 import cn.llf.framework.services.exam.dto.ChoiceQuestionConfigurationItemDto;
 import cn.llf.framework.services.exam.dto.ExamObjectDto;
+import cn.llf.framework.services.exam.dto.RadioQuestionDto;
 import cn.llf.framework.services.exam.south.QuestionManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +27,12 @@ public class QuestionAction {
 
     /**
      * 添加试题
+     *
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "addQuestion",method = RequestMethod.GET)
-    public boolean addQuestion(){
+    @RequestMapping(value = "addQuestion", method = RequestMethod.GET)
+    public boolean addQuestion() {
         Question mongoDto = new Question();
         mongoDto.setId(UUID.randomUUID().toString());
         mongoDto.setTopic("英雄联盟的最新比赛模式");
@@ -49,7 +51,7 @@ public class QuestionAction {
         configurationItems.add(second);
         mongoDto.setConfigurationItems(configurationItems);
 
-        ExamObjectDto examObjectDto = new ExamObjectDto("course","questionType");
+        ExamObjectDto examObjectDto = new ExamObjectDto("course", "questionType");
         mongoDto.setExamObjects(Arrays.asList(examObjectDto));
 
 
@@ -57,4 +59,11 @@ public class QuestionAction {
         return true;
 
     }
+
+    @ResponseBody
+    @RequestMapping(value = "listQuestion", method = RequestMethod.GET)
+    public List<RadioQuestionDto> listQuestion(){
+        return questionManagerService.listQuestion();
+    }
+
 }

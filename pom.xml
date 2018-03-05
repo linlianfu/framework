@@ -11,12 +11,6 @@
     <slf4j_version>1.7.6</slf4j_version>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
     <!--spring-->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -229,12 +223,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
       <version>4.12</version>
     </dependency>
     <dependency>
@@ -242,6 +230,15 @@
       <artifactId>spring-test</artifactId>
       <version>4.2.6.RELEASE</version>
     </dependency>
+
+    <!--工具包-->
+    <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+    <dependency>
+      <groupId>org.modelmapper</groupId>
+      <artifactId>modelmapper</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>framework</finalName>

@@ -1,6 +1,9 @@
 package cn.llf.framework.services.exam.south;
 
 import cn.llf.framework.model.mongo.Question;
+import cn.llf.framework.services.exam.dto.RadioQuestionDto;
+
+import java.util.List;
 
 /**
  * @Author: calvin
@@ -16,4 +19,10 @@ public interface QuestionManagerService {
      * @return
      */
     boolean add(Question mongoDto);
+
+    /**
+     * 试题查询
+     * @return
+     */
+    List<RadioQuestionDto> listQuestion();
 }

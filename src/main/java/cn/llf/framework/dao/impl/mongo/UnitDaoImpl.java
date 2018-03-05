@@ -14,7 +14,4 @@ import org.springframework.stereotype.Repository;
 @Data
 @Repository("unit")
 public class UnitDaoImpl extends MDSpringDaoTemplate<Unit> {
-    public UnitDaoImpl(){
-        log.info("UnitDaoImpl被实例化");
-    }
 }

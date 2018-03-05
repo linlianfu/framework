@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Author：calvin
  * Date:  2017/8/18 0018
+ * 描述：获取该接口的方法：SqlSession::getMapper()
  */
 public interface UserInfoMapper{
     /**

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @Controller
 @RequestMapping("mqTest")
-public class MqTest {
+public class MqAction {
 
     @Autowired
     Producer producer;
