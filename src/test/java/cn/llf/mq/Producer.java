@@ -29,7 +29,7 @@ public class Producer {
     public void producerTest(){
 
         DefaultMQProducer producer = new DefaultMQProducer("Producer");
-        producer.setNamesrvAddr("192.168.25.242:9876");
+        producer.setNamesrvAddr("192.168.3.19:9876");
         try {
             producer.start();
             for (int i = 0 ; i< 3 ; i++){
