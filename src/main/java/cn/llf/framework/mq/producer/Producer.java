@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
  * 创建者：   linlf
  * 创建时间： 2017/12/29
  * 描述：
+ *      启动：nameserve：mqnamesrv.exe -n 192.168.3.19:9876
+ *      启动：borker：mqbroker.exe -n 192.168.3.19:9876
  */
 @Slf4j
 @Service("producer")
@@ -23,7 +25,7 @@ public class Producer {
         log.info(">>>>>开始生产消息。。。。");
         boolean success = false;
         DefaultMQProducer producer = new DefaultMQProducer("Producer");
-        producer.setNamesrvAddr("192.168.25.242:9876");
+        producer.setNamesrvAddr("192.168.3.19:9876");
         try {
             producer.start();
 

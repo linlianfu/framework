@@ -11,8 +11,8 @@
     <import resource="classpath:/config/spring/spring-datasource.xml"/>
     <import resource="classpath:/config/spring/spring-mybatis.xml"/>
     <import resource="classpath:/config/spring/spring-annotation.xml"/>
-    <import resource="classpath:/config/spring/spring-redis.xml"/>
-    <import resource="classpath:/config/spring/spring-elasticsearch.xml"/>
+    <!--<import resource="classpath:/config/spring/spring-redis.xml"/>-->
+    <!--<import resource="classpath:/config/spring/spring-elasticsearch.xml"/>-->
     <import resource="classpath:/config/spring/spring-mongo.xml"/>
 
     <bean id="cacheSupport" class="cn.llf.framework.cache.CacheSupport" init-method="initMethod">

@@ -32,7 +32,7 @@ public class Consumer {
 
         DefaultMQPushConsumer consumer =
                 new DefaultMQPushConsumer("PushConsumer");
-        consumer.setNamesrvAddr("192.168.25.242:9876");
+        consumer.setNamesrvAddr("192.168.3.19:9876");
         try {
             //订阅PushTopic下Tag为push的消息
             consumer.subscribe("PushTopic", "push");
