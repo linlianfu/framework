@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>cn.llf</groupId>
   <artifactId>framework</artifactId>
-  <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <version>1.0.0-SNAPSHOT</version>
   <name>framework Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -251,6 +251,19 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.0.1</version>
+            <executions>
+                <execution>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>jar-no-fork</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
     <resources>
       <resource>
