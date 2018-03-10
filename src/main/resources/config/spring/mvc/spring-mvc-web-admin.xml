@@ -14,7 +14,9 @@
 
     <!-- 指定搜索自动装配组件的路径 -->
     <mvc:annotation-driven/>
+    <!--平台层web测请求入口所在的控制器-->
     <context:component-scan base-package="cn.llf.framework.gateway.web.admin"/>
+    <!--全局拦截输入的格式为fastjson格式-->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
             <bean class="cn.llf.framework.gateway.intercept.WriteFastJsonHttpMessageConverter">
