@@ -2,10 +2,8 @@ package cn.llf.framework.gateway.web.admin;
 
 import cn.llf.framework.dao.impl.mybatis.BillConfigImpl;
 import cn.llf.framework.model.mybatis.OcBillConfig;
-import cn.llf.mybatis.dao.impl.BaseMybatisDaoImpl;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Controller;
@@ -27,8 +25,6 @@ import java.util.Set;
 @Controller
 @RequestMapping("redisLearningAction")
 public class RedisLearningAction {
-    @Autowired
-    BaseMybatisDaoImpl baseMybatisDao;
 
     @Resource(name = "billConfig")
     BillConfigImpl billConfigImpl;

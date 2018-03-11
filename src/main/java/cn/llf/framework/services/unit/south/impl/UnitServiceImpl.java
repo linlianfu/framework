@@ -5,7 +5,6 @@ import cn.llf.framework.model.mongo.Unit;
 import cn.llf.framework.services.unit.dto.District;
 import cn.llf.framework.services.unit.dto.UnitQuery;
 import cn.llf.framework.services.unit.south.IUnitService;
-import cn.llf.mybatis.support.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import priv_llf_mybatis.dto.Page;
 
 import java.util.List;
 

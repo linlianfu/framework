@@ -11,6 +11,19 @@
     <slf4j_version>1.7.6</slf4j_version>
   </properties>
   <dependencies>
+
+    <!--calvin自研组件-->
+    <dependency>
+      <groupId>priv.llf</groupId>
+      <artifactId>priv.llf.ability.course.south.api</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>priv.llf</groupId>
+      <artifactId>priv.llf.mybatis</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+
     <!--spring-->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -36,6 +49,11 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
       <version>4.2.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>4.2.6.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>aopalliance</groupId>
@@ -225,12 +243,6 @@
       <artifactId>junit</artifactId>
       <version>4.12</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>4.2.6.RELEASE</version>
-    </dependency>
-
     <!--工具包-->
     <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
     <dependency>

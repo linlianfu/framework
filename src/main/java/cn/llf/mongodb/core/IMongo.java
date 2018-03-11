@@ -1,10 +1,10 @@
 package cn.llf.mongodb.core;
 
 
-import cn.llf.mybatis.support.Page;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.validation.annotation.Validated;
+import priv_llf_mybatis.dto.Page;
 
 import javax.validation.constraints.NotNull;
 

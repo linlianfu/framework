@@ -9,12 +9,12 @@
     </settings>
 
     <typeAliases>
-        <package name="cn.llf.framework.dao.dto" />
+        <package name="cn.llf.framework.model.mybatis" />
     </typeAliases>
-
+    <!--利用mybatis提供的xx prvider方法查询数据哭-->
     <mappers>
         <package name="cn.llf.framework.dao.mapper"/>
-        <package name="cn.llf.mybatis.dao"/>
+        <!--<package name="cn.llf.mybatis.dao"/>-->
     </mappers>
 
 </configuration>

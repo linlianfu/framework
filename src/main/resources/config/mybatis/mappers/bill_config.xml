@@ -11,5 +11,10 @@
         select * from oc_bill_config
     </select>
 
+    <!--查询发票信息 -->
+    <select id="listBillConfig"  resultType="bill">
+        select * from bim_bill
+    </select>
+
 
 </mapper>

@@ -1,6 +1,5 @@
 package cn.llf.mongodb.core;
 
-import cn.llf.mybatis.support.Page;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import priv_llf_mybatis.dto.Page;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;

@@ -7,6 +7,6 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-      <!--这里只做service的IOC扫描，其他相关的扫描放到各个子模块-->
-      <context:component-scan base-package="cn.llf.framework.services"/>
+    <!--mq的IOC扫描-->
+    <context:component-scan base-package="cn.llf.framework.mq"/>
 </beans>
