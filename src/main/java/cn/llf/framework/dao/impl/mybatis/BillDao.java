@@ -2,7 +2,7 @@ package cn.llf.framework.dao.impl.mybatis;
 
 import cn.llf.framework.model.mybatis.Bill;
 import org.springframework.stereotype.Repository;
-import priv_llf_mybatis.dao.BaseMybatisDaoImpl;
+import priv.llf.mybatis.dao.BaseMybatisDaoImpl;
 
 /**
  * @Author: calvin
