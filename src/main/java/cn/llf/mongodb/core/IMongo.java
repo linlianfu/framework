@@ -4,7 +4,7 @@ package cn.llf.mongodb.core;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.validation.annotation.Validated;
-import priv_llf_mybatis.dto.Page;
+import priv.llf.mybatis.support.Page;
 
 import javax.validation.constraints.NotNull;
 

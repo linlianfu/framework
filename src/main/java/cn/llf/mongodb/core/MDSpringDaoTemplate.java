@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import priv_llf_mybatis.dto.Page;
+import priv.llf.mybatis.support.Page;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;

@@ -6,9 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import priv_llf_ability_course_south_api.ICourseManagerService;
-import priv_llf_ability_course_south_api.dto.CourseDto;
-import priv_llf_ability_course_south_api.impl.CourseManagerServiceImpl;
+import priv.llf.ability.course.south.arg.CourseQuery;
+import priv.llf.ability.course.south.dto.CourseDto;
+import priv.llf.ability.course.south.service.ICourseService;
+
+import java.util.List;
 
 /**s
  * @Author: calvin
@@ -21,19 +23,28 @@ import priv_llf_ability_course_south_api.impl.CourseManagerServiceImpl;
 public class CourseAction {
 
     @Autowired
-    ICourseManagerService courseManagerService;
+    ICourseService courseService;
+
     @ResponseBody
     @RequestMapping(value = "addCourse" ,method = RequestMethod.POST)
     public void addCourse(){
 
-        CourseManagerServiceImpl courseManagerService = new CourseManagerServiceImpl();
-        CourseDto courseDto = new CourseDto();
-        courseManagerService.addCourse(courseDto);
+        CourseQuery query = new CourseQuery();
+
+        List<CourseDto> remoteDtoList = courseService.listCourse(query);
         log.info("课程添加成功");
 
-//        courseManagerService.addCourse(courseDto);
+//        courseService.addCourse(courseDto);
+    }
 
+    @ResponseBody
+    @RequestMapping(value = "listCourse" ,method = RequestMethod.GET)
+    public List<CourseDto> listCourse(){
 
+        CourseQuery query = new CourseQuery();
 
+        List<CourseDto> remoteDtoList = courseService.listCourse(query);
+        log.info("课程添加成功");
+        return remoteDtoList;
     }
 }

@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import priv_llf_mybatis.dto.Page;
+import priv.llf.mybatis.support.Page;
 
 import java.io.IOException;
 import java.io.OutputStream;

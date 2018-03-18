@@ -2,10 +2,10 @@ package cn.llf.framework.dao.mapper;
 
 import cn.llf.framework.model.mybatis.UserInfo;
 import org.apache.ibatis.annotations.*;
-import priv_llf_mybatis.constant.MapKeyConstant;
-import priv_llf_mybatis.constant.MapperSqlMethod;
-import priv_llf_mybatis.dto.Page;
-import priv_llf_mybatis.sql.BaseSqlProvider;
+import priv.llf.mybatis.constant.MapKeyConstant;
+import priv.llf.mybatis.constant.MapperSqlMethod;
+import priv.llf.mybatis.sql.BaseSqlProvider;
+import priv.llf.mybatis.support.Page;
 
 import java.util.List;
 

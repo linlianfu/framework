@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import priv_llf_mybatis.dto.Page;
+import priv.llf.mybatis.support.Page;
 
 import java.util.List;
 
