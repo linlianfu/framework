@@ -3,6 +3,7 @@ package cn.llf.mongodb.core;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -19,7 +20,7 @@ import java.util.List;
  * 描述：默认的集合名为类名首字母小写，所以当不传集合名字时，则类名必须和数据库集合名一致
  */
 @Slf4j
-public class MDSpringDaoTemplate<T extends Serializable>  implements  IMongo{
+public class MDSpringDaoTemplate<T extends Serializable>  implements  IMongo,InitializingBean{
     /**
      * mongo数据的操作对象
      * 依赖注入,每个继承MDSpringDaoTemplate的类实例化后，调用set从spring IOC容器取该对象的实例注入
@@ -29,7 +30,7 @@ public class MDSpringDaoTemplate<T extends Serializable>  implements  IMongo{
     @Getter
     MongoTemplate mt;
 
-    Class<T> entityClass =  (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    Class<T> entityClass;
     @Override
     public void save(Object entity) {
         this.mt.insert(entity);
@@ -87,4 +88,17 @@ public class MDSpringDaoTemplate<T extends Serializable>  implements  IMongo{
         Query query = new Query(Criteria.where("_id").is(id));
         this.getMt().remove(query,entityClass);
     }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+
+        this.initEntityClassBean();//初始化实体bean
+
+    }
+
+    private void initEntityClassBean(){
+        entityClass =  (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
+
+
 }
