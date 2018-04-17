@@ -1,7 +1,6 @@
 package cn.llf.mongodb.core;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +25,10 @@ public class MDSpringDaoTemplate<T extends Serializable>  implements  IMongo,Ini
      * 依赖注入,每个继承MDSpringDaoTemplate的类实例化后，调用set从spring IOC容器取该对象的实例注入
      */
     @Autowired
-    @Setter
     @Getter
     MongoTemplate mt;
 
-    Class<T> entityClass;
+    private Class<T> entityClass;
     @Override
     public void save(Object entity) {
         this.mt.insert(entity);
