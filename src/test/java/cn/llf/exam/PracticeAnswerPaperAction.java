@@ -5,9 +5,12 @@ import cn.llf.framework.model.mongo.PracticeAnswerPaper;
 import cn.llf.framework.model.mongo.PracticeExam;
 import cn.llf.framework.services.exam.dto.ExamObjectDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -54,5 +57,24 @@ public class PracticeAnswerPaperAction {
 
         practiceAnswerPaperDao.save(practiceAnswerPaper);
     }
+
+
+    @Test
+    public void getPracticeAnswerPaper(){
+        List<ExamObjectDto> examObjectDtoList = new ArrayList<>();
+        examObjectDtoList.add(new ExamObjectDto("74f2378a-c417-4c4c-bc3c-4a3a74bd425c","schemeId"));
+        Criteria criteria = Criteria.where("examObjectDtoList").all(examObjectDtoList);
+
+        List<PracticeAnswerPaper> list = (List<PracticeAnswerPaper>)practiceAnswerPaperDao.findByQuery(new Query(criteria));
+        if (CollectionUtils.isNotEmpty(list)){
+            list.forEach(p->{
+                log.info(p.toString());
+            });
+        }
+
+    }
+
+
+
 
 }
