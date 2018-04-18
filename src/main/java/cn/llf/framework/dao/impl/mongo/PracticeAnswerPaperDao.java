@@ -1,9 +1,9 @@
 package cn.llf.framework.dao.impl.mongo;
 
 import cn.llf.framework.model.mongo.PracticeAnswerPaper;
-import cn.llf.mongodb.core.MDSpringDaoTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import priv.llf.commons.dao.MDSpringDaoTemplate;
 
 /**
  * @author: eleven
@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @Slf4j
 @Repository
-public class PracticeAnswerPaperDao extends MDSpringDaoTemplate<PracticeAnswerPaper>{
+public class PracticeAnswerPaperDao extends MDSpringDaoTemplate<PracticeAnswerPaper> {
 
 }
