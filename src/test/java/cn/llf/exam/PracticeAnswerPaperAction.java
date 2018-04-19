@@ -95,7 +95,7 @@ public class PracticeAnswerPaperAction {
     public void addAnswerRecord(){
         AnswerInfo answerInfo = new AnswerInfo();
         answerInfo.setScore(95);
-        answerInfo.setId(UUID.randomUUID().toString().replaceAll("-",""));
+        answerInfo.setId(UUID.randomUUID().toString());
         answerInfo.setFailCount(1);
         answerInfo.setCorrectCount(19);
         answerInfo.setComplete(false);
@@ -103,9 +103,7 @@ public class PracticeAnswerPaperAction {
 
         Criteria criteria = Criteria.where("_id").is("706b651f-2a5b-4254-9ba1-629c2c7874f5");
         Query  query = new Query(criteria);
-        Update update = new Update();
-        update.addToSet("answerInfoList",answerInfo);
-        int result = practiceAnswerPaperDao.getMt().upsert(query,update,PracticeAnswerPaper.class).getN();
+        int result = practiceAnswerPaperDao.addElement(query,"answerInfoList",answerInfo);
         log.info("执行数量：{}",result);
     }
 
@@ -114,10 +112,8 @@ public class PracticeAnswerPaperAction {
      */
     @Test
     public void deleteAnswerRecord(){
-        Criteria criteria = Criteria.where("_id").is("55063bc1-d256-4ab4-9d75-279469d384c8");
-        Update update = new Update();
-        update.pull("answerInfoList",new BasicDBObject("_id","1fc6baca078a4ceab7eb2703ad5f32eb"));
-        int result = practiceAnswerPaperDao.getMt().updateFirst(new Query(criteria),update,PracticeAnswerPaper.class).getN();
+        Criteria criteria = Criteria.where("_id").is("706b651f-2a5b-4254-9ba1-629c2c7874f5");
+        int result = practiceAnswerPaperDao.deleteElement(new Query(criteria),"answerInfoList",new BasicDBObject("id","538cab43-e519-477c-8014-03832d429f26"));
         log.info("更新数量：{}",result);
     }
 
