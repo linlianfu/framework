@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import priv.llf.commons.dao.MDSpringDaoTemplate;
 
 /**
- * @Author: calvin
- * @Since: 2018/3/5 20:49
- * @Description:
+ * @author: eleven
+ * @since: 2018/3/5 20:49
+ * @description:
  */
 @Slf4j
 @Data

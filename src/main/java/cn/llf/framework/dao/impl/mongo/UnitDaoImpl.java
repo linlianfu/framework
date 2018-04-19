@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import priv.llf.commons.dao.MDSpringDaoTemplate;
 
 /**
- * Author：calvin
+ * @author: eleven
  * Date:  2017/10/21 0021
  */
 @Slf4j

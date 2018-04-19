@@ -4,9 +4,9 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
 /**
- * @Author: calvin
- * @Since: 2018/3/10 21:38
- * @Description:
+ * @author: eleven
+ * @since: 2018/3/10 21:38
+ * @description:
  */
 @Data
 @Alias("bill")

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Author: calvin
  * @Since: 2018/3/5 20:57
- * @Description:
+ * @description:
  */
 @Data
 public class RadioQuestionDto extends QuestionBaseDto{

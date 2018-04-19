@@ -6,9 +6,9 @@ import cn.llf.framework.services.exam.dto.RadioQuestionDto;
 import java.util.List;
 
 /**
- * @Author: calvin
- * @Since: 2018/3/5 21:04
- * @Description:
+ * @author: eleven
+ * @since: 2018/3/5 21:04
+ * @description:
  */
 public interface QuestionManagerService {
 

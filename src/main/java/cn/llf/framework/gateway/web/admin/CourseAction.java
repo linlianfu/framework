@@ -13,9 +13,9 @@ import priv.llf.ability.course.south.service.ICourseService;
 import java.util.List;
 
 /**s
- * @Author: calvin
- * @Since: 2018/3/10 13:59
- * @Description:
+ * @author: eleven
+ * @since: 2018/3/10 13:59
+ * @description:
  */
 @Slf4j
 @Controller

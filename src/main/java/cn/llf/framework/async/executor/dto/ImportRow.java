@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Author：calvin
- * Date: 2017/8/17 0017
+ * @author: eleven
+ * @since: 2017/8/17 0017
  */
 @Data
 public class ImportRow implements Serializable {

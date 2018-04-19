@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @Author: calvin
  * @Since: 2018/3/5 20:53
- * @Description:
+ * @description:
  */
 @Data
 public class ChoiceQuestionConfigurationItemDto {
