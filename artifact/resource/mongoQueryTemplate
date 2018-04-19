@@ -1,0 +1,3 @@
+集合对象匹配查询：$all
+e.g:集合对象任意一个匹配，则返回该文档
+db.practiceAnswerPaper.find({"examObjectDtoList":{$all:[{"objectId":"学习方案id","type":"schemeId"}]}})
