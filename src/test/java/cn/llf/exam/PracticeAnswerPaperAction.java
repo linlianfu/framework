@@ -5,6 +5,7 @@ import cn.llf.framework.model.mongo.PracticeAnswerPaper;
 import cn.llf.framework.services.exam.dto.AnswerInfo;
 import cn.llf.framework.services.exam.dto.ExamObjectDto;
 import cn.llf.framework.services.exam.dto.PracticeExam;
+import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -92,10 +93,10 @@ public class PracticeAnswerPaperAction {
     @Test
     public void addAnswerRecord(){
         AnswerInfo answerInfo = new AnswerInfo();
-        answerInfo.setScore(99);
+        answerInfo.setScore(85);
         answerInfo.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        answerInfo.setFailCount(1);
-        answerInfo.setCorrectCount(19);
+        answerInfo.setFailCount(3);
+        answerInfo.setCorrectCount(17);
         answerInfo.setComplete(true);
         answerInfo.setCompleteTime(new Date());
 
@@ -107,15 +108,15 @@ public class PracticeAnswerPaperAction {
     }
 
     /**
-     * 删除一份答题记录卷（删除之后为null，待更新修正）
+     * 删除一份答题记录卷
      */
     @Test
     public void deleteAnswerRecord(){
-        Criteria criteria = Criteria.where("_id").is("55063bc1-d256-4ab4-9d75-279469d384c8")
-                .and("answerInfoList.id").is("6451cbbb989f4195825090437e09d623");
+        Criteria criteria = Criteria.where("_id").is("55063bc1-d256-4ab4-9d75-279469d384c8");
         Update update = new Update();
-        update.unset("answerInfoList.$");
-        practiceAnswerPaperDao.getMt().updateFirst(new Query(criteria),update,PracticeAnswerPaper.class);
+        update.pull("answerInfoList",new BasicDBObject("_id","1fc6baca078a4ceab7eb2703ad5f32eb"));
+        int result = practiceAnswerPaperDao.getMt().updateFirst(new Query(criteria),update,PracticeAnswerPaper.class).getN();
+        log.info("更新数量：{}",result);
     }
 
 }
