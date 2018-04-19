@@ -1,6 +1,5 @@
-package cn.llf.framework.model.mongo;
+package cn.llf.framework.services.exam.dto;
 
-import cn.llf.framework.services.exam.dto.ExamObjectDto;
 import lombok.Data;
 
 import java.io.Serializable;

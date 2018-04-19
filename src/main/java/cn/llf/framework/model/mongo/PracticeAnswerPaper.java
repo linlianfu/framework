@@ -1,8 +1,9 @@
 package cn.llf.framework.model.mongo;
 
+import cn.llf.framework.services.exam.dto.AnswerInfo;
 import cn.llf.framework.services.exam.dto.ExamObjectDto;
+import cn.llf.framework.services.exam.dto.PracticeExam;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,12 +16,13 @@ import java.util.List;
 @Data
 public class PracticeAnswerPaper implements Serializable{
 
-    @Field("_id")
     private String id;
 
     private String userId;
 
     private PracticeExam practiceExam;
+
+    List<AnswerInfo> answerInfoList;
 
     private List<ExamObjectDto> examObjectDtoList;
     /**

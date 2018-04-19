@@ -1,3 +1,89 @@
+*************************文档查询***************************
 集合对象匹配查询：$all
 e.g:集合对象任意一个匹配，则返回该文档
 db.practiceAnswerPaper.find({"examObjectDtoList":{$all:[{"objectId":"学习方案id","type":"schemeId"}]}})
+
+
+***********************文档字段修改************************************
+修改文档内的数组的某个字段：
+
+格式：
+db.collection.update(
+  <query>,  //要更新的对象的查询条件
+  <update>,//要修改的字段对应的值
+  upsert:<boolean>,可选的，默认值是false。如果根据查询条件没找到对应的文档，如果设置为true,相当于执行insert，如果设置为false,不做任何的操作。
+  multi:<boolean> 可选的，默认值是false。如果根据查询条件找到对应的多条记录是，如果设置为false时，只修改第一条，如果设置为true，全部更新
+)
+对单个字段设值：
+$set:用来指定一个键的值，如果不存在则创建它
+
+$inc:根据要添加的值递增该字段的值
+
+$unset:用来指定一个键的值，如果不存在不创建创建它
+
+$min:只有当指定的值小于现有字段值时才更新该字段
+
+$max:只有当指定的值大于现有字段值时才更新该字段
+
+$mul:将该字段的值乘以指定的值
+
+$rename:重命名字段
+
+
+e.g:
+db.practiceAnswerPaper.update(
+ {"_id":"d2fc0edf-85ed-4fc9-a7fb-9371a499feaa","examObjectDtoList.type":"schemeId"},
+  { $set : {"examObjectDtoList.$.objectId":"5ccdf69f288047be81f10950bfa073f9"}}
+ )
+
+**************************文档数组修改****************************************
+对数组进行修改：
+名称 说明
+
+$:作为一个占位符的更新与查询条件在一个更新的第一要素
+
+$addToSet:将元素添加到数组中，仅当它们在集合中不存在
+
+$pop:删除数组的第一个或最后一个项
+
+$pullAll:从数组中移除所有匹配值
+
+$pull:移除匹配指定查询的所有数组元素
+
+$pushAll:将所有值添加到数组中
+
+$push:将值添加到数组中，如果有的数组存在则向数组末尾添加该值，如果数组不存在则创建该数组并保存该值
+
+文档中的数组添加元素：
+db.practiceAnswerPaper.update(
+     {
+        "_id":"d2fc0edf-85ed-4fc9-a7fb-9371a499feaa"
+     },
+     { $push :
+          {
+            "examObjectDtoList":{
+              "type":"appInsert",
+              "objectId":"insert"
+            }
+          }
+     }
+ )
+
+ 删除文档中的数组指定元素(pull和push相反)：
+
+db.practiceAnswerPaper.update
+(
+ {"_id":"d2fc0edf-85ed-4fc9-a7fb-9371a499feaa"},
+  {
+   $pull :
+       {"examObjectDtoList":
+           {
+            "type":"appInsert",
+            "objectId":"insert"
+          }
+      }
+  }
+)
+
+
+
