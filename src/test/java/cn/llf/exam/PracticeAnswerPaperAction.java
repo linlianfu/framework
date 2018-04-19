@@ -6,7 +6,6 @@ import cn.llf.framework.services.exam.dto.AnswerInfo;
 import cn.llf.framework.services.exam.dto.ExamObjectDto;
 import cn.llf.framework.services.exam.dto.PracticeExam;
 import com.mongodb.BasicDBObject;
-import com.mongodb.WriteResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
@@ -100,11 +99,12 @@ public class PracticeAnswerPaperAction {
         answerInfo.setComplete(true);
         answerInfo.setCompleteTime(new Date());
 
-        Criteria criteria = Criteria.where("_id").is("55063bc1-d256-4ab4-9d75-279469d384c8");
+        Criteria criteria = Criteria.where("_id").is("b987fd53-16f8-43e0-b1ea-fd9e022791e2");
         Query  query = new Query(criteria);
         Update update = new Update();
         update.addToSet("answerInfoList",answerInfo);
-        WriteResult result = practiceAnswerPaperDao.getMt().upsert(query,update,PracticeAnswerPaper.class);
+        int result = practiceAnswerPaperDao.getMt().upsert(query,update,PracticeAnswerPaper.class).getN();
+        log.info("执行数量：{}",result);
     }
 
     /**
@@ -115,6 +115,18 @@ public class PracticeAnswerPaperAction {
         Criteria criteria = Criteria.where("_id").is("55063bc1-d256-4ab4-9d75-279469d384c8");
         Update update = new Update();
         update.pull("answerInfoList",new BasicDBObject("_id","1fc6baca078a4ceab7eb2703ad5f32eb"));
+        int result = practiceAnswerPaperDao.getMt().updateFirst(new Query(criteria),update,PracticeAnswerPaper.class).getN();
+        log.info("更新数量：{}",result);
+    }
+
+    /**
+     * 更新练习次数
+     */
+    @Test
+    public void updatePracticeNum(){
+        Criteria criteria = Criteria.where("_id").is("55063bc1-d256-4ab4-9d75-279469d384c8");
+        Update update = new Update();
+        update.set("practiceNum",-1);
         int result = practiceAnswerPaperDao.getMt().updateFirst(new Query(criteria),update,PracticeAnswerPaper.class).getN();
         log.info("更新数量：{}",result);
     }
