@@ -37,35 +37,37 @@ public class PracticeAnswerPaperAction {
      */
     @Test
     public void addPracticeAnswer(){
-        log.info("1111");
-
         PracticeAnswerPaper practiceAnswerPaper = new PracticeAnswerPaper();
         practiceAnswerPaper.setId(UUID.randomUUID().toString());
         practiceAnswerPaper.setHasPracticeNum(1);
         practiceAnswerPaper.setLimitPracticeNum(true);
         practiceAnswerPaper.setPracticeNum(3);
         practiceAnswerPaper.setUserId(UUID.randomUUID().toString().replaceAll("-",""));
+        practiceAnswerPaper.setPass(false);
 
         List<ExamObjectDto> examObjectDtoList = new ArrayList<>();
         examObjectDtoList.add(new ExamObjectDto(UUID.randomUUID().toString().replaceAll("-",""),"schemeId"));
+        examObjectDtoList.add(new ExamObjectDto(UUID.randomUUID().toString().replace("-",""),"learningId"));
         examObjectDtoList.add(new ExamObjectDto(UUID.randomUUID().toString().replace("-",""),"courseId"));
         practiceAnswerPaper.setExamObjectDtoList(examObjectDtoList);
 
         PracticeExam practiceExam = new PracticeExam();
-        practiceAnswerPaper.setPracticeExam(practiceExam);
-
         practiceExam.setId(UUID.randomUUID().toString());
-        practiceExam.setName("4月19号测试卷");
-        practiceExam.setPassScore(60);
+        practiceExam.setName("4月19号测试卷2");
+        practiceExam.setPassScore(70);
         practiceExam.setTotalScore(100);
+
+        practiceAnswerPaper.setPracticeExam(practiceExam);
 
         AnswerInfo answerInfo = new AnswerInfo();
         answerInfo.setComplete(true);
-        answerInfo.setCorrectCount(18);
-        answerInfo.setFailCount(2);
-        answerInfo.setScore(90);
+        answerInfo.setCorrectCount(11);
+        answerInfo.setFailCount(9);
+        answerInfo.setScore(55);
         answerInfo.setCompleteTime(new Date());
         practiceAnswerPaper.setAnswerInfoList(Arrays.asList(answerInfo));
+        practiceAnswerPaper.setHistoryBestScore(55);
+
         practiceAnswerPaperDao.save(practiceAnswerPaper);
     }
 
@@ -92,14 +94,14 @@ public class PracticeAnswerPaperAction {
     @Test
     public void addAnswerRecord(){
         AnswerInfo answerInfo = new AnswerInfo();
-        answerInfo.setScore(85);
+        answerInfo.setScore(95);
         answerInfo.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        answerInfo.setFailCount(3);
-        answerInfo.setCorrectCount(17);
-        answerInfo.setComplete(true);
+        answerInfo.setFailCount(1);
+        answerInfo.setCorrectCount(19);
+        answerInfo.setComplete(false);
         answerInfo.setCompleteTime(new Date());
 
-        Criteria criteria = Criteria.where("_id").is("b987fd53-16f8-43e0-b1ea-fd9e022791e2");
+        Criteria criteria = Criteria.where("_id").is("706b651f-2a5b-4254-9ba1-629c2c7874f5");
         Query  query = new Query(criteria);
         Update update = new Update();
         update.addToSet("answerInfoList",answerInfo);

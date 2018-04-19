@@ -32,8 +32,15 @@ $rename:重命名字段
 
 e.g:
 db.practiceAnswerPaper.update(
- {"_id":"d2fc0edf-85ed-4fc9-a7fb-9371a499feaa","examObjectDtoList.type":"schemeId"},
-  { $set : {"examObjectDtoList.$.objectId":"5ccdf69f288047be81f10950bfa073f9"}}
+     {
+      "_id":"d2fc0edf-85ed-4fc9-a7fb-9371a499feaa","examObjectDtoList.type":"schemeId"
+     },
+      {
+      $set :
+          {
+            "examObjectDtoList.$.objectId":"5ccdf69f288047be81f10950bfa073f9"
+          }
+      }
  )
 
 **************************文档数组修改****************************************
@@ -73,17 +80,20 @@ db.practiceAnswerPaper.update(
 
 db.practiceAnswerPaper.update
 (
- {"_id":"d2fc0edf-85ed-4fc9-a7fb-9371a499feaa"},
-  {
-   $pull :
-       {"examObjectDtoList":
-           {
-            "type":"appInsert",
-            "objectId":"insert"
-          }
-      }
-  }
+    {
+        "_id":"2aa659c2-db09-41fe-938f-059003394c15"
+     },
+    {
+        $pull:
+        {
+            "answerInfoList":
+                {
+                    "_id":"1160176c9b984f26abd4d1a312d4412d"
+                }
+        }
+    }
 )
+
 
 
 

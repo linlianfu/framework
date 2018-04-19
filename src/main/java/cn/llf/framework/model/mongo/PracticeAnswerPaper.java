@@ -41,8 +41,10 @@ public class PracticeAnswerPaper implements Serializable{
     /**
      * 历史最高分
      */
-    private Double historyBestScore;
+    private double historyBestScore;
 
     private String createTime;
+
+    private boolean pass;
 
 }
