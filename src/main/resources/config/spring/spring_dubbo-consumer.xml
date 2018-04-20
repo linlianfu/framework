@@ -10,9 +10,10 @@
     <!--配置消费方名称  -->
     <dubbo:application name="${dubbo.application.name}"/>
     <!--注册zookeeper 连接  192.168.200.128:2181  -->
-    <dubbo:registry address="${dubbo.registry.address}" protocol="${dubbo.registry.protocol}"></dubbo:registry>
+    <dubbo:registry address="${dubbo.registry.address}" protocol="${dubbo.registry.protocol}"/>
     <!-- 获取服务
     id值 必须和服务方提供的id值一致 也即服务方配置ref一致，才能注入成功
      -->
-    <dubbo:reference interface="priv.llf.ability.course.south.service.ICourseService"  id="courseService"/>
+    <dubbo:reference interface="priv.llf.ability.course.south.service.ICourseService"  id="courseServiceRemote"/>
+    <dubbo:reference interface="priv.llf.ability.course.south.service.IUserSelectCourseService"  id="userSelectCourseService"/>
 </beans>
