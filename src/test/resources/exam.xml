@@ -4,6 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
     <import resource="classpath:config/spring/spring-sys-properties.xml"/>
+    <import resource="classpath:config/spring/spring-datasource.xml"/>
+    <import resource="classpath:config/spring/spring-asynchronous-Job.xml"/>
     <import resource="classpath:config/spring/spring-mongo.xml"/>
     <bean id="practiceAnswerDao" class="cn.llf.framework.dao.impl.mongo.PracticeAnswerPaperDao"/>
 </beans>

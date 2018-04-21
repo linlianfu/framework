@@ -5,8 +5,11 @@ import cn.llf.framework.utils.CSVImportUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import priv.llf.job.client.dto.args.UserJobDetailDto;
+import priv.llf.job.client.service.UserJobClient;
 
 import java.util.List;
 
@@ -20,7 +23,8 @@ import java.util.List;
 @ContextConfiguration("classpath:exam.xml")
 public class QuestionImportAction {
 
-
+    @Autowired
+    UserJobClient userJobClient;
     @Test
     public void questionImport(){
         String filePath = "E:\\project\\framework\\artifact\\radio.csv";
@@ -34,4 +38,11 @@ public class QuestionImportAction {
             e.printStackTrace();
         }
     }
+    @Test
+    public void questionImportByJob(){
+        UserJobDetailDto userJobDetailDto = new UserJobDetailDto();
+
+        log.info(userJobClient.toString());
+    }
+
 }
