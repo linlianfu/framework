@@ -15,5 +15,5 @@
     id值 必须和服务方提供的id值一致 也即服务方配置ref一致，才能注入成功
      -->
     <dubbo:reference interface="priv.llf.ability.course.south.service.ICourseService"  id="courseServiceRemote"/>
-    <dubbo:reference interface="priv.llf.ability.course.south.service.IUserSelectCourseService"  id="userSelectCourseService"/>
+    <dubbo:reference interface="priv.llf.ability.course.south.service.IUserSelectCourseService"  id="userSelectCourseServiceRemote" />
 </beans>
