@@ -1,10 +1,13 @@
 package cn.llf.exam;
 
+import cn.llf.framework.async.executor.QuestionImportJobExecutor;
 import cn.llf.framework.services.exam.dto.QuestionImportDto;
 import cn.llf.framework.utils.CSVImportUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.quartz.JobDataMap;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,8 +44,18 @@ public class QuestionImportAction {
     @Test
     public void questionImportByJob(){
         UserJobDetailDto userJobDetailDto = new UserJobDetailDto();
-
-        log.info(userJobClient.toString());
+        userJobDetailDto.setJobClass(QuestionImportJobExecutor.class);
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("filePath","E:\\project\\framework\\artifact\\radio.csv");
+        userJobDetailDto.setJobDataMap(jobDataMap);
+        userJobDetailDto.setName("importQuestion");
+        userJobDetailDto.setGroup("exam");
+        try {
+            userJobClient.execute(userJobDetailDto);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+//        Thread.currentThread().
     }
 
 }

@@ -10,7 +10,7 @@ import org.apache.ibatis.type.Alias;
  */
 @Data
 @Alias("bill")
-public class Bill {
+public class Bill implements Comparable<Bill>{
 
     private String id;
 
@@ -23,4 +23,11 @@ public class Bill {
     private String address;
 
     private String remark;
+    private int temp;
+
+
+    @Override
+    public int compareTo(Bill o) {
+        return this.getTemp() == o.getTemp()? 0 : this.temp > o.getTemp() ? 1 : -1;
+    }
 }

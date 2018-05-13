@@ -1,14 +1,13 @@
 package cn.llf.framework.gateway.web.admin;
 
+import cn.llf.framework.services.course.south.ICourseManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import priv.llf.ability.course.south.arg.CourseQuery;
 import priv.llf.ability.course.south.dto.CourseDto;
-import priv.llf.ability.course.south.service.ICourseService;
 
 import java.util.List;
 
@@ -23,28 +22,20 @@ import java.util.List;
 public class CourseAction {
 
     @Autowired
-    ICourseService courseService;
+    ICourseManagerService courseManagerService;
+
+
 
     @ResponseBody
     @RequestMapping(value = "addCourse" ,method = RequestMethod.POST)
     public void addCourse(){
 
-        CourseQuery query = new CourseQuery();
-
-        List<CourseDto> remoteDtoList = courseService.listCourse(query);
-        log.info("课程添加成功");
-
-//        courseService.addCourse(courseDto);
     }
 
     @ResponseBody
     @RequestMapping(value = "listCourse" ,method = RequestMethod.GET)
     public List<CourseDto> listCourse(){
 
-        CourseQuery query = new CourseQuery();
-
-        List<CourseDto> remoteDtoList = courseService.listCourse(query);
-        log.info("课程添加成功");
-        return remoteDtoList;
+    return courseManagerService.listCourse();
     }
 }
