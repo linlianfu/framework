@@ -6,7 +6,9 @@
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-    <!--调用远程服务接口-->
-    <dubbo:reference interface="priv.llf.ability.course.south.service.ICourseService"  id="courseServiceRemote"/>
-    <dubbo:reference interface="priv.llf.ability.course.south.service.IUserSelectCourseService"  id="userSelectCourseServiceRemote" />
+    <!-- 配置dubbo消费方 -->
+    <!--配置消费方名称  -->
+    <dubbo:application name="${dubbo.application.name}"/>
+    <!--注册zookeeper 连接  192.168.200.128:2181  -->
+    <dubbo:registry address="${dubbo.registry.address}" protocol="${dubbo.registry.protocol}"/>
 </beans>

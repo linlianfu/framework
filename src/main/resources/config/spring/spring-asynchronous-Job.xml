@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="asynchronousJobClient" class="priv.llf.job.serve.spring.UserJobClientBean">
+        <property name="schedulerName" value="priv.llf.job.scheduleName"/>
+        <property name="dataSource" ref="quartzDataSource"/>
+        <property name="configLocation" value="classpath:config/properties/quartz.properties" />
+        <property name="zookeeperAddress" value="${zookeeperAddress}" />
+    </bean>
+</beans>
