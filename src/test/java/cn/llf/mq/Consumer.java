@@ -24,10 +24,12 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/mq.xml")
 public class Consumer {
-
+public int j =4;
 
     @Test
     public  void consumerTest(){
+        int i = 0;
+        int k = 3;
         DefaultMQPushConsumer consumer =
                 new DefaultMQPushConsumer("PushConsumer");
         consumer.setNamesrvAddr("192.168.3.19:9876");
@@ -39,11 +41,16 @@ public class Consumer {
                     ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             consumer.registerMessageListener(
                     new MessageListenerConcurrently() {
-                        public ConsumeConcurrentlyStatus consumeMessage(
-                                List<MessageExt> list,
-                                ConsumeConcurrentlyContext Context) {
+                        @Override
+                        public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext context) {
+                            j=4;//访问成员变量可以修改，不用final
+//                            i=4;//访问局部变量，不能修改
+                            log.info(i+"");
                             Message msg = list.get(0);
                             System.out.println(msg.toString());
+                            System.out.println(k+"");//访问局部变量但是不改变其值，可以
+                            int k1 = k;
+                            k1++;
                             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                         }
                     }
