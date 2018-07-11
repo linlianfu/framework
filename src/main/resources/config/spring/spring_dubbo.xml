@@ -11,4 +11,6 @@
     <dubbo:application name="${dubbo.application.name}"/>
     <!--注册zookeeper 连接  192.168.200.128:2181  -->
     <dubbo:registry address="${dubbo.registry.address}" protocol="${dubbo.registry.protocol}"/>
+    <!--配置消费者服务调用超时时间，如果超过此限制时间，则消费者自动抛出超时异常，同事服务端也会抛出response异常-->
+    <dubbo:consumer timeout="${dubbo.consumer.timeout}"/>
 </beans>
