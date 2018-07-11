@@ -15,7 +15,7 @@ public class AnonymousTest {
          int i = 3;
         AnonymousTest anonymousTest = new AnonymousTest();
         anonymousTest.outMethod("AnonymousTest");
-        AnonymousTest.InnerClass innerClass = anonymousTest.new InnerClass(){
+        AnonymousTest.InnerClass innerClass = anonymousTest.new InnerClass(""){
 
             @Override
             public void say() {

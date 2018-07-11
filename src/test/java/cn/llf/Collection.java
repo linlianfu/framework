@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author: eleven
@@ -20,6 +21,23 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:common.xml")
 public class Collection {
+
+    @Test
+    public void functionTest(){
+        defaultMethod(p->{
+//            String tep = p;
+            log.info("2");
+            return 2;
+        });
+    }
+
+    public<R> R defaultMethod(Function<String,R> function){
+        R r = null;
+            function.apply("");
+            log.info("111");
+            return r;
+    }
+
 
      @Test
     public void testCollection(){
