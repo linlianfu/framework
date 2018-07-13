@@ -8,6 +8,7 @@
             http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <import resource="classpath:/config/spring/spring-sys-properties.xml"/>
+    <import resource="classpath:/config/spring/spring-cauth.xml"/>
     <import resource="classpath:/config/spring/spring-datasource.xml"/>
     <import resource="classpath:/config/spring/spring-mybatis.xml"/>
     <import resource="classpath:/config/spring/spring-annotation.xml"/>
