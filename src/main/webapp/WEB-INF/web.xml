@@ -36,4 +36,35 @@
     <servlet-name>spring-mvc-web-admin</servlet-name>
     <url-pattern>/web/admin/*</url-pattern>
   </servlet-mapping>
+
+
+
+  <!-- Web侧登陆 -->
+  <servlet>
+    <servlet-name>spring-mvc-web-login</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:config/spring/mvc/spring-mvc-web-login.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>spring-mvc-web-login</servlet-name>
+    <url-pattern>/web/login/*</url-pattern>
+  </servlet-mapping>
+
+
+
+
+
+
+  <filter>
+    <filter-name>contextFilter</filter-name>
+    <filter-class>cn.llf.filter.ContextFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>contextFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

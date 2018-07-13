@@ -18,6 +18,9 @@ import java.io.IOException;
 public class ContextFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("111");
+        log.info("上下文过滤器执行前的service调用");
+        //继续访问往后的web资源，如果缺少此调用链，则不会访问后续的web！！！！
+        chain.doFilter(request,response);
+        log.info("上下文过滤器执行后的service调用");
     }
 }

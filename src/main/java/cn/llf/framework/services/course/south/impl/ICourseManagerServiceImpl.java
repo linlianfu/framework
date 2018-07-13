@@ -26,6 +26,7 @@ public class ICourseManagerServiceImpl implements ICourseManagerService {
     public List<CourseDto> listCourse() {
         CourseQuery query = new CourseQuery();
 
+        query.setCourseId("111");
         List<CourseDto> remoteDtoList = courseService.listCourse(query);
         return remoteDtoList;
     }

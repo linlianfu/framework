@@ -1,5 +1,6 @@
 package cn.llf.framework.gateway.web.admin;
 
+import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
 import cn.llf.framework.services.course.south.ICourseManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("course")
-public class CourseAction {
+public class CourseAction extends AbstractFrameWorkAction{
 
     @Autowired
     ICourseManagerService courseManagerService;
