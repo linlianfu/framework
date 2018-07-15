@@ -18,15 +18,15 @@ public class GlobalServiceLogIntercept{
 //    @Before("execution(* cn.llf.framework..*.*(..))")
     public boolean preHandle(JoinPoint joinPoint) throws Exception {
         Signature sin = joinPoint.getSignature();
-        log.info("方法名1：{}",sin.getName());
+//        log.info("方法名1：{}",sin.getName());
         MethodSignature methodSignature = (MethodSignature)sin;
         String methodName =  methodSignature.getName();
-        log.info("方法名2：{}",methodName);
+//        log.info("方法名2：{}",methodName);
         Object[] objects = joinPoint.getArgs();
         for (Object object : objects){
-                log.info("参数名：{}",object.toString());
+//                log.info("参数名：{}",object.toString());
         }
-        log.info(">>>>>调用service之前先记录日志。。。");
+//        log.info(">>>>>调用service之前先记录日志。。。");
         return false;
     }
 

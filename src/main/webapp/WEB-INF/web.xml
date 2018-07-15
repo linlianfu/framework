@@ -55,16 +55,16 @@
   </servlet-mapping>
 
 
-
-
-
-
   <filter>
     <filter-name>contextFilter</filter-name>
     <filter-class>cn.llf.filter.ContextFilter</filter-class>
+    <init-param>
+      <param-name>name</param-name>
+      <param-value>contextFilter</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
-    <filter-name>contextFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+  <filter-name>contextFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
 </web-app>
