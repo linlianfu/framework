@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @Service("courseManagerService")
-public class ICourseManagerServiceImpl implements ICourseManagerService {
+public class CourseManagerServiceImpl implements ICourseManagerService {
 
     @Autowired
     ICourseService courseService;
