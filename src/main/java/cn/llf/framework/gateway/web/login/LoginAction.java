@@ -38,6 +38,7 @@ public class LoginAction extends AbstractFrameWorkAction {
             }
         }
         if (!has){
+//            
             log.info("cookie过期，重新添加cookie");
             Cookie cookie = new Cookie("sessionId",sessionId);
             cookie.setMaxAge(15);
