@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,11 +24,25 @@ public class LoginAction extends AbstractFrameWorkAction {
 
 
     @GetMapping("login")
-    public boolean login(HttpServletRequest request, String account, String password){
-
+    public boolean login(HttpServletRequest request,HttpServletResponse response,String account, String password){
         HttpSession session = request.getSession();
-        session.setAttribute("account",account);
-        session.setAttribute("password",password);
+        String sessionId = session.getId();
+        session.setMaxInactiveInterval(10);
+
+        Cookie[] cookies = request.getCookies();
+        log.info("sessionId:{}",sessionId);
+        boolean has = false;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("sessionId")){
+                has = true;
+            }
+        }
+        if (!has){
+            log.info("cookie过期，重新添加cookie");
+            Cookie cookie = new Cookie("sessionId",sessionId);
+            cookie.setMaxAge(15);
+            response.addCookie(cookie);
+        }
         return true;
 
     }
@@ -37,6 +52,7 @@ public class LoginAction extends AbstractFrameWorkAction {
         HttpSession session = request.getSession();
         session.removeAttribute("account");
         session.removeAttribute("password");
+        session.invalidate();
         return false;
     }
 
