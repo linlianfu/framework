@@ -43,6 +43,9 @@ public class LoginAction extends AbstractFrameWorkAction {
             cookie.setMaxAge(15);
             response.addCookie(cookie);
         }
+        Cookie cookie = new Cookie("addCookie",sessionId);
+        cookie.setMaxAge(15);
+        response.addCookie(cookie);
         return true;
 
     }
