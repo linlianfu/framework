@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import priv.llf.ability.course.south.dto.CourseDto;
 
+import java.util.Collections;
 import java.util.List;
 
 /**s
@@ -38,5 +39,13 @@ public class CourseAction extends AbstractFrameWorkAction{
     public List<CourseDto> listCourse(){
 
     return courseManagerService.listCourse();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "listCourseByType" ,method = RequestMethod.GET)
+    public List<CourseDto> listCourse(String type){
+        CourseDto courseDto =new CourseDto();
+        courseDto.setName("1212");
+        return Collections.singletonList(courseDto);
     }
 }
