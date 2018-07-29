@@ -32,6 +32,46 @@ public class PracticeAnswerPaperAction {
     @Autowired
     PracticeAnswerPaperDao practiceAnswerPaperDao;
 
+    @Test
+    public void listRemove(){
+        List<String> list = new ArrayList<>();
+        String temp = "2";
+        list.add("1");
+        list.add(temp);
+        list.add(temp);
+//        Iterator<String> iterator = list.iterator();
+
+        //执行通过
+//        for (;iterator.hasNext();){
+//            System.out.println(iterator.next());
+//            iterator.remove();
+//        }
+//        System.out.println("iterator循环删除后的集合长度："+list.size());
+
+
+
+        //增强for循环报错
+        //java.util.ConcurrentModificationException
+
+//        for (String s : list) {
+//            list.remove(s);
+//            System.out.println(list.size());
+//        }
+
+        //执行异常：java.util.ConcurrentModificationException
+//        list.forEach(p->{
+//            list.remove(p);
+//        });
+
+        Set<String> set = new HashSet();
+        set.add(temp);
+        set.add(temp);
+        set.add(temp);
+//        System.out.println(set.size());
+    }
+
+
+
     /**
      * 为用户添加一份答卷
      */
