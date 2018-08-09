@@ -10,7 +10,5 @@ import lombok.Data;
 @Data
 public class GoodsSaleCount {
     private String id;
-    private int type;
-    private int count;
-
+    private GoodsSaleCountDto value;
 }
