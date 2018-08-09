@@ -27,7 +27,7 @@ public class ContextFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("ContextFilter过滤器start");
+//        log.info("ContextFilter过滤器start");
         log.info("参数name：{}",name);
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
@@ -43,6 +43,6 @@ public class ContextFilter extends GenericFilterBean {
         response.setCharacterEncoding("UTF-8");
         //继续访问往后的web资源，如果缺少此调用链，则不会访问后续的web！！！！
         chain.doFilter(request,response);
-        log.info("ContextFilter过滤器end");
+//        log.info("ContextFilter过滤器end");
     }
 }
