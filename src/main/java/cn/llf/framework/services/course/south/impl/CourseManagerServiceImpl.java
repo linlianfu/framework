@@ -27,7 +27,10 @@ public class CourseManagerServiceImpl implements ICourseManagerService {
         CourseQuery query = new CourseQuery();
 
         query.setCourseId("111");
+
+
         List<CourseDto> remoteDtoList = courseService.listCourse(query);
+        remoteDtoList.forEach(p->log.info("consumer接收provider结果："+p.toString()));
         return remoteDtoList;
     }
 }
