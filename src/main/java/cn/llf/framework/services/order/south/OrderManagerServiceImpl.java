@@ -8,6 +8,7 @@ import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapreduce.MapReduceOptions;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -84,9 +85,14 @@ public class OrderManagerServiceImpl implements OrderManagerService{
         List<GoodsSaleCount> result = new ArrayList<>();
 //        Criteria criteria = Criteria.where("userId").is("5b887a64246111e8b529a11e84e01b61")
 //                .and("masterOrder.unitId").is("5b887a211d2111e8b519a81382e02b6e");
+        MapReduceOptions options = new MapReduceOptions();
+        options.outputTypeInline();
+        // TODO: 2018/8/11   无效？ 
+        options.limit(1);
         MapReduceResults<GoodsSaleCount> order = orderDao.getMt().mapReduce(new Query(),"order",
                                 "classpath:/config/mongo/GoodsSaleCountMap.js",
                                 "classpath:/config/mongo/GoodsSaleCountReduce.js",
+                                options,
                                 GoodsSaleCount.class);
         Iterator<GoodsSaleCount> iterator = order.iterator();
         while (iterator.hasNext()){
