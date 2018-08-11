@@ -2,11 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/data/mongo
-       http://www.springframework.org/schema/data/mongo/spring-mongo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
     <!-- 定义mongo对象，对应的是mongodb官方jar包中的Mongo，replica-set设置集群副本的ip地址和端口 -->
     <mongo:mongo id="mongodb" replica-set="${mongodb.replica.set}">
         <!-- 一些连接属性的设置 -->
@@ -37,7 +36,4 @@
 
     <!-- mongodb bean的仓库目录，会自动扫描扩展了MongoRepository接口的接口进行注入 -->
     <mongo:repositories base-package="cn.llf.framework.dao.impl.mongo"/>
-
-    <!--mongo的IOC扫描-->
-    <context:component-scan base-package="cn.llf.framework.dao.impl.mongo" />
 </beans>
