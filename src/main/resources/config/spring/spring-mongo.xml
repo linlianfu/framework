@@ -33,6 +33,6 @@
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
     </bean>
-    <!--mongo的IOC扫描-->
+    <!--mongo的IO C扫描-->
     <context:component-scan base-package="cn.llf.framework.dao.impl.mongo" />
 </beans>
