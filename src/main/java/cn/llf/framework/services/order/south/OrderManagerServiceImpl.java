@@ -2,6 +2,7 @@ package cn.llf.framework.services.order.south;
 
 import cn.llf.framework.dao.impl.mongo.OrderDao;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
+import cn.llf.framework.model.mongo.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author: eleven
@@ -24,6 +26,15 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
     @Autowired
     OrderDao orderDao;
+
+
+
+    public void createOrder(){
+        Order order = new Order();
+        order.setUserId(UUID.randomUUID().toString().replaceAll("-",""));
+
+    }
+
 
     @Override
     public List<GoodsSaleCount> countGoodSale() {
