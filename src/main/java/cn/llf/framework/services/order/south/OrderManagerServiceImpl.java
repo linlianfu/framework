@@ -2,10 +2,11 @@ package cn.llf.framework.services.order.south;
 
 import cn.llf.framework.dao.impl.mongo.MasterOrderDao;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
-import cn.llf.framework.model.mongo.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,16 +27,18 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
     @Override
     public List<GoodsSaleCount> countGoodSale() {
-        Order order1 = (Order)masterOrderDao.findById("5b66beb635dc9f501b26d213");
         List<GoodsSaleCount> result = new ArrayList<>();
-        MapReduceResults<GoodsSaleCount> order = masterOrderDao.getMt().mapReduce("order", "classpath:\\config\\mongo\\GoodsSaleCountMap.js", "classpath:\\config\\mongo\\GoodsSaleCountReduce.js", GoodsSaleCount.class);
+        Criteria criteria = Criteria.where("userId").is("5b887a64246111e8b529a11e84e01b61")
+                .and("masterOrder.unitId").is("5b887a211d2111e8b519a81382e02b6e");
+        MapReduceResults<GoodsSaleCount> order = masterOrderDao.getMt().mapReduce(new Query(criteria),"order",
+                                "classpath:/config/mongo/GoodsSaleCountMap.js",
+                                "classpath:/config/mongo/GoodsSaleCountReduce.js",
+                                GoodsSaleCount.class);
         Iterator<GoodsSaleCount> iterator = order.iterator();
-
-
-
-
-
-
+        while (iterator.hasNext()){
+            GoodsSaleCount next = iterator.next();
+            result.add(next);
+        }
         return result;
     }
 }
