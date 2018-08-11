@@ -1,6 +1,9 @@
 package cn.llf.framework.model.mongo;
 
+import cn.llf.framework.services.order.enums.CategoryType;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 /**
  * @author: eleven
@@ -9,6 +12,16 @@ import lombok.Data;
  */
 @Data
 public class GoodsSaleCountDto {
-    private int type;
-    private int count;
+    /**
+     * 物品类目
+     */
+    private CategoryType type;
+    /**
+     * 销售数量
+     */
+    private int purchaseQuantity;
+    /**
+     * 销售金额
+     */
+    private BigDecimal totalAmount;
 }

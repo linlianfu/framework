@@ -1,9 +1,12 @@
 package cn.llf.framework.model.mongo;
 
+import cn.llf.framework.services.order.enums.CategoryType;
+import cn.llf.framework.services.order.enums.SubOrderStatus;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * @author: eleven
@@ -17,15 +20,32 @@ public class SubOrder implements Serializable {
      */
     private String id;
     /**
-     * 类型
+     * 商品id
      */
-    private int type;
+    private String productId = UUID.randomUUID().toString().replaceAll("","");
+
     /**
-     * 价格
+     * 商品名字
      */
-    private BigDecimal price;
+    private String productName = "线下培训班";
     /**
-     * 状态
+     * 购买数量
      */
-    private String status;
+    private int purchaseQuantity = 3;
+    /**
+     * 成交单价
+     */
+    private BigDecimal dealPrice = new BigDecimal(25);
+    /**
+     * 实付总价
+     */
+    private BigDecimal totalAmount = new BigDecimal(75);
+    /**
+     * 子订单状态
+     */
+    private SubOrderStatus status = SubOrderStatus.RECEIVED;
+    /**
+     * 物品所属类型
+     */
+    private CategoryType type = CategoryType.BOOK;
 }

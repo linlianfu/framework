@@ -1,24 +1,13 @@
-function (key, values) {
-
-    // Enter the JavaScript for the reduce function here
-    // 'values' is a list of objects as emit()'ed by the map() function
-    // Make sure the object your return is of the same type as the ones emit()'ed
-    //
-    // Available functions: assert(), BinData(), DBPointer(), DBRef(), doassert(), emit(), gc()
-    //                      HexData(), hex_md5(), isNumber(), isObject(), ISODate(), isString()
-    //                      Map(), MD5(), NumberInt(), NumberLong(), ObjectId(), print()
-    //                      printjson(), printjsononeline(), sleep(), Timestamp(), tojson()
-    //                      tojsononeline(), tojsonObject(), UUID(), version()
-    //
-    // Available properties: args, MaxKey, MinKey
-
-
-    var result = {
-        "type":1,
-        "count":0
-    };
-    values.forEach(function(item){
-        result.count +=1;
+function () {
+    this.subOrderList.forEach(function(item){
+        var key = item.type;
+        var value = {
+            "purchaseQuantity":0,
+            "totalAmount":0
+        };
+        value.purchaseQuantity = item.purchaseQuantity;
+        value.totalAmount = item.totalAmount;
+        emit(key, value);
     });
-    return result;
+
 }
