@@ -10,6 +10,6 @@ import priv.llf.commons.dao.MDSpringDaoTemplate;
  * @description:
  */
 @Repository
-public class MasterOrderDao extends MDSpringDaoTemplate<Order> {
+public class OrderDao extends MDSpringDaoTemplate<Order> {
 }
 

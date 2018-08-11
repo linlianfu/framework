@@ -1,6 +1,6 @@
 package cn.llf.framework.services.order.south;
 
-import cn.llf.framework.dao.impl.mongo.MasterOrderDao;
+import cn.llf.framework.dao.impl.mongo.OrderDao;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,14 @@ import java.util.List;
 public class OrderManagerServiceImpl implements OrderManagerService{
 
     @Autowired
-    MasterOrderDao masterOrderDao;
+    OrderDao orderDao;
 
     @Override
     public List<GoodsSaleCount> countGoodSale() {
         List<GoodsSaleCount> result = new ArrayList<>();
         Criteria criteria = Criteria.where("userId").is("5b887a64246111e8b529a11e84e01b61")
                 .and("masterOrder.unitId").is("5b887a211d2111e8b519a81382e02b6e");
-        MapReduceResults<GoodsSaleCount> order = masterOrderDao.getMt().mapReduce(new Query(criteria),"order",
+        MapReduceResults<GoodsSaleCount> order = orderDao.getMt().mapReduce(new Query(criteria),"order",
                                 "classpath:/config/mongo/GoodsSaleCountMap.js",
                                 "classpath:/config/mongo/GoodsSaleCountReduce.js",
                                 GoodsSaleCount.class);
