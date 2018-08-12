@@ -8,15 +8,13 @@ import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapreduce.MapReduceOptions;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author: eleven
@@ -41,14 +39,14 @@ public class OrderManagerServiceImpl implements OrderManagerService{
         List<SubOrder> subOrderList = new ArrayList<>();
         SubOrder bookOrder = new SubOrder();
         bookOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        bookOrder.setDealPrice(new BigDecimal(10.4));
+        bookOrder.setDealPrice(new BigDecimal(10.4).setScale(2,BigDecimal.ROUND_FLOOR));
         bookOrder.setPurchaseQuantity(6);
         bookOrder.setTotalAmount(bookOrder.getDealPrice().multiply(new BigDecimal(bookOrder.getPurchaseQuantity())));
         subOrderList.add(bookOrder);
 
         SubOrder pencilOrder = new SubOrder();
         pencilOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        pencilOrder.setDealPrice(new BigDecimal(25.9));
+        pencilOrder.setDealPrice(new BigDecimal(25.9).setScale(2,BigDecimal.ROUND_FLOOR));
         pencilOrder.setPurchaseQuantity(3);
         pencilOrder.setTotalAmount(pencilOrder.getDealPrice().multiply(new BigDecimal(pencilOrder.getPurchaseQuantity())));
         pencilOrder.setType(CategoryType.PENCIL);
@@ -57,7 +55,7 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
         SubOrder bagOrder = new SubOrder();
         bagOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        bagOrder.setDealPrice(new BigDecimal(32));
+        bagOrder.setDealPrice(new BigDecimal(32).setScale(2,BigDecimal.ROUND_FLOOR));
         bagOrder.setPurchaseQuantity(7);
         bagOrder.setTotalAmount(bagOrder.getDealPrice().multiply(new BigDecimal(bagOrder.getPurchaseQuantity())));
         bagOrder.setType(CategoryType.BAG);
@@ -80,19 +78,29 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
 
     @Override
-    public List<GoodsSaleCount> countGoodSale() {
+    public List<GoodsSaleCount> countGoodSale(CategoryType type) {
         List<GoodsSaleCount> result = new ArrayList<>();
-//        Criteria criteria = Criteria.where("userId").is("5b887a64246111e8b529a11e84e01b61")
-//                .and("masterOrder.unitId").is("5b887a211d2111e8b519a81382e02b6e");
-        MapReduceResults<GoodsSaleCount> order = orderDao.getMt().mapReduce(new Query(),"order",
+        Query query = new Query();
+        query.limit(1);
+        MapReduceOptions  options = MapReduceOptions.options().outputTypeInline();
+        Map<String,Object> map = new HashMap<>();
+        if (type != null)
+            map.put("typeArg",type.name());
+        options.scopeVariables(map);
+
+        MapReduceResults<GoodsSaleCount> order = orderDao.getMt().mapReduce(query,"order",
                                 "classpath:/config/mongo/GoodsSaleCountMap.js",
                                 "classpath:/config/mongo/GoodsSaleCountReduce.js",
+                                 options,
                                 GoodsSaleCount.class);
         Iterator<GoodsSaleCount> iterator = order.iterator();
         while (iterator.hasNext()){
             GoodsSaleCount next = iterator.next();
             result.add(next);
         }
+
+//        orderDao.getMt().getDb().getCollection("").mapReduce()
+
         return result;
     }
 }

@@ -3,6 +3,7 @@ package cn.llf.framework.gateway.web.admin;
 import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
+import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.south.OrderManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class MapReduceAction extends AbstractFrameWorkAction {
      * @return
      */
     @GetMapping("countGoodSale")
-    public List<GoodsSaleCount> countGoodSale(){
-        return orderManagerService.countGoodSale();
+    public List<GoodsSaleCount> countGoodSale(CategoryType type){
+        return orderManagerService.countGoodSale(type);
     }
 }
