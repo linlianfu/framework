@@ -9,7 +9,7 @@ function () {
         value.purchaseQuantity = item.purchaseQuantity;
         value.totalAmount = item.totalAmount;
 
-        if(typeof(typeArg) != "undefined"  && typeArg !== null){
+        if(typeof(typeArg) !== "undefined"  && typeArg !== null){
             if(item.type === typeArg){
                 emit(key, value);
             }

@@ -8,6 +8,7 @@ import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceOptions;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Query;
@@ -62,6 +63,15 @@ public class OrderManagerServiceImpl implements OrderManagerService{
         bagOrder.setStatus(SubOrderStatus.RECEIVED);
         subOrderList.add(bagOrder);
 
+        SubOrder otherOrder = new SubOrder();
+        otherOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
+        otherOrder.setDealPrice(new BigDecimal(32).setScale(2,BigDecimal.ROUND_FLOOR));
+        otherOrder.setPurchaseQuantity(1);
+        otherOrder.setTotalAmount(otherOrder.getDealPrice().multiply(new BigDecimal(otherOrder.getPurchaseQuantity())));
+        otherOrder.setType(CategoryType.OTHER);
+        otherOrder.setStatus(SubOrderStatus.RECEIVED);
+        subOrderList.add(otherOrder);
+
         order.setSubOrderList(subOrderList);
         orderDao.save(order);
 
@@ -81,8 +91,16 @@ public class OrderManagerServiceImpl implements OrderManagerService{
     public List<GoodsSaleCount> countGoodSale(CategoryType type) {
         List<GoodsSaleCount> result = new ArrayList<>();
         Query query = new Query();
-        query.limit(1);
-        MapReduceOptions  options = MapReduceOptions.options().outputTypeInline();
+        //排序使用query的排序字段，对输入的数据document数据排序。这个选项早做优化时很有用，比如将sort的key和emit的key设定为想相同，
+        //这样在reduce函数中就可以做更少的操作，极大提升效率。sort中的key必须有索引。
+        query.with(new Sort(Sort.Direction.DESC,"sellerId"));
+        MapReduceOptions  options = MapReduceOptions.options().outputTypeMerge();
+        options.outputCollection("goodStatic");
+        //设置map阶段能够进入到reduce处理的文档个数，可在这里设置，也可以在query中设置，效果一样的，内部通过
+        // org.springframework.data.mongodb.core.MongoTemplate.copyMapReduceOptionsToCommand()转为MapReduceCommand.limit
+//        options.limit(2);
+        //设置mapReduce统计结果输出到的一个新的集合，则可以实现分页
+        options.outputCollection("goodStatic");
         Map<String,Object> map = new HashMap<>();
         if (type != null)
             map.put("typeArg",type.name());
@@ -95,8 +113,7 @@ public class OrderManagerServiceImpl implements OrderManagerService{
                                 GoodsSaleCount.class);
         Iterator<GoodsSaleCount> iterator = order.iterator();
         while (iterator.hasNext()){
-            GoodsSaleCount next = iterator.next();
-            result.add(next);
+            result.add(iterator.next());
         }
 
 //        orderDao.getMt().getDb().getCollection("").mapReduce()

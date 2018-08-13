@@ -18,6 +18,10 @@ public enum CategoryType {
     /**
      * 书包
      */
-    BAG
+    BAG,
+    /**
+     * 书包
+     */
+    OTHER
 
 }
