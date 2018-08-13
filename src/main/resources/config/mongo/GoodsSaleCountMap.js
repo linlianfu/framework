@@ -1,4 +1,5 @@
 function () {
+
     this.subOrderList.forEach(function(item){
         var key = item.type;
         var value = {
@@ -7,7 +8,15 @@ function () {
         };
         value.purchaseQuantity = item.purchaseQuantity;
         value.totalAmount = item.totalAmount;
-        emit(key, value);
+
+        if(typeof(typeArg) != "undefined"  && typeArg !== null){
+            if(item.type === typeArg){
+                emit(key, value);
+            }
+        }else{
+            emit(key, value);
+        }
+
     });
 
 }

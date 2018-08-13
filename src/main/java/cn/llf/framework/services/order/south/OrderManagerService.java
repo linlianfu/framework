@@ -2,6 +2,7 @@ package cn.llf.framework.services.order.south;
 
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
+import cn.llf.framework.services.order.enums.CategoryType;
 
 import java.util.List;
 
@@ -28,5 +29,5 @@ public interface OrderManagerService {
       * 物品销售统计
       * @return
       */
-     List<GoodsSaleCount> countGoodSale();
+     List<GoodsSaleCount> countGoodSale(CategoryType type);
 }
