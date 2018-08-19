@@ -5,7 +5,6 @@ import cn.llf.framework.services.order.enums.SubOrderStatus;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -35,11 +34,11 @@ public class SubOrder implements Serializable {
     /**
      * 成交单价
      */
-    private BigDecimal dealPrice = new BigDecimal(25);
+    private double dealPrice = 25;
     /**
      * 实付总价
      */
-    private BigDecimal totalAmount = new BigDecimal(75);
+    private double totalAmount = 75;
     /**
      * 子订单状态
      */

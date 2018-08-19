@@ -48,4 +48,21 @@ public class Order implements Serializable{
      * 订单创建时间
      */
     private String date = DateUtil.toString(new Date(),DateUtil.PATTEN_TO_SECOND);
+    /**
+     * 主订单总金额
+     */
+    private double totalAmount;
+    /**
+     * 订单说明
+     */
+    private String marker;
+
+    public void setTotalAmount(){
+        double totalAmount = 0;
+        for (SubOrder subOrder : subOrderList) {
+            totalAmount += subOrder.getTotalAmount();
+        }
+        this.totalAmount = totalAmount;
+
+    }
 }
