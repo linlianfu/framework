@@ -1,11 +1,13 @@
-package cn.llf.framework.services.order.south;
+package cn.llf.framework.services.order.south.impl;
 
 import cn.llf.framework.dao.impl.mongo.OrderDao;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.model.mongo.SubOrder;
+import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
+import cn.llf.framework.services.order.south.OrderManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -23,31 +25,31 @@ import java.util.*;
  */
 @Slf4j
 @Service("orderManagerService")
-public class OrderManagerServiceImpl implements OrderManagerService{
+public class OrderManagerServiceImpl implements OrderManagerService {
 
     @Autowired
     OrderDao orderDao;
 
 
 
-    public boolean createOrder(){
+    public boolean createOrder(OrderForm form){
         Order order = new Order();
-//        order.setBuyerId("da265d9e45f64a9cbe5dcdaadbff4e1d");
+        order.setBuyerId(UUID.randomUUID().toString().replaceAll("-",""));
         order.setSellerId(UUID.randomUUID().toString().replaceAll("-",""));
-        order.setUnitRegionPath("/350000/350600/350624");
+        order.setUnitRegionPath("/360000/350600/350624");
 
         List<SubOrder> subOrderList = new ArrayList<>();
         SubOrder bookOrder = new SubOrder();
         bookOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
         bookOrder.setDealPrice(12.8);
-        bookOrder.setPurchaseQuantity(6);
+        bookOrder.setPurchaseQuantity(form.getBookCount());
         bookOrder.setTotalAmount(bookOrder.getDealPrice()*bookOrder.getPurchaseQuantity());
         subOrderList.add(bookOrder);
 
         SubOrder pencilOrder = new SubOrder();
         pencilOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        pencilOrder.setDealPrice(25);
-        pencilOrder.setPurchaseQuantity(3);
+        pencilOrder.setDealPrice(24);
+        pencilOrder.setPurchaseQuantity(form.getPencilCount());
         pencilOrder.setTotalAmount(pencilOrder.getDealPrice()*pencilOrder.getPurchaseQuantity());
         pencilOrder.setType(CategoryType.PENCIL);
         pencilOrder.setStatus(SubOrderStatus.CANCEL);
@@ -55,8 +57,8 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
         SubOrder bagOrder = new SubOrder();
         bagOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        bagOrder.setDealPrice(32);
-        bagOrder.setPurchaseQuantity(7);
+        bagOrder.setDealPrice(35);
+        bagOrder.setPurchaseQuantity(form.getBagCount());
         bagOrder.setTotalAmount(bagOrder.getDealPrice()*bagOrder.getPurchaseQuantity());
         bagOrder.setType(CategoryType.BAG);
         bagOrder.setStatus(SubOrderStatus.RECEIVED);
@@ -64,8 +66,8 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
         SubOrder otherOrder = new SubOrder();
         otherOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        otherOrder.setDealPrice(32);
-        otherOrder.setPurchaseQuantity(1);
+        otherOrder.setDealPrice(22);
+        otherOrder.setPurchaseQuantity(form.getOtherCount());
         otherOrder.setTotalAmount(otherOrder.getDealPrice()*otherOrder.getPurchaseQuantity());
         otherOrder.setType(CategoryType.OTHER);
         otherOrder.setStatus(SubOrderStatus.RECEIVED);
@@ -73,7 +75,7 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
         order.setSubOrderList(subOrderList);
         order.setTotalAmount();
-        order.setMarker("无买家id订单");
+        order.setMarker("正常的订单");
         orderDao.save(order);
 
         return true;
@@ -84,6 +86,8 @@ public class OrderManagerServiceImpl implements OrderManagerService{
 
         Order order = (Order) orderDao.findById(id);
 
+//        orderDao.getMt().find()
+//        Criteria criteria = Criteria.where("").alike()
         return order;
     }
 

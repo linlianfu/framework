@@ -3,14 +3,14 @@ package cn.llf.framework.gateway.web.admin;
 import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
+import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.south.OrderManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -31,9 +31,9 @@ public class MapReduceAction extends AbstractFrameWorkAction {
      * 创建订单
      * @return
      */
-    @GetMapping("createOrder")
-    public boolean createOrder(){
-        return orderManagerService.createOrder();
+    @PostMapping("createOrder")
+    public boolean createOrder(@RequestBody @Valid OrderForm form){
+        return orderManagerService.createOrder(form);
     }
     /**
      * 获取订单详情
