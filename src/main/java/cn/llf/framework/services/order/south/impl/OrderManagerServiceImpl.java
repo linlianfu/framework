@@ -33,50 +33,67 @@ public class OrderManagerServiceImpl implements OrderManagerService {
 
 
     public boolean createOrder(OrderForm form){
-        Order order = new Order();
-        order.setBuyerId(UUID.randomUUID().toString().replaceAll("-",""));
-        order.setSellerId(UUID.randomUUID().toString().replaceAll("-",""));
-        order.setUnitRegionPath("/360000/350600/350624");
+        List<String> buyerIdList = new ArrayList<>();
+        List<String> sellerIdList = new ArrayList<>();
+        List<String> regionList = new ArrayList<>();
+        for (int i =0;i<6;i++){
+            buyerIdList.add(UUID.randomUUID().toString().replaceAll("-",""));
+            sellerIdList.add(UUID.randomUUID().toString().replaceAll("-",""));
+        }
+        regionList.add("/360000/350600/350624");
+        regionList.add("/350000/350600/350624");
+        regionList.add("/340000/350600/350624");
+        regionList.add("/330000/350600/350624");
+        regionList.add("/320000/350600/350624");
+        regionList.add("/310000/350600/350624");
 
-        List<SubOrder> subOrderList = new ArrayList<>();
-        SubOrder bookOrder = new SubOrder();
-        bookOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        bookOrder.setDealPrice(12.8);
-        bookOrder.setPurchaseQuantity(form.getBookCount());
-        bookOrder.setTotalAmount(bookOrder.getDealPrice()*bookOrder.getPurchaseQuantity());
-        subOrderList.add(bookOrder);
+        for (int i = 0;i<100;i++){
+            int buyerIndex = i%(int)(Math.random()*5+1);
+            Order order = new Order();
+            order.setBuyerId(buyerIdList.get(buyerIndex));
+            order.setSellerId(sellerIdList.get(buyerIndex));
+            order.setUnitRegionPath(regionList.get(buyerIndex));
 
-        SubOrder pencilOrder = new SubOrder();
-        pencilOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        pencilOrder.setDealPrice(24);
-        pencilOrder.setPurchaseQuantity(form.getPencilCount());
-        pencilOrder.setTotalAmount(pencilOrder.getDealPrice()*pencilOrder.getPurchaseQuantity());
-        pencilOrder.setType(CategoryType.PENCIL);
-        pencilOrder.setStatus(SubOrderStatus.CANCEL);
-        subOrderList.add(pencilOrder);
+            List<SubOrder> subOrderList = new ArrayList<>();
+            SubOrder bookOrder = new SubOrder();
+            bookOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
+            bookOrder.setDealPrice(12.8);
+            bookOrder.setPurchaseQuantity((int) (Math.random()*10));
+            bookOrder.setTotalAmount(bookOrder.getDealPrice()*bookOrder.getPurchaseQuantity());
+            subOrderList.add(bookOrder);
 
-        SubOrder bagOrder = new SubOrder();
-        bagOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        bagOrder.setDealPrice(35);
-        bagOrder.setPurchaseQuantity(form.getBagCount());
-        bagOrder.setTotalAmount(bagOrder.getDealPrice()*bagOrder.getPurchaseQuantity());
-        bagOrder.setType(CategoryType.BAG);
-        bagOrder.setStatus(SubOrderStatus.RECEIVED);
-        subOrderList.add(bagOrder);
+            SubOrder pencilOrder = new SubOrder();
+            pencilOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
+            pencilOrder.setDealPrice(24);
+            pencilOrder.setPurchaseQuantity((int) (Math.random()*10));
+            pencilOrder.setTotalAmount(pencilOrder.getDealPrice()*pencilOrder.getPurchaseQuantity());
+            pencilOrder.setType(CategoryType.PENCIL);
+            pencilOrder.setStatus(SubOrderStatus.CANCEL);
+            subOrderList.add(pencilOrder);
 
-        SubOrder otherOrder = new SubOrder();
-        otherOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
-        otherOrder.setDealPrice(22);
-        otherOrder.setPurchaseQuantity(form.getOtherCount());
-        otherOrder.setTotalAmount(otherOrder.getDealPrice()*otherOrder.getPurchaseQuantity());
-        otherOrder.setType(CategoryType.OTHER);
-        otherOrder.setStatus(SubOrderStatus.RECEIVED);
-        subOrderList.add(otherOrder);
+            SubOrder bagOrder = new SubOrder();
+            bagOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
+            bagOrder.setDealPrice(35);
+            bagOrder.setPurchaseQuantity((int) (Math.random()*10));
+            bagOrder.setTotalAmount(bagOrder.getDealPrice()*bagOrder.getPurchaseQuantity());
+            bagOrder.setType(CategoryType.BAG);
+            bagOrder.setStatus(SubOrderStatus.RECEIVED);
+            subOrderList.add(bagOrder);
 
-        order.setSubOrderList(subOrderList);
-        order.setTotalAmount();
-        order.setMarker("正常的订单");
-        orderDao.save(order);
+            SubOrder otherOrder = new SubOrder();
+            otherOrder.setId(UUID.randomUUID().toString().replaceAll("-",""));
+            otherOrder.setDealPrice(22);
+            otherOrder.setPurchaseQuantity((int) (Math.random()*10));
+            otherOrder.setTotalAmount(otherOrder.getDealPrice()*otherOrder.getPurchaseQuantity());
+            otherOrder.setType(CategoryType.OTHER);
+            otherOrder.setStatus(SubOrderStatus.RECEIVED);
+            subOrderList.add(otherOrder);
+
+            order.setSubOrderList(subOrderList);
+            order.setTotalAmount();
+            order.setMarker("正常的订单");
+            orderDao.save(order);
+        }
 
         return true;
     }
