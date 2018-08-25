@@ -2,6 +2,8 @@ package cn.llf.framework.services.order.south;
 
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
+import cn.llf.framework.services.order.args.AggregateQuery;
+import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.enums.CategoryType;
 
@@ -31,4 +33,9 @@ public interface OrderManagerService {
       * @return
       */
      List<GoodsSaleCount> countGoodSale(CategoryType type);
+
+     /**
+      * 统计每个买家的订单信息
+      */
+     List<AggregateBuyerOrderInfo> aggregateBuyerOrderInfo(AggregateQuery query);
 }

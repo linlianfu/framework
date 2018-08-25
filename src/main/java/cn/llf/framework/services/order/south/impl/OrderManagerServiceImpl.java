@@ -4,10 +4,15 @@ import cn.llf.framework.dao.impl.mongo.OrderDao;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.model.mongo.SubOrder;
+import cn.llf.framework.services.order.args.AggregateQuery;
+import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
 import cn.llf.framework.services.order.south.OrderManagerService;
+import com.mongodb.AggregationOutput;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -140,6 +145,30 @@ public class OrderManagerServiceImpl implements OrderManagerService {
 
 //        orderDao.getMt().getDb().getCollection("").mapReduce()
 
+        return result;
+    }
+
+    @Override
+    public List<AggregateBuyerOrderInfo> aggregateBuyerOrderInfo(AggregateQuery query) {
+        List<AggregateBuyerOrderInfo> result = new ArrayList<>();
+        List<DBObject> pipeline = new ArrayList<>();
+
+        //按买家id分组
+        DBObject dbObject = new BasicDBObject("_id","buyerId");
+        dbObject.put("count",new BasicDBObject("$sum","1"));
+        DBObject groupObject = new BasicDBObject("$group",dbObject);
+        pipeline.add(groupObject);
+
+        AggregationOutput aggregate = orderDao.getMt().getCollection(Order.class.getName()).aggregate(pipeline);
+        Iterator<DBObject> iterator = aggregate.results().iterator();
+        while (iterator.hasNext()){
+            AggregateBuyerOrderInfo info = new AggregateBuyerOrderInfo();
+            DBObject next = iterator.next();
+            String buyerId = (String)next.get("_id");
+            int count = (Integer)next.get("count");
+            info.setId(buyerId);
+            info.setCount(count);
+        }
         return result;
     }
 }
