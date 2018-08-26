@@ -16,6 +16,10 @@ public class AggregateQuery implements QueryBean {
      */
     private String buyerId;
     /**
+     * 统计单位地区
+     */
+    private String unitRegionPath;
+    /**
      * 主订单交易状态
      */
     private MasterOrderStatus masterOrderStatus;

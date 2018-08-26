@@ -165,7 +165,7 @@ public class PracticeAnswerPaperAction {
         Criteria criteria = Criteria.where("_id").is("55063bc1-d256-4ab4-9d75-279469d384c8");
         Update update = new Update();
         update.set("practiceNum",-1);
-        int result = practiceAnswerPaperDao.getMt().updateFirst(new Query(criteria),update,PracticeAnswerPaper.class).getN();
+        long result = practiceAnswerPaperDao.getMt().updateFirst(new Query(criteria),update,PracticeAnswerPaper.class).getN();
         log.info("更新数量：{}",result);
     }
 

@@ -8,16 +8,21 @@ import cn.llf.framework.services.order.args.AggregateQuery;
 import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.enums.CategoryType;
+import cn.llf.framework.services.order.enums.MasterOrderStatus;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
 import cn.llf.framework.services.order.south.OrderManagerService;
-import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceOptions;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -154,20 +159,47 @@ public class OrderManagerServiceImpl implements OrderManagerService {
         List<DBObject> pipeline = new ArrayList<>();
 
         //按买家id分组
-        DBObject dbObject = new BasicDBObject("_id","buyerId");
+        //实现方式1：利用DBObject实现--待验证
+        BasicDBObject dbObject = new BasicDBObject("_id","buyerId");
         dbObject.put("count",new BasicDBObject("$sum","1"));
-        DBObject groupObject = new BasicDBObject("$group",dbObject);
+        BasicDBObject groupObject = new BasicDBObject("$group",dbObject);
         pipeline.add(groupObject);
+//        AggregateIterable<Document> aggregate = orderDao.getMt().getCollection(Order.class.getName()).aggregate(pipeline);
 
-        AggregationOutput aggregate = orderDao.getMt().getCollection(Order.class.getName()).aggregate(pipeline);
-        Iterator<DBObject> iterator = aggregate.results().iterator();
+        //实现方式2：利用Aggregation实现
+        List<AggregationOperation> aggregationOperationList = new ArrayList<>();
+        String buyerId = query.getBuyerId(),
+               unitRegionPath = query.getUnitRegionPath();
+        MasterOrderStatus masterOrderStatus = query.getMasterOrderStatus();
+
+        if (StringUtils.isNotBlank(buyerId)
+            || StringUtils.isNotBlank(unitRegionPath)
+            || masterOrderStatus != null){
+            Criteria criteria = new Criteria();
+
+            if (StringUtils.isNotBlank(buyerId)){
+                criteria.and("unitRegionPath").is(query.getUnitRegionPath());
+            }
+            if (StringUtils.isNotBlank(unitRegionPath)){
+                criteria.and("unitRegionPath").is(query.getUnitRegionPath());
+            }
+            if (masterOrderStatus != null){
+                criteria.and("unitRegionPath").is(query.getUnitRegionPath());
+            }
+            aggregationOperationList.add(Aggregation.match(criteria));
+        }
+        aggregationOperationList.add(
+                Aggregation.group("buyerId").count().as("count")
+                        .sum("totalAmount").as("totalAmount")
+                        .avg("totalAmount").as("avg")
+        );
+        Aggregation aggregation = Aggregation.newAggregation(aggregationOperationList);
+        AggregationResults<AggregateBuyerOrderInfo> aggregate = orderDao.getMt().aggregate(aggregation, Order.class, AggregateBuyerOrderInfo.class);
+
+        Iterator<AggregateBuyerOrderInfo> iterator = aggregate.iterator();
         while (iterator.hasNext()){
-            AggregateBuyerOrderInfo info = new AggregateBuyerOrderInfo();
-            DBObject next = iterator.next();
-            String buyerId = (String)next.get("_id");
-            int count = (Integer)next.get("count");
-            info.setId(buyerId);
-            info.setCount(count);
+            AggregateBuyerOrderInfo next = iterator.next();
+            result.add(next);
         }
         return result;
     }
