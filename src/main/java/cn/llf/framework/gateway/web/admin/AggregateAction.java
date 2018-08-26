@@ -25,10 +25,23 @@ public class AggregateAction extends AbstractFrameWorkAction {
     @Autowired
     OrderManagerService service;
 
-
-    @GetMapping("lisBuyerOrderInfo")
-    public List<AggregateBuyerOrderInfo> lisBuyerOrderInfo(@ModelAttribute AggregateQuery query){
-        return service.aggregateBuyerOrderInfo(query);
+    /**
+     * 通过封装的聚合管道实现聚合
+     * @param query
+     * @return
+     */
+    @GetMapping("aggregateBuyerOrderInfoImplementsByAggregation")
+    public List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByAggregation(@ModelAttribute AggregateQuery query){
+        return service.listAggregateBuyerOrderInfoImplementsByAggregation(query);
+    }
+    /**
+     * 通过原生的DBObject的聚合管道实现聚合
+     * @param query
+     * @return
+     */
+    @GetMapping("listAggregateBuyerOrderInfoImplementsByDBObject")
+    public List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByDBObject(@ModelAttribute AggregateQuery query){
+        return service.listAggregateBuyerOrderInfoImplementsByDBObject(query);
     }
 
 

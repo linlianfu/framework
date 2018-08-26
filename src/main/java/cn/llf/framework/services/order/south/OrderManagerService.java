@@ -35,7 +35,15 @@ public interface OrderManagerService {
      List<GoodsSaleCount> countGoodSale(CategoryType type);
 
      /**
-      * 统计每个买家的订单信息
+      * 通过聚合管道实现统计每个买家的订单信息
+      * 实现方式：封装的Aggregation实现
       */
-     List<AggregateBuyerOrderInfo> aggregateBuyerOrderInfo(AggregateQuery query);
+     List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByAggregation(AggregateQuery query);
+
+     /**
+      * 通过原生的DBObject的聚合管道实现聚合
+      * @param query
+      * @return
+      */
+     List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByDBObject(AggregateQuery query);
 }

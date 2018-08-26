@@ -11,7 +11,9 @@ import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.MasterOrderStatus;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
 import cn.llf.framework.services.order.south.OrderManagerService;
+import com.mongodb.AggregationOptions;
 import com.mongodb.BasicDBObject;
+import com.mongodb.Cursor;
 import com.mongodb.DBObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -154,19 +156,12 @@ public class OrderManagerServiceImpl implements OrderManagerService {
     }
 
     @Override
-    public List<AggregateBuyerOrderInfo> aggregateBuyerOrderInfo(AggregateQuery query) {
+    public List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByAggregation(AggregateQuery query) {
+
         List<AggregateBuyerOrderInfo> result = new ArrayList<>();
-        List<DBObject> pipeline = new ArrayList<>();
 
-        //按买家id分组
-        //实现方式1：利用DBObject实现--待验证
-        BasicDBObject dbObject = new BasicDBObject("_id","buyerId");
-        dbObject.put("count",new BasicDBObject("$sum","1"));
-        BasicDBObject groupObject = new BasicDBObject("$group",dbObject);
-        pipeline.add(groupObject);
-//        AggregateIterable<Document> aggregate = orderDao.getMt().getCollection(Order.class.getName()).aggregate(pipeline);
-
-        //实现方式2：利用Aggregation实现
+        //利用封装的Aggregation实现
+        //步骤1：过滤复合条件的需要聚合的数据
         List<AggregationOperation> aggregationOperationList = new ArrayList<>();
         String buyerId = query.getBuyerId(),
                unitRegionPath = query.getUnitRegionPath();
@@ -188,6 +183,7 @@ public class OrderManagerServiceImpl implements OrderManagerService {
             }
             aggregationOperationList.add(Aggregation.match(criteria));
         }
+        //步骤2：分组聚合，并统计总金额和平均金额
         aggregationOperationList.add(
                 Aggregation.group("buyerId").count().as("count")
                         .sum("totalAmount").as("totalAmount")
@@ -201,6 +197,62 @@ public class OrderManagerServiceImpl implements OrderManagerService {
             AggregateBuyerOrderInfo next = iterator.next();
             result.add(next);
         }
+        return result;
+    }
+
+    @Override
+    public List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByDBObject(AggregateQuery query) {
+
+        List<AggregateBuyerOrderInfo> result = new ArrayList<>();
+
+        List<DBObject> pipeline = new ArrayList<>();
+        //按买家id分组
+        BasicDBObject dbObject = new BasicDBObject("_id","$buyerId");
+        dbObject.put("count",new BasicDBObject("$sum",1));
+        dbObject.put("totalAmount",new BasicDBObject("$sum","$totalAmount"));
+        dbObject.put("avg",new BasicDBObject("$avg","$totalAmount"));
+        BasicDBObject groupObject = new BasicDBObject("$group",dbObject);
+        pipeline.add(groupObject);
+
+        AggregationOptions build = AggregationOptions.builder()
+                .outputMode(AggregationOptions.OutputMode.CURSOR)
+//                .batchSize(Integer.MAX_VALUE)
+                .build();
+
+
+         Cursor aggregate = orderDao.getMt().getCollection(Order.class.getSimpleName().toLowerCase()).aggregate(pipeline, build);
+         while (aggregate.hasNext()){
+            AggregateBuyerOrderInfo info = new AggregateBuyerOrderInfo();
+            DBObject next = aggregate.next();
+            String id = (String)next.get("_id");
+            int count = (Integer)next.get("count");
+            double totalAmount = (Double) next.get("totalAmount");
+            double avg = (Double)next.get("avg");
+            info.setId(id);
+            info.setCount(count);
+            info.setTotalAmount(totalAmount);
+            info.setAvg(avg);
+            result.add(info);
+         }
+
+
+
+//        Iterator<DBObject> iterator = aggregate.results().iterator();
+//        while (iterator.hasNext()){
+//            AggregateBuyerOrderInfo info = new AggregateBuyerOrderInfo();
+//
+//            DBObject next = iterator.next();
+//            String id = (String)next.get("_id");
+//            int count = (Integer)next.get("count");
+//            double totalAmount = (Double) next.get("totalAmount");
+//            double avg = (Double)next.get("avg");
+//
+//            info.setId(id);
+//            info.setCount(count);
+//            info.setTotalAmount(totalAmount);
+//            info.setAvg(avg);
+//            result.add(info);
+//        }
         return result;
     }
 }
