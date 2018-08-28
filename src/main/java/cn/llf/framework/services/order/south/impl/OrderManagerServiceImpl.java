@@ -59,7 +59,7 @@ public class OrderManagerServiceImpl implements OrderManagerService {
         regionList.add("/320000/350600/350624");
         regionList.add("/310000/350600/350624");
 
-        for (int i = 0;i<100;i++){
+        for (int i = 0;i<10;i++){
             int buyerIndex = i%(int)(Math.random()*5+1);
             Order order = new Order();
             order.setBuyerId(buyerIdList.get(buyerIndex));
@@ -234,25 +234,6 @@ public class OrderManagerServiceImpl implements OrderManagerService {
             info.setAvg(avg);
             result.add(info);
          }
-
-
-
-//        Iterator<DBObject> iterator = aggregate.results().iterator();
-//        while (iterator.hasNext()){
-//            AggregateBuyerOrderInfo info = new AggregateBuyerOrderInfo();
-//
-//            DBObject next = iterator.next();
-//            String id = (String)next.get("_id");
-//            int count = (Integer)next.get("count");
-//            double totalAmount = (Double) next.get("totalAmount");
-//            double avg = (Double)next.get("avg");
-//
-//            info.setId(id);
-//            info.setCount(count);
-//            info.setTotalAmount(totalAmount);
-//            info.setAvg(avg);
-//            result.add(info);
-//        }
         return result;
     }
 }
