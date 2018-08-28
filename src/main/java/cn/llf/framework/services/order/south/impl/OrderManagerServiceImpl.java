@@ -7,6 +7,7 @@ import cn.llf.framework.model.mongo.SubOrder;
 import cn.llf.framework.services.order.args.AggregateQuery;
 import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
+import cn.llf.framework.services.order.dto.UserOrderStatisticsDto;
 import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.MasterOrderStatus;
 import cn.llf.framework.services.order.enums.SubOrderStatus;
@@ -22,11 +23,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceOptions;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import priv.llf.mybatis.support.Page;
 
 import java.util.*;
 
@@ -235,5 +238,44 @@ public class OrderManagerServiceImpl implements OrderManagerService {
             result.add(info);
          }
         return result;
+    }
+
+    @Override
+    public Page<UserOrderStatisticsDto> pageUserOrderStatistic(Page page, AggregateQuery query) {
+        List<UserOrderStatisticsDto> result = new ArrayList<>();
+
+        List<AggregationOperation> aggregationOperationList = new ArrayList<>();
+        aggregationOperationList.add(Aggregation.unwind("subOrderList"));
+        aggregationOperationList.add(Aggregation.project("buyerId")
+                .and("subOrderList.totalAmount").as("amount")
+                .and("subOrderList.purchaseQuantity").as("count")
+                .and("subOrderList.type").as("type")
+                .and("subOrderList.status").as("subOrderStatus")
+                .and("subOrderList.status").as("subOrderStatus")
+                .and("status").as("masterStatus")
+        );
+        aggregationOperationList.add(Aggregation.group("buyerId","type")
+                            .sum("count").as("count")
+                            .sum("amount").as("totalAmount")
+        );
+        aggregationOperationList.add(new ProjectionOperation()
+                .and("_id.buyerId").as("_id")
+                .and("_id.type").as("type")
+                .and("count").as("count")
+                .and("totalAmount").as("totalAmount"));
+        aggregationOperationList.add(Aggregation.group("_id")
+                .push("count").as("count")
+        );
+        Aggregation aggregation = Aggregation.newAggregation(aggregationOperationList);
+        AggregationResults<UserOrderStatisticsDto> aggregate = orderDao.getMt().aggregate(aggregation, Order.class, UserOrderStatisticsDto.class);
+        Iterator<UserOrderStatisticsDto> iterator = aggregate.iterator();
+        while (iterator.hasNext()){
+            result.add(iterator.next());
+        }
+        page.setCurrentPageData(result);
+
+
+        // TODO: 2018/8/28  push 的数据如果是对象数组，则需要使用原生的DBObject实现
+        return page;
     }
 }

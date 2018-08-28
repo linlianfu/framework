@@ -1,20 +1,22 @@
 package cn.llf.framework.model.mongo;
 
+import cn.llf.framework.DataBaseBean;
 import cn.llf.framework.services.order.enums.MasterOrderStatus;
 import cn.llf.framework.utils.DateUtil;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author: eleven
  * @since: 2018/8/5 16:37
- * @description:
+ * @description: 订单mongo持久化对象
  */
 @Data
-public class Order implements Serializable{
+@Document(collection = "order")
+public class Order implements DataBaseBean{
     /**
      * id
      */

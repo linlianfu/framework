@@ -5,7 +5,9 @@ import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.services.order.args.AggregateQuery;
 import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
+import cn.llf.framework.services.order.dto.UserOrderStatisticsDto;
 import cn.llf.framework.services.order.enums.CategoryType;
+import priv.llf.mybatis.support.Page;
 
 import java.util.List;
 
@@ -36,14 +38,22 @@ public interface OrderManagerService {
 
      /**
       * 通过聚合管道实现统计每个买家的订单信息
-      * 实现方式：封装的Aggregation实现
+      * 实现方式：mongoTemplate的聚合接口，入参为封装了操作符的Aggregation实现
       */
      List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByAggregation(AggregateQuery query);
 
      /**
-      * 通过原生的DBObject的聚合管道实现聚合
+      * 通过原生的DBObject的聚合管道实现聚合，
       * @param query
       * @return
       */
      List<AggregateBuyerOrderInfo> listAggregateBuyerOrderInfoImplementsByDBObject(AggregateQuery query);
+
+     /**
+      * 用户订单分类统计
+      * @param page
+      * @param query
+      * @return
+      */
+     Page<UserOrderStatisticsDto> pageUserOrderStatistic(Page page,AggregateQuery query);
 }
