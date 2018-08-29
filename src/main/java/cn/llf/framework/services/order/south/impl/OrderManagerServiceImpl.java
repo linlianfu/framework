@@ -286,39 +286,41 @@ public class OrderManagerServiceImpl implements OrderManagerService {
         pipeline.add(unwindObject);
 
         //stage 2 : project
-        DBObject project =  new BasicDBObject("buyerId",1);
-        project.put("amount","$subOrderList.totalAmount");
-        project.put("count","$subOrderList.purchaseQuantity");
-        project.put("type","$subOrderList.type");
-        project.put("subOrderStatus","$subOrderList.status");
-        project.put("masterStatus","$status");
-        DBObject projectObject = new BasicDBObject("$project",project);
+        DBObject projectField =  new BasicDBObject("buyerId",1);
+        projectField.put("amount","$subOrderList.totalAmount");
+        projectField.put("count","$subOrderList.purchaseQuantity");
+        projectField.put("type","$subOrderList.type");
+        projectField.put("subOrderStatus","$subOrderList.status");
+        projectField.put("masterStatus","$status");
+        DBObject projectObject = new BasicDBObject("$project",projectField);
         pipeline.add(projectObject);
 
         //stage 3 group
-        DBObject groupKeyObject = new BasicDBObject("buyerId","$buyerId");
-        groupKeyObject.put("type","$type");
-        DBObject group = new BasicDBObject("_id",groupKeyObject);
-        group.put("count",new BasicDBObject("$sum","$count"));
-        group.put("totalAmount",new BasicDBObject("$sum","$amount"));
+        DBObject groupKey = new BasicDBObject("buyerId","$buyerId");
+        groupKey.put("type","$type");
+        DBObject groupField = new BasicDBObject("_id",groupKey);
+        groupField.put("count",new BasicDBObject("$sum","$count"));
+        groupField.put("totalAmount",new BasicDBObject("$sum","$amount"));
 
-        DBObject groupObject = new BasicDBObject("$group",group);
+        DBObject groupObject = new BasicDBObject("$group",groupField);
         pipeline.add(groupObject);
-        //stage 4 project
-        project = new BasicDBObject("_id","$_id.buyerId");
-        project.put("type","$_id.type");
-        project.put("count","$count");
-        project.put("totalAmount","$totalAmount");
-        projectObject = new BasicDBObject("$project",project);
+        //stage 4 projectField
+        projectField = new BasicDBObject("_id","$_id.buyerId");
+        projectField.put("type","$_id.type");
+        projectField.put("count","$count");
+        projectField.put("totalAmount","$totalAmount");
+        projectObject = new BasicDBObject("$project",projectField);
         pipeline.add(projectObject);
+
         //stage 5 group and push
-        group = new BasicDBObject("_id","$_id");
+        groupField = new BasicDBObject("_id","$_id");
         DBObject pushField = new BasicDBObject("type","$type");
         pushField.put("count","$count");
         pushField.put("totalAmount","$totalAmount");
         DBObject pushObject = new BasicDBObject("$push",pushField);
-        group.put("orderCount",pushObject);
-        groupObject = new BasicDBObject("$group",group);
+        groupField.put("orderCount",pushObject);
+
+        groupObject = new BasicDBObject("$group",groupField);
         pipeline.add(groupObject);
 
         AggregationOptions build = AggregationOptions.builder()
