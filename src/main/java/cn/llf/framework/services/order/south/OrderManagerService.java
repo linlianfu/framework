@@ -56,4 +56,11 @@ public interface OrderManagerService {
       * @return
       */
      Page<UserOrderStatisticsDto> pageUserOrderStatistic(Page page,AggregateQuery query);
+     /**
+      * 用户订单分类统计
+      * @param page
+      * @param query
+      * @return
+      */
+     Page<UserOrderStatisticsDto> pageUserOrderStatisticByDBObject(Page page,AggregateQuery query);
 }

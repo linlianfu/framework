@@ -7,6 +7,7 @@ import cn.llf.framework.model.mongo.SubOrder;
 import cn.llf.framework.services.order.args.AggregateQuery;
 import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
+import cn.llf.framework.services.order.dto.OrderStatisticsDto;
 import cn.llf.framework.services.order.dto.UserOrderStatisticsDto;
 import cn.llf.framework.services.order.enums.CategoryType;
 import cn.llf.framework.services.order.enums.MasterOrderStatus;
@@ -219,7 +220,6 @@ public class OrderManagerServiceImpl implements OrderManagerService {
 
         AggregationOptions build = AggregationOptions.builder()
                 .outputMode(AggregationOptions.OutputMode.CURSOR)
-//                .batchSize(Integer.MAX_VALUE)
                 .build();
 
 
@@ -273,9 +273,69 @@ public class OrderManagerServiceImpl implements OrderManagerService {
             result.add(iterator.next());
         }
         page.setCurrentPageData(result);
+        return page;
+    }
 
+    @Override
+    public Page<UserOrderStatisticsDto> pageUserOrderStatisticByDBObject(Page page, AggregateQuery query) {
+        List<UserOrderStatisticsDto> result = new ArrayList<>();
+        List<DBObject> pipeline = new ArrayList<>();
 
-        // TODO: 2018/8/28  push 的数据如果是对象数组，则需要使用原生的DBObject实现
+        //stage 1 :unwind
+        DBObject unwindObject = new BasicDBObject("$unwind","$subOrderList");
+        pipeline.add(unwindObject);
+
+        //stage 2 : project
+        DBObject project =  new BasicDBObject("buyerId",1);
+        project.put("amount","$subOrderList.totalAmount");
+        project.put("count","$subOrderList.purchaseQuantity");
+        project.put("type","$subOrderList.type");
+        project.put("subOrderStatus","$subOrderList.status");
+        project.put("masterStatus","$status");
+        DBObject projectObject = new BasicDBObject("$project",project);
+        pipeline.add(projectObject);
+
+        //stage 3 group
+        DBObject groupKeyObject = new BasicDBObject("buyerId","$buyerId");
+        groupKeyObject.put("type","$type");
+        DBObject group = new BasicDBObject("_id",groupKeyObject);
+        group.put("count",new BasicDBObject("$sum","$count"));
+        group.put("totalAmount",new BasicDBObject("$sum","$amount"));
+
+        DBObject groupObject = new BasicDBObject("$group",group);
+        pipeline.add(groupObject);
+        //stage 4 project
+        project = new BasicDBObject("_id","$_id.buyerId");
+        project.put("type","$_id.type");
+        project.put("count","$count");
+        project.put("totalAmount","$totalAmount");
+        projectObject = new BasicDBObject("$project",project);
+        pipeline.add(projectObject);
+        //stage 5 group and push
+        group = new BasicDBObject("_id","$_id");
+        DBObject pushField = new BasicDBObject("type","$type");
+        pushField.put("count","$count");
+        pushField.put("totalAmount","$totalAmount");
+        DBObject pushObject = new BasicDBObject("$push",pushField);
+        group.put("orderCount",pushObject);
+        groupObject = new BasicDBObject("$group",group);
+        pipeline.add(groupObject);
+
+        AggregationOptions build = AggregationOptions.builder()
+                .outputMode(AggregationOptions.OutputMode.CURSOR)
+                .build();
+        Cursor aggregate = orderDao.getMt().getCollection(StringUtils.uncapitalize(Order.class.getSimpleName())).aggregate(pipeline, build);
+
+        while (aggregate.hasNext()){
+            DBObject next = aggregate.next();
+            String id = (String)next.get("_id");
+            List<OrderStatisticsDto> orderStatisticsDtoList = (List<OrderStatisticsDto> )next.get("orderCount");
+            UserOrderStatisticsDto userOrderStatisticsDto = new UserOrderStatisticsDto();
+            userOrderStatisticsDto.setId(id);
+            userOrderStatisticsDto.setList(orderStatisticsDtoList);
+            result.add(userOrderStatisticsDto);
+        }
+        page.setCurrentPageData(result);
         return page;
     }
 }
