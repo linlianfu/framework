@@ -3,6 +3,7 @@ package cn.llf.framework.services.order.south;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.services.order.args.AggregateQuery;
+import cn.llf.framework.services.order.args.SampleQuery;
 import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.dto.UserOrderStatisticsDto;
@@ -63,4 +64,11 @@ public interface OrderManagerService {
       * @return
       */
      Page<UserOrderStatisticsDto> pageUserOrderStatisticByDBObject(Page page,AggregateQuery query);
+
+     /**
+      * 随机取样
+      * @param query
+      * @return
+      */
+     List<Order> randomSampleOrder(SampleQuery query);
 }

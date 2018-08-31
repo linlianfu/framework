@@ -1,7 +1,9 @@
 package cn.llf.framework.gateway.web.admin;
 
 import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
+import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.services.order.args.AggregateQuery;
+import cn.llf.framework.services.order.args.SampleQuery;
 import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.UserOrderStatisticsDto;
 import cn.llf.framework.services.order.south.OrderManagerService;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import priv.llf.mybatis.support.Page;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -62,6 +65,15 @@ public class AggregateAction extends AbstractFrameWorkAction {
     @GetMapping("pageUserOrderStatisticByDBObject")
     public Page<UserOrderStatisticsDto> pageUserOrderStatisticByDBObject(@ModelAttribute Page page, @ModelAttribute AggregateQuery query){
         return service.pageUserOrderStatisticByDBObject(page,query);
+    }
+    /**
+     * 订单随机取样
+     * @param query
+     * @return
+     */
+    @GetMapping("randomSampleOrder")
+    public List<Order> randomSampleOrder(@ModelAttribute @Valid SampleQuery query){
+        return service.randomSampleOrder(query);
     }
 
 

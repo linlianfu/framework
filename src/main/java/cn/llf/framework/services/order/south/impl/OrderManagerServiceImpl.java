@@ -5,6 +5,7 @@ import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.model.mongo.SubOrder;
 import cn.llf.framework.services.order.args.AggregateQuery;
+import cn.llf.framework.services.order.args.SampleQuery;
 import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.dto.OrderStatisticsDto;
@@ -361,5 +362,19 @@ public class OrderManagerServiceImpl implements OrderManagerService {
         }
         page.setCurrentPageData(result);
         return page;
+    }
+
+    @Override
+    public List<Order> randomSampleOrder(SampleQuery query) {
+        int count = query.getCount();
+        List<AggregationOperation> aggregationOperationList = new ArrayList<>();
+        aggregationOperationList.add(p->{
+            DBObject sampleObject = new BasicDBObject("$sample",new BasicDBObject("size",count));
+            return sampleObject;
+        });
+        Aggregation aggregation = Aggregation.newAggregation(aggregationOperationList);
+        AggregationResults<Order> aggregate = orderDao.getMt().aggregate(aggregation, Order.class, Order.class);
+
+        return aggregate.getMappedResults();
     }
 }
