@@ -21,10 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceOptions;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -251,7 +248,6 @@ public class OrderManagerServiceImpl implements OrderManagerService {
                 .and("subOrderList.purchaseQuantity").as("count")
                 .and("subOrderList.type").as("type")
                 .and("subOrderList.status").as("subOrderStatus")
-                .and("subOrderList.status").as("subOrderStatus")
                 .and("status").as("masterStatus")
         );
         aggregationOperationList.add(Aggregation.group("buyerId","type")
@@ -265,6 +261,12 @@ public class OrderManagerServiceImpl implements OrderManagerService {
                 .and("totalAmount").as("totalAmount"));
         aggregationOperationList.add(Aggregation.group("_id")
                 .push("count").as("count")
+                .push((AggregationExpression) context -> {
+                    DBObject dbObject = new BasicDBObject("type","$type");
+                    dbObject.put("count","$count");
+                    dbObject.put("totalAmount","$totalAmount");
+                    return dbObject;
+                }).as("list")
         );
         Aggregation aggregation = Aggregation.newAggregation(aggregationOperationList);
         AggregationResults<UserOrderStatisticsDto> aggregate = orderDao.getMt().aggregate(aggregation, Order.class, UserOrderStatisticsDto.class);
