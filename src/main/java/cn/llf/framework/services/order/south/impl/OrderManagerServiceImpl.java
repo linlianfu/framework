@@ -261,12 +261,15 @@ public class OrderManagerServiceImpl implements OrderManagerService {
                 .and("totalAmount").as("totalAmount"));
         aggregationOperationList.add(Aggregation.group("_id")
                 .push("count").as("count")
-                .push((AggregationExpression) context -> {
-                    DBObject dbObject = new BasicDBObject("type","$type");
-                    dbObject.put("count","$count");
-                    dbObject.put("totalAmount","$totalAmount");
-                    return dbObject;
-                }).as("list")
+                .push(
+                        //匿名实现，实现聚合表达式的toDbObject接口,可以理解为此处是AggregationExpression的一个具体实现类
+                        (AggregationExpression) context -> {
+                            DBObject dbObject = new BasicDBObject("type","$type");
+                            dbObject.put("count","$count");
+                            dbObject.put("totalAmount","$totalAmount");
+                            return dbObject;
+                        }
+                ).as("list")
         );
         Aggregation aggregation = Aggregation.newAggregation(aggregationOperationList);
         AggregationResults<UserOrderStatisticsDto> aggregate = orderDao.getMt().aggregate(aggregation, Order.class, UserOrderStatisticsDto.class);
