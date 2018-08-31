@@ -51,8 +51,8 @@ public class AggregateAction extends AbstractFrameWorkAction {
      * @return
      */
     @GetMapping("pageUserOrderStatistic")
-    public Page<UserOrderStatisticsDto> pageUserOrderStatistic(@ModelAttribute Page pagem, @ModelAttribute AggregateQuery query){
-        return service.pageUserOrderStatistic(pagem,query);
+    public Page<UserOrderStatisticsDto> pageUserOrderStatistic(@ModelAttribute Page page, @ModelAttribute AggregateQuery query){
+        return service.pageUserOrderStatistic(page,query);
     }
     /**
      * 用户订单分类统计
@@ -60,8 +60,8 @@ public class AggregateAction extends AbstractFrameWorkAction {
      * @return
      */
     @GetMapping("pageUserOrderStatisticByDBObject")
-    public Page<UserOrderStatisticsDto> pageUserOrderStatisticByDBObject(@ModelAttribute Page pagem, @ModelAttribute AggregateQuery query){
-        return service.pageUserOrderStatisticByDBObject(pagem,query);
+    public Page<UserOrderStatisticsDto> pageUserOrderStatisticByDBObject(@ModelAttribute Page page, @ModelAttribute AggregateQuery query){
+        return service.pageUserOrderStatisticByDBObject(page,query);
     }
 
 

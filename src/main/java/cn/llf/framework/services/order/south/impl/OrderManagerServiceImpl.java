@@ -328,10 +328,27 @@ public class OrderManagerServiceImpl implements OrderManagerService {
         groupObject = new BasicDBObject("$group",groupField);
         pipeline.add(groupObject);
 
+        pipeline.add(new BasicDBObject("$count","orderCount"));
         AggregationOptions build = AggregationOptions.builder()
                 .outputMode(AggregationOptions.OutputMode.CURSOR)
                 .build();
+        //先获取符合条件的分页总数
         Cursor aggregate = orderDao.getMt().getCollection(StringUtils.uncapitalize(Order.class.getSimpleName())).aggregate(pipeline, build);
+        int skipCount = (page.getPageNo()-1)*page.getPageSize();
+        if (aggregate.hasNext()) {
+            int totalSize =  (int) (aggregate.next().get("orderCount"));
+            page.setTotalSize(totalSize);
+            if (skipCount >= totalSize)
+                return page;
+        }
+        pipeline.remove(pipeline.size()-1);
+        //stage 6 skip
+        pipeline.add(new BasicDBObject("$skip",skipCount));
+        //stage 7 limit
+        pipeline.add(new BasicDBObject("$limit",page.getPageSize()));
+
+
+         aggregate = orderDao.getMt().getCollection(StringUtils.uncapitalize(Order.class.getSimpleName())).aggregate(pipeline, build);
 
         while (aggregate.hasNext()){
             DBObject next = aggregate.next();
