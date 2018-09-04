@@ -9,4 +9,5 @@
     <!--调用远程服务接口-->
     <dubbo:reference interface="priv.llf.ability.course.south.service.ICourseService"  id="courseServiceRemote"/>
     <dubbo:reference interface="priv.llf.ability.course.south.service.IUserSelectCourseService"  id="userSelectCourseServiceRemote" />
+    <dubbo:reference interface="cn.eleven.basic.data.user.south.api.IUserQueryService"  id="userQueryServiceRemote" />
 </beans>

@@ -9,6 +9,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <slf4j_version>1.7.6</slf4j_version>
+    <eleven-basic-data>1.0.0-SNAPSHOT</eleven-basic-data>
   </properties>
   <dependencies>
 
@@ -37,6 +38,16 @@
       <groupId>priv.llf</groupId>
       <artifactId>priv-llf-job</artifactId>
       <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.eleven</groupId>
+      <artifactId>eleven-basic-data-user-south-api</artifactId>
+      <version>${eleven-basic-data}</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.eleven</groupId>
+      <artifactId>eleven-basic-data-rocketmq-client</artifactId>
+      <version>${eleven-basic-data}</version>
     </dependency>
     <!--dubbo-->
     <dependency>

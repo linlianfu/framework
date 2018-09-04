@@ -1,16 +1,12 @@
 package cn.llf.framework.mq.consumer;
 
 import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
-import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
 import com.alibaba.rocketmq.common.message.Message;
-import com.alibaba.rocketmq.common.message.MessageExt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 创建者：   eleven
@@ -40,15 +36,11 @@ public class Consumer {
             consumer.setConsumeFromWhere(
                     ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             consumer.registerMessageListener(
-                    new MessageListenerConcurrently() {
-                        public ConsumeConcurrentlyStatus consumeMessage(
-                                List<MessageExt> list,
-                                ConsumeConcurrentlyContext Context) {
-                            log.info(">>>>>成功接收消息，开始消费。。。。。");
-                            Message msg = list.get(0);
-                            log.info("接收到的消息：【{}】",new String(msg.getBody()));
-                            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-                        }
+                    (MessageListenerConcurrently) (list, Context) -> {
+                        log.info(">>>>>成功接收消息，开始消费。。。。。");
+                        Message msg = list.get(0);
+                        log.info("接收到的消息：【{}】",new String(msg.getBody()));
+                        return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                     }
             );
             consumer.start();

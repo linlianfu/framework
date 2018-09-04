@@ -14,5 +14,5 @@
     <!--timeout:配置消费者服务调用超时时间，如果超过此限制时间，则消费者自动抛出超时异常，同事服务端也会抛出response异常
                 该参数通常由服务提供方配置，因为只有服务提供方才知道服务需要耗时-->
     <!--check:启动时检查提供者是否存在，true报错，false忽略-->
-    <dubbo:consumer check="false" />
+    <dubbo:consumer check="false" timeout="${dubbo.consumer.timeout}" />
 </beans>
