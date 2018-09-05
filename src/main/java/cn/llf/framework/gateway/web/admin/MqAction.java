@@ -41,18 +41,6 @@ public class MqAction {
         courseDto.setId(UUID.randomUUID().toString());
         return producerFactory.sendMessage(courseDto.toString().getBytes());
     }
-    /**
-     * 测试消息消费
-     * @return
-     */
-//    @ResponseBody
-//    @RequestMapping("consumerMessage")
-//    public boolean consumerMessage(){
-//
-//        return consumer.receiveMessage();
-//    }
-
-
 
 
 }
