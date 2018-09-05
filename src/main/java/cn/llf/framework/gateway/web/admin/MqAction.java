@@ -1,6 +1,7 @@
 package cn.llf.framework.gateway.web.admin;
 
 import cn.eleven.basic.data.rocketmq.client.consumer.DefaultMQConsumer;
+import cn.eleven.basic.data.rocketmq.client.dto.MQMessage;
 import cn.eleven.basic.data.rocketmq.client.producer.ProducerFactory;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,8 @@ public class MqAction {
         courseDto.setName("mq学习课程");
         courseDto.setAbouts("2018.09.04学习");
         courseDto.setId(UUID.randomUUID().toString());
-        return producerFactory.sendMessage(courseDto.toString().getBytes());
+        MQMessage message =new MQMessage(courseDto.toString());
+        return producerFactory.sendMessage(message);
     }
 
 
