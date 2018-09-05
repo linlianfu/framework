@@ -41,6 +41,8 @@ public class MqAction {
         courseDto.setAbouts("2018.09.04学习");
         courseDto.setId(UUID.randomUUID().toString());
         MQMessage message =new MQMessage(courseDto.toString());
+        message.setFrom("平台");
+        message.setTo("基础数据服务收");
         return producerFactory.sendMessage(message);
     }
 
