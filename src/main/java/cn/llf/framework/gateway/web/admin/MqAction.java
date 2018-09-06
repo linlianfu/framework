@@ -1,6 +1,6 @@
 package cn.llf.framework.gateway.web.admin;
 
-import cn.eleven.basic.data.rocketmq.client.consumer.DefaultMQConsumer;
+import cn.eleven.basic.data.rocketmq.client.consumer.ConsumerFactory;
 import cn.eleven.basic.data.rocketmq.client.dto.MQMessage;
 import cn.eleven.basic.data.rocketmq.client.producer.ProducerFactory;
 import com.alibaba.rocketmq.client.producer.SendStatus;
@@ -27,7 +27,7 @@ public class MqAction {
     ProducerFactory producerFactory;
 
     @Autowired
-    DefaultMQConsumer consumer;
+    ConsumerFactory consumer;
     /**
      * 测试消息生产
      * @return
