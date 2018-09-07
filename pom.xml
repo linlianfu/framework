@@ -10,6 +10,7 @@
   <properties>
     <slf4j_version>1.7.6</slf4j_version>
     <eleven-basic-data>1.0.0-SNAPSHOT</eleven-basic-data>
+    <eleven-common>1.0.0-SNAPSHOT</eleven-common>
   </properties>
   <dependencies>
 
@@ -49,6 +50,12 @@
       <artifactId>eleven-basic-data-rocketmq-client</artifactId>
       <version>${eleven-basic-data}</version>
     </dependency>
+    <dependency>
+      <groupId>cn.eleven</groupId>
+      <artifactId>eleven-common</artifactId>
+      <version>${eleven-common}</version>
+    </dependency>
+
     <!--dubbo-->
     <dependency>
       <groupId>com.alibaba</groupId>
