@@ -19,8 +19,7 @@
     <!--全局拦截输入的格式为fastjson格式-->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
-            <bean class="cn.eleven.common.intercept.WriteFastJsonHttpMessageConverter">
-            </bean>
+            <bean class="cn.eleven.common.intercept.WriteFastJsonHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
 </beans>
