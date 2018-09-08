@@ -4,10 +4,10 @@ import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
 import cn.llf.framework.services.course.south.ICourseManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import priv.llf.ability.course.south.dto.CourseDto;
 
 import java.util.Collections;
@@ -19,7 +19,7 @@ import java.util.List;
  * @description
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("course")
 public class CourseAction extends AbstractFrameWorkAction{
 
@@ -28,21 +28,18 @@ public class CourseAction extends AbstractFrameWorkAction{
 
 
 
-    @ResponseBody
-    @RequestMapping(value = "addCourse" ,method = RequestMethod.POST)
+    @PostMapping(value = "addCourse")
     public void addCourse(){
 
     }
 
-    @ResponseBody
-    @RequestMapping(value = "listCourse" ,method = RequestMethod.GET)
+    @GetMapping(value = "listCourse")
     public List<CourseDto> listCourse(){
 
     return courseManagerService.listCourse();
     }
 
-    @ResponseBody
-    @RequestMapping(value = "listCourseByType" ,method = RequestMethod.GET)
+    @GetMapping(value = "listCourseByType")
     public List<CourseDto> listCourse(String type){
         CourseDto courseDto =new CourseDto();
         courseDto.setName("1212");

@@ -6,9 +6,9 @@ import cn.eleven.basic.data.rocketmq.client.producer.ProducerFactory;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import priv.llf.ability.course.south.dto.CourseDto;
 
 import java.util.UUID;
@@ -19,7 +19,7 @@ import java.util.UUID;
  * 描述：
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("mqTest")
 public class MqAction {
 
@@ -32,8 +32,7 @@ public class MqAction {
      * 测试消息生产
      * @return
      */
-    @ResponseBody
-    @RequestMapping("produceMessage")
+    @GetMapping("produceMessage")
     public SendStatus produceMessage(){
 
         CourseDto courseDto = new CourseDto();

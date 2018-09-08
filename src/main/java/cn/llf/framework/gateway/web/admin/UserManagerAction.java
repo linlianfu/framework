@@ -4,6 +4,7 @@ import cn.eleven.basic.data.user.south.api.IUserQueryService;
 import cn.eleven.basic.data.user.south.api.arg.UserQuery;
 import cn.eleven.basic.data.user.south.api.dto.UserBaseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class UserManagerAction {
     @Autowired
     IUserQueryService userQueryService;
 
-    @RequestMapping("listBase")
+    @GetMapping("listBase")
     public List<UserBaseDto> listBase(UserQuery query){
       return   Collections.emptyList();
     }

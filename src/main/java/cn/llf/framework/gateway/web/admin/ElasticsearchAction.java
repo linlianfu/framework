@@ -5,9 +5,9 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.search.SearchHits;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 创建者：   linlf
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 描述：
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("elasticsearch")
 public class ElasticsearchAction {
 
 //    @Autowired
     Client client;
-    @RequestMapping("listNews")
+    @GetMapping("listNews")
     public void listNews(){
         if (client == null){
             log.info("client初始化失败");

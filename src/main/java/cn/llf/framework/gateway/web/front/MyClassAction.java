@@ -3,9 +3,9 @@ package cn.llf.framework.gateway.web.front;
 import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import priv.llf.ability.course.south.arg.UserSelectCourseQuery;
 import priv.llf.ability.course.south.service.IUserSelectCourseService;
 
@@ -15,7 +15,7 @@ import priv.llf.ability.course.south.service.IUserSelectCourseService;
  * @description:
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("myClass")
 public class MyClassAction extends AbstractFrameWorkAction{
 
@@ -27,8 +27,7 @@ public class MyClassAction extends AbstractFrameWorkAction{
      * 用户选课
      * @return
      */
-    @ResponseBody
-    @RequestMapping("selectCourse")
+    @GetMapping("selectCourse")
     public boolean selectCourse(){
         UserSelectCourseQuery query = new UserSelectCourseQuery();
         userSelectCourseService.selectCourseQuery(query);

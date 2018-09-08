@@ -6,8 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
@@ -22,7 +23,7 @@ import java.util.Set;
  * 描述：
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("redisLearningAction")
 public class RedisLearningAction {
 
@@ -33,7 +34,7 @@ public class RedisLearningAction {
     JedisConnectionFactory jedisConnectionFactory;
 
     Jedis jedis = null;
-    @RequestMapping("redisStringOpera")
+    @GetMapping("redisStringOpera")
     public void redisStringOpera(){
         RedisConnection redisConnection =  jedisConnectionFactory.getConnection();
         Jedis jedis = (Jedis) redisConnection.getNativeConnection();
@@ -53,7 +54,7 @@ public class RedisLearningAction {
 //        log.info(jedis.get("timeout"));
     }
 
-    @RequestMapping("redisMapOpera")
+    @GetMapping("redisMapOpera")
     public void redisMapOpera() {
         //save data
         jedis = getJedis();
@@ -75,7 +76,7 @@ public class RedisLearningAction {
         }
     }
 
-    @RequestMapping("redisListOpera")
+    @GetMapping("redisListOpera")
     public void redisListOpera() {
         //save data
         jedis = getJedis();
@@ -86,7 +87,7 @@ public class RedisLearningAction {
         log.info(jedis.lrange("userName",0,2).toString());
     }
 
-    @RequestMapping("redisSetOpera")
+    @GetMapping("redisSetOpera")
     public void redisSetOpera() {
         //save data
         jedis = getJedis();
@@ -101,7 +102,7 @@ public class RedisLearningAction {
         log.info(jedis.smembers("user").toString());
     }
 
-    @RequestMapping("redisExpireOpera")
+    @GetMapping("redisExpireOpera")
     public void redisExpireOpera() {
         jedis = getJedis();
 //        jedis.expire("newarea",10);
@@ -121,7 +122,7 @@ public class RedisLearningAction {
     }
 
 
-    @RequestMapping("saveBillConfigToRedis")
+    @GetMapping("saveBillConfigToRedis")
     public void saveBillConfigToRedis(){
         List<OcBillConfig> result = billConfigImpl.selectList("findBillConfigSimple","OBC_ID",null);
 
@@ -135,7 +136,7 @@ public class RedisLearningAction {
         }
     }
 
-    @RequestMapping("redis")
+    @GetMapping("redis")
     public  void redis(){
         if (jedisConnectionFactory == null){
             log.info("redis配置失败");
