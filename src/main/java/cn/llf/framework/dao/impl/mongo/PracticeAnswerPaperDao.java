@@ -1,9 +1,9 @@
 package cn.llf.framework.dao.impl.mongo;
 
+import cn.eleven.common.dao.MDSpringDaoTemplate;
 import cn.llf.framework.model.mongo.PracticeAnswerPaper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import priv.llf.commons.dao.MDSpringDaoTemplate;
 
 /**
  * @author: eleven

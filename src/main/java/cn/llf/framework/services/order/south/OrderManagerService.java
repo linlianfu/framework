@@ -1,5 +1,6 @@
 package cn.llf.framework.services.order.south;
 
+import cn.eleven.common.dao.Page;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.services.order.args.AggregateQuery;
@@ -8,7 +9,6 @@ import cn.llf.framework.services.order.dto.AggregateBuyerOrderInfo;
 import cn.llf.framework.services.order.dto.OrderForm;
 import cn.llf.framework.services.order.dto.UserOrderStatisticsDto;
 import cn.llf.framework.services.order.enums.CategoryType;
-import priv.llf.mybatis.support.Page;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public interface OrderManagerService {
       * @param query
       * @return
       */
-     Page<UserOrderStatisticsDto> pageUserOrderStatistic(Page page,AggregateQuery query);
+     Page<UserOrderStatisticsDto> pageUserOrderStatistic(Page page, AggregateQuery query);
      /**
       * 用户订单分类统计
       * @param page

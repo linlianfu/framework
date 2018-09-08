@@ -1,11 +1,11 @@
 package cn.llf.framework.services.unit.south;
 
+import cn.eleven.common.dao.Page;
 import cn.llf.framework.model.mongo.Unit;
 import cn.llf.framework.services.unit.dto.UnitQuery;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.validation.annotation.Validated;
-import priv.llf.mybatis.support.Page;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

@@ -1,11 +1,11 @@
 package cn.llf.framework.dao.mapper;
 
+import cn.eleven.common.dao.Page;
 import cn.llf.framework.model.mybatis.UserInfo;
 import org.apache.ibatis.annotations.*;
 import priv.llf.mybatis.constant.MapKeyConstant;
 import priv.llf.mybatis.constant.MapperSqlMethod;
 import priv.llf.mybatis.sql.BaseSqlProvider;
-import priv.llf.mybatis.support.Page;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public interface UserInfoMapper{
      * @return
      */
     @SelectProvider(type = BaseSqlProvider.class, method = MapperSqlMethod.FIND_PAGE)
-    List<UserInfo> findPage(@Param(MapKeyConstant.ENTITY) UserInfo userInfo, @Param(Page.PAGE_KEY) Page page);
+    List<UserInfo> findPage(@Param(MapKeyConstant.ENTITY) UserInfo userInfo, @Param("PAGE") Page page);
 
 
 

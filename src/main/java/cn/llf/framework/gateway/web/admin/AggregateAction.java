@@ -1,5 +1,6 @@
 package cn.llf.framework.gateway.web.admin;
 
+import cn.eleven.common.dao.Page;
 import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
 import cn.llf.framework.model.mongo.Order;
 import cn.llf.framework.services.order.args.AggregateQuery;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import priv.llf.mybatis.support.Page;
 
 import javax.validation.Valid;
 import java.util.List;

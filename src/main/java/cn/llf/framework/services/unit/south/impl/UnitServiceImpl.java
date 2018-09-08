@@ -1,5 +1,6 @@
 package cn.llf.framework.services.unit.south.impl;
 
+import cn.eleven.common.dao.Page;
 import cn.llf.framework.dao.impl.mongo.UnitDaoImpl;
 import cn.llf.framework.model.mongo.Unit;
 import cn.llf.framework.services.unit.dto.District;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import priv.llf.mybatis.support.Page;
 
 import java.util.List;
 

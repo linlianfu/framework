@@ -1,5 +1,6 @@
 package cn.llf.framework.services.order.south.impl;
 
+import cn.eleven.common.dao.Page;
 import cn.llf.framework.dao.impl.mongo.OrderDao;
 import cn.llf.framework.model.mongo.GoodsSaleCount;
 import cn.llf.framework.model.mongo.Order;
@@ -28,7 +29,6 @@ import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import priv.llf.mybatis.support.Page;
 
 import java.util.*;
 
