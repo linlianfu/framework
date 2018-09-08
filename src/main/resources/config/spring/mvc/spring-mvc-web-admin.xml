@@ -7,8 +7,6 @@
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.0.xsd
-
-
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
@@ -19,7 +17,7 @@
     <!--全局拦截输入的格式为fastjson格式-->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
-            <bean class="cn.llf.framework.gateway.intercept.WriteFastJsonHttpMessageConverter">
+            <bean class="cn.eleven.common.intercept.WriteFastJsonHttpMessageConverter">
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>

@@ -1,6 +1,6 @@
 package cn.llf.framework.services.order.args;
 
-import cn.llf.framework.QueryBean;
+import cn.eleven.common.bean.superbean.QueryBean;
 import cn.llf.framework.services.order.enums.MasterOrderStatus;
 import lombok.Data;
 

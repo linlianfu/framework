@@ -1,12 +1,11 @@
 package cn.llf.framework.model.mongo;
 
-import cn.llf.framework.DataBaseBean;
+import cn.eleven.common.bean.superbean.PersistentBean;
+import cn.eleven.common.date.DateUtil;
 import cn.llf.framework.services.order.enums.MasterOrderStatus;
-import cn.llf.framework.utils.DateUtil;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  */
 @Data
 @Document(collection = "order")
-public class Order implements DataBaseBean{
+public class Order implements PersistentBean {
     /**
      * id
      */
@@ -49,7 +48,7 @@ public class Order implements DataBaseBean{
     /**
      * 订单创建时间
      */
-    private String date = DateUtil.toString(new Date(),DateUtil.PATTEN_TO_SECOND);
+    private String date = DateUtil.getCurrentDateString(DateUtil.DatePatten.PATTEN_TO_SECOND);
     /**
      * 主订单总金额
      */

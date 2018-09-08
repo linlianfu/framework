@@ -28,17 +28,17 @@
     <!--<aop:aspectj-autoproxy/>-->
     <!--&lt;!&ndash;通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller &ndash;&gt;-->
     <aop:aspectj-autoproxy proxy-target-class="true" />
-    <bean id="globalServiceLogIntercept" class="cn.llf.framework.gateway.intercept.GlobalServiceLogIntercept"/>
+    <!--<bean id="globalServiceLogIntercept" class="cn.eleven.common.intercept.GlobalServiceLogIntercept"/>-->
 
-    <!--全局的service层的方法调用都会被记录日志-->
-    <aop:config>
-        <aop:aspect id="class" ref="globalServiceLogIntercept">
-          <aop:pointcut id="log" expression="execution(* cn.llf.framework.services..*.*(..))"/>
-          <aop:before method="preHandle" pointcut-ref="log"/>
-          <aop:after method="afterCompletion" pointcut-ref="log"/>
-        </aop:aspect>
-    </aop:config>
+    <!--&lt;!&ndash;全局的service层的方法调用都会被记录日志&ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--<aop:aspect id="class" ref="globalServiceLogIntercept">-->
+          <!--<aop:pointcut id="log" expression="execution(* cn.llf.framework.services..*.*(..))"/>-->
+          <!--<aop:before method="preHandle" pointcut-ref="log"/>-->
+          <!--<aop:after method="afterCompletion" pointcut-ref="log"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
 
     <!--全局的异常拦截-->
-    <bean class="priv.llf.commons.intercept.WrappedHandlerExceptionResolver"/>
+    <bean class="cn.eleven.common.intercept.WrappedHandlerExceptionResolver"/>
 </beans>

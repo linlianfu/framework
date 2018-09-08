@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: eleven
- * @since: 2017/8/17 0017
+ * @author eleven
+ * @since 2017/8/17
  */
 @Data
 public class ReadAndWriterFileUtil {

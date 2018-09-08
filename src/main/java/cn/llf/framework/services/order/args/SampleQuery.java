@@ -1,6 +1,6 @@
 package cn.llf.framework.services.order.args;
 
-import cn.llf.framework.QueryBean;
+import cn.eleven.common.bean.superbean.QueryBean;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 

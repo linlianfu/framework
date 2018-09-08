@@ -1,6 +1,6 @@
 package cn.llf.framework.services.order.dto;
 
-import cn.llf.framework.DataBaseBean;
+import cn.eleven.common.bean.superbean.PersistentBean;
 import cn.llf.framework.services.order.enums.CategoryType;
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  * @description: 订单统计对象
  */
 @Data
-public class OrderStatisticsDto implements DataBaseBean {
+public class OrderStatisticsDto implements PersistentBean {
     /**
      * 类目
      */

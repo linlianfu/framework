@@ -1,6 +1,6 @@
 package cn.llf.framework.services.order.dto;
 
-import cn.llf.framework.FormBean;
+import cn.eleven.common.bean.superbean.FormBean;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @description:
  */
 @Data
-public class OrderForm implements FormBean{
+public class OrderForm implements FormBean {
     /**
      * 书包购买数量
      */

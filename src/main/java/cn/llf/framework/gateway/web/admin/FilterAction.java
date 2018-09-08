@@ -10,9 +10,9 @@ import priv.llf.ability.course.south.model.mybatis.Course;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author: eleven
- * @since: 2018/7/12 22:06
- * @description:
+ * @author eleven
+ * @since 2018/7/12
+ * @description
  */
 @Slf4j
 @Controller
