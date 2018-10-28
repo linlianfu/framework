@@ -4,13 +4,45 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 营业点管理-->
-<mapper namespace="cn.llf.framework.model.mybatis.UserInfo">
+<mapper namespace="cn.llf.framework.model.mybatis.UserInfoPO">
 
 <!--查询人员对应的信息 -->
-	<select id="findUser" parameterType="String"  resultType="java.util.Map">
-        select * from user_info
+	<insert id="add" parameterType="userInfoPo" >
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select REPLACE(UUID(),"-","")
+		</selectKey>
+		INSERT INTO user_info VALUES(#{id},#{name},#{age},#{tel})
+	</insert>
+
+	<delete id="deleteByAge" parameterType="int">
+        delete from user_info WHERE age = #{_parameter}
+	</delete>
+
+	<update id="updateByAge" parameterType="userInfoPo">
+		<if test="age > 0 ">
+			UPDATE user_info
+			<set>
+				<if test="name != null and name != ''">
+					name = #{name}
+				</if>
+				<if test="tel != null and tel != ''">
+					tel = #{tel}
+				</if>
+			</set>
+			WHERE age=#{age}
+		</if>
+	</update>
+
+	<select id="list" parameterType="userInfoPo"  resultType="userInfoPo">
+       SELECT  * FROM  user_info
+       <where>
+		   <if test="id != null and id !=''">
+			   id = #{id}
+		   </if>
+		   <if test="name != null and name != ''">
+			   name = #{name}
+		   </if>
+	   </where>
 	</select>
-
-
 
 </mapper>
