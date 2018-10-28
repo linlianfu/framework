@@ -50,6 +50,12 @@
       <artifactId>eleven-common</artifactId>
       <version>${eleven-common}</version>
     </dependency>
+    <!--zookeeper分布式锁-->
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-recipes</artifactId>
+      <version>4.0.1</version>
+    </dependency>
 
     <!--dubbo-->
     <dependency>
