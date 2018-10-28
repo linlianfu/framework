@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
         <property name="slowSqlMillis" value="3000"/>
         <property name="logSlowSql" value="true"/>
@@ -75,4 +75,16 @@
         <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
         <!--<property name="timeBetweenLogStatsMillis" value="300000"/>-->
     </bean>
+
+    <!-- 声明式事务管理 配置事物的注解方式注入,强制使用CGLIB动态代理，针对controller和service都起作用-->
+    <!--高版本的spring已经实现了代理方式的自动切换，即使没有声明强制使用cglib代理方式，也可以实现对没有实现接口
+    的类的事物管理，-->
+    <!--如果要实现对controller层的事物管理，则需要在对应的mvc配置文件启动事物管理，否则controller的没有事物管理-->
+    <tx:annotation-driven  transaction-manager="txManager" proxy-target-class="true"/>
+    <!-- 配置事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--事物管理的对象，通常直接是数据库-->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
 </beans>
