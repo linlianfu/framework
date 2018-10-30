@@ -64,4 +64,48 @@ public class UserManagerServiceImpl implements IUserManagerService {
         List<UserInfoPO> list = dao.list(query);
         return list;
     }
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public UserInfoPO simulationDeadLockSessionA(int deleteAge,UserInfoPO entity){
+        dao.deleteByAge(deleteAge);
+        log.warn("sessionA进入睡眠5S，模拟业务处理耗时");
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.warn("sessionA睡眠结束，开始执行add操作");
+
+        dao.add(entity);
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.warn("sessionA执行完成， 等待5S，等待sessionB执行到第二部，等待死锁+");
+        log.warn("sessionA请求结束");
+        return entity;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public UserInfoPO simulationDeadLockSessionB(List<UserInfoPO> entityList) {
+
+        dao.add(entityList.get(0));
+        log.warn("sessionB进入睡眠5S，等待sessionA执行第二步骤");
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.warn("sessionB睡眠结束，开始执行第二条的add操作");
+        UserInfoPO userInfoPO = new UserInfoPO();
+        userInfoPO.setTel("89");
+        userInfoPO.setAge(16);
+        userInfoPO.setName("temp");
+        dao.add(userInfoPO);
+        return userInfoPO;
+    }
 }

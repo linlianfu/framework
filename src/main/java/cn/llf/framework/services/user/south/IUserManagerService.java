@@ -35,4 +35,25 @@ public interface IUserManagerService {
      * @return
      */
     List<UserInfoPO> list(UserInfoPO query);
+
+    /**
+     * 模拟死锁的sessionA
+     * 1.先删除指定年龄的数据，获取年龄的间隙锁
+     * 2.休息5s，等待sessionB请求添加数据，获取指定电话的行锁
+     * 3.添加和sessionB一样电话为B的数据，模拟sessionA进入锁等待状态，等待sessionB占用锁
+     * @param deleteAge
+     * @param entity
+     * @return
+     */
+    UserInfoPO simulationDeadLockSessionA(int deleteAge,UserInfoPO entity);
+    /**
+     * 模拟死锁的sessionB
+     * 1.sessionA删除数据之后，发起该请求，请求添加的电话数据假设为 B；
+     * 2.休息5s，等待sessionA执行第三步骤；
+     * 3.执行添加第二条数据，第二条数据年龄必须在sessionA第一步获取到的间隙范围内，此时应该抛出死锁异常
+     * @param entityList
+     * @return
+     */
+    UserInfoPO simulationDeadLockSessionB(List<UserInfoPO> entityList);
+
 }

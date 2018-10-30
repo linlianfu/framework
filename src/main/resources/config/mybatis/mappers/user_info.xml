@@ -17,6 +17,9 @@
 	<delete id="deleteByAge" parameterType="int">
         delete from user_info WHERE age = #{_parameter}
 	</delete>
+	<delete id="deleteByTel" parameterType="String">
+        delete from user_info WHERE tel = #{_parameter}
+	</delete>
 
 	<update id="updateByAge" parameterType="userInfoPo">
 		<if test="age > 0 ">

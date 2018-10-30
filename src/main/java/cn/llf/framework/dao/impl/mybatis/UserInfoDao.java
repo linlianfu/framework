@@ -1,5 +1,6 @@
 package cn.llf.framework.dao.impl.mybatis;
 
+import cn.eleven.common.utils.CheckUtls;
 import cn.llf.framework.model.mybatis.UserInfoPO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -25,12 +26,14 @@ public class UserInfoDao extends BaseMybatisDaoImpl<String,UserInfoPO> {
     }
 
     public void deleteByAge(int age){
-        int delete = getSqlSession().delete("deleteByAge", age);
-        if (delete > 0 )
-            log.info("delete success");
-        else
+        int deleteCount = getSqlSession().delete("deleteByAge", age);
+        log.info("delete rowCount:{}",deleteCount);
 
-            log.info("delete failure");
+    }
+    public void deleteByTel(String tel){
+        CheckUtls.notBlank(tel,"电话删除条件不能为空");
+        int deleteCount = getSqlSession().delete("deleteByTel", tel);
+        log.info("delete rowCount:{}",deleteCount);
     }
 
     public void update(UserInfoPO entity){
