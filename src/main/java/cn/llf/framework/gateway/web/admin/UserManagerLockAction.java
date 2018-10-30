@@ -45,6 +45,7 @@ public class UserManagerLockAction {
      * 1.先删除指定年龄的数据，获取年龄的间隙锁
      * 2.休息5s，等待sessionB请求添加数据，获取指定电话的行锁
      * 3.添加和sessionB一样电话为B的数据，模拟sessionA进入锁等待状态，等待sessionB占用锁
+     * 4.执行完后等待5S，等待sessionB也执行到最后
      * @param deleteAge
      * @param entity
      * @return
@@ -64,6 +65,7 @@ public class UserManagerLockAction {
      */
     @PostMapping(value = "simulationDeadLockSessionB")
     public UserInfoPO simulationDeadLockSessionB(@RequestBody UserInfoPO entityList){
+        // TODO: 2018/10/30  数组接收不到？
         return service.simulationDeadLockSessionB(Collections.singletonList(entityList));
     }
 
