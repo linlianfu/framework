@@ -1,12 +1,15 @@
 package cn.llf.framework.services.user.south.impl;
 
-import cn.eleven.common.except.BasicRuntimeException;
+import cn.eleven.common.exception.BasicRuntimeException;
 import cn.llf.framework.dao.impl.mybatis.UserInfoDao;
 import cn.llf.framework.model.mybatis.UserInfoPO;
+import cn.llf.framework.services.user.UserErrorCodeConst;
 import cn.llf.framework.services.user.south.IUserManagerService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,20 +27,37 @@ public class UserManagerServiceImpl implements IUserManagerService {
 
     @Autowired
     UserInfoDao dao;
+    @Autowired
+    PlatformTransactionManager platformTransactionManager;
+
+
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public UserInfoPO add(UserInfoPO po) {
         po = dao.add(po);
         log.warn("第一天数据增加成功，主键id：{}",po.getId());
-        po.setTel(po.getTel()+"-1");
-        if (po.getTel().contains("-1"))
-            throw new BasicRuntimeException("测试异常抛出");
-        po = dao.add(po);
-        log.warn("第二条数据增加成功，主键id：{}",po.getId());
+//        po.setIdentity(po.getIdentity()+"-1");
+//        if (po.getIdentity().contains("-1"))
+//            throw new BasicRuntimeException("测试异常抛出");
+//        po = dao.add(po);
+//        log.warn("第二条数据增加成功，主键id：{}",po.getId());
         return po;
     }
 
+    @Override
+    public List<UserInfoPO> saveUserBatch(List<UserInfoPO> list) {
+        if (CollectionUtils.isNotEmpty(list)){
+            list.forEach(p-> {
+                if (p.getIdentity().contains("1111")){
+                    throw new BasicRuntimeException(UserErrorCodeConst.ILLEAGE_ERROR_CODE);
+                }
+                UserInfoPO add = dao.add(p);
+                log.warn("添加成功的主键id：{}",add.getId());
+            });
+        }
+        return list;
+    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -50,7 +70,11 @@ public class UserManagerServiceImpl implements IUserManagerService {
             e.printStackTrace();
         }
         log.warn("删除的线程延时结束，提交事务");
+    }
 
+    @Override
+    public void deleteByIdentity(String identity) {
+        dao.deleteByIdentity(identity);
     }
 
     @Override
@@ -102,7 +126,7 @@ public class UserManagerServiceImpl implements IUserManagerService {
         }
         log.warn("sessionB睡眠结束，开始执行第二条的add操作");
         UserInfoPO userInfoPO = new UserInfoPO();
-        userInfoPO.setTel("89");
+        userInfoPO.setIdentity("87888");
         userInfoPO.setAge(16);
         userInfoPO.setName("temp");
         dao.add(userInfoPO);

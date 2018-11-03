@@ -11,14 +11,14 @@
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			select REPLACE(UUID(),"-","")
 		</selectKey>
-		INSERT INTO user_info VALUES(#{id},#{name},#{age},#{tel})
+		INSERT INTO user_info VALUES(#{id},#{name},#{age},#{identity})
 	</insert>
 
 	<delete id="deleteByAge" parameterType="int">
         delete from user_info WHERE age = #{_parameter}
 	</delete>
-	<delete id="deleteByTel" parameterType="String">
-        delete from user_info WHERE tel = #{_parameter}
+	<delete id="deleteByIdentity" parameterType="String">
+        delete from user_info WHERE identity = #{_parameter}
 	</delete>
 
 	<update id="updateByAge" parameterType="userInfoPo">
@@ -26,10 +26,10 @@
 			UPDATE user_info
 			<set>
 				<if test="name != null and name != ''">
-					name = #{name}
+					name = #{name},
 				</if>
-				<if test="tel != null and tel != ''">
-					tel = #{tel}
+				<if test="@org.apache.commons.lang.StringUtils@isNotBlank(identity)">
+					identity = #{identity}
 				</if>
 			</set>
 			WHERE age=#{age}
@@ -40,7 +40,7 @@
        SELECT  * FROM  user_info
        <where>
 		   <if test="id != null and id !=''">
-			   id = #{id}
+			   id = #{id},
 		   </if>
 		   <if test="name != null and name != ''">
 			   name = #{name}

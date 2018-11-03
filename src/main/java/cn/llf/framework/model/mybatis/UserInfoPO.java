@@ -25,9 +25,9 @@ public class UserInfoPO implements PersistentBean {
      */
     private int age;
     /**
-     * 用户电话
+     * 用户身份证
      */
-    private String tel;
+    private String identity;
 
 
 }

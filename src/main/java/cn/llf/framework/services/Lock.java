@@ -1,6 +1,6 @@
 package cn.llf.framework.services;
 
-import cn.eleven.common.except.BasicRuntimeException;
+import cn.eleven.common.exception.BasicRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.curator.RetryPolicy;

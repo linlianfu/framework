@@ -19,10 +19,22 @@ public interface IUserManagerService {
     UserInfoPO add(UserInfoPO po);
 
     /**
+     * 批量添加用户，测试基于AOP的事务作用
+     * @param list
+     * @return
+     */
+    List<UserInfoPO> saveUserBatch(List<UserInfoPO> list);
+
+    /**
      * 删除用户
      * @param age
      */
     void deleteByAge(int age);
+    /**
+     * 删除用户
+     * @param identity
+     */
+    void deleteByIdentity(String identity);
 
     /**
      * 更新用户

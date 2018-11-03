@@ -27,11 +27,26 @@ public class UserManagerLockAction {
     public UserInfoPO add(@RequestBody UserInfoPO form){
          return service.add(form);
     }
+
+    /**
+     * 批量保存用户数据。测试AOP事务
+     * @param list
+     * @return
+     */
+    @PostMapping(value = "saveBatch")
+    public List<UserInfoPO> saveBatch(@RequestBody List<UserInfoPO> list){
+        return service.saveUserBatch(list);
+    }
+
     @GetMapping(value = "deleteByAge")
     public void deleteByAge(int age){
         service.deleteByAge(age);
     }
-    @PostMapping(value = "update")
+    @DeleteMapping(value = "deleteByIdentity")
+    public void deleteByIdentity(String identity){
+        service.deleteByIdentity(identity);
+    }
+    @PutMapping(value = "update")
     public void update(@RequestBody UserInfoPO form){
         service.update(form);
     }
@@ -45,7 +60,7 @@ public class UserManagerLockAction {
      * 1.先删除指定年龄的数据，获取年龄的间隙锁
      * 2.休息5s，等待sessionB请求添加数据，获取指定电话的行锁
      * 3.添加和sessionB一样电话为B的数据，模拟sessionA进入锁等待状态，等待sessionB占用锁
-     * 4.执行完后等待5S，等待sessionB也执行到最后
+     * 4.执行完后等待5S，等待sessionB也执行到最后，观察死锁
      * @param deleteAge
      * @param entity
      * @return
