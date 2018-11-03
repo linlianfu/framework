@@ -88,6 +88,7 @@
     <!--高版本的spring已经实现了代理方式的自动切换，即使没有声明强制使用cglib代理方式，也可以实现对没有实现接口
     的类的事物管理，-->
     <!--如果要实现对controller层的事物管理，则需要在对应的mvc配置文件启动事物管理，否则controller的没有事物管理-->
+    <!--该作用是启动支持@Transactional事务的申明-->
     <tx:annotation-driven  transaction-manager="txManager" proxy-target-class="true"/>
 
 
