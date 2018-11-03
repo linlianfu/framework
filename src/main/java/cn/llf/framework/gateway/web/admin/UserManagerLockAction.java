@@ -2,6 +2,7 @@ package cn.llf.framework.gateway.web.admin;
 
 import cn.llf.framework.model.mybatis.UserInfoPO;
 import cn.llf.framework.services.user.south.IUserManagerService;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UserManagerLockAction {
      */
     @PostMapping(value = "saveBatch")
     public List<UserInfoPO> saveBatch(@RequestBody List<UserInfoPO> list){
-        return service.saveUserBatch(list);
+        return service.saveUserBatch(JSON.parseArray(JSON.toJSONString(list), UserInfoPO.class));
     }
 
     @GetMapping(value = "deleteByAge")
