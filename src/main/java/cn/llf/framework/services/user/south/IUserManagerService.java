@@ -19,11 +19,17 @@ public interface IUserManagerService {
     UserInfoPO add(UserInfoPO po);
 
     /**
-     * 批量添加用户，测试基于AOP的事务作用
+     * 批量添加用户，测试基于AOP的事务作用,AOP切面事务匹配的是service层save开头的方法
      * @param list
      * @return
      */
-    List<UserInfoPO> saveUserBatch(List<UserInfoPO> list);
+    List<UserInfoPO> saveUserBatchByAOPTransactionManager(List<UserInfoPO> list);
+    /**
+     * 批量添加用户，测试基于AOP的事务不对非save开头的方法起作用,AOP切面事务匹配的是service层save开头的方法
+     * @param list
+     * @return
+     */
+    List<UserInfoPO> excludeByAOPTransactionManagerSaveUserBatch(List<UserInfoPO> list);
 
     /**
      * 删除用户

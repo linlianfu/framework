@@ -36,7 +36,16 @@ public class UserManagerLockAction {
      */
     @PostMapping(value = "saveBatch")
     public List<UserInfoPO> saveBatch(@RequestBody List<UserInfoPO> list){
-        return service.saveUserBatch(JSON.parseArray(JSON.toJSONString(list), UserInfoPO.class));
+        return service.saveUserBatchByAOPTransactionManager(JSON.parseArray(JSON.toJSONString(list), UserInfoPO.class));
+    }
+    /**
+     * 批量保存用户数据。测试AOP事务不对非save开头的方法起作用
+     * @param list
+     * @return
+     */
+    @PostMapping(value = "excludeByAOPTransactionManagerSaveUserBatch")
+    public List<UserInfoPO> excludeByAOPTransactionManagerSaveUserBatch(@RequestBody List<UserInfoPO> list){
+        return service.excludeByAOPTransactionManagerSaveUserBatch(JSON.parseArray(JSON.toJSONString(list), UserInfoPO.class));
     }
 
     @GetMapping(value = "deleteByAge")

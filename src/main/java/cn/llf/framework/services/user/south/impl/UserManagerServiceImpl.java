@@ -46,7 +46,7 @@ public class UserManagerServiceImpl implements IUserManagerService {
     }
 
     @Override
-    public List<UserInfoPO> saveUserBatch(List<UserInfoPO> list) {
+    public List<UserInfoPO> saveUserBatchByAOPTransactionManager(List<UserInfoPO> list) {
         if (CollectionUtils.isNotEmpty(list)){
             list.forEach(p-> {
                 if (p.getIdentity().contains("1111")){
@@ -57,6 +57,10 @@ public class UserManagerServiceImpl implements IUserManagerService {
             });
         }
         return list;
+    }
+    @Override
+    public List<UserInfoPO> excludeByAOPTransactionManagerSaveUserBatch(List<UserInfoPO> list) {
+        return saveUserBatchByAOPTransactionManager(list);
     }
 
     @Override
