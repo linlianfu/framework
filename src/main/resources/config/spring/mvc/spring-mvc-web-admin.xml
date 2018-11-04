@@ -20,4 +20,25 @@
             <bean class="cn.eleven.common.intercept.WriteFastJsonHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <!--<mvc:annotation-driven conversion-service="conversionService">-->
+        <!--<mvc:argument-resolvers>-->
+            <!--<bean-->
+        <!--</mvc:argument-resolvers>-->
+    <!--</mvc:annotation-driven>-->
+    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
+        <!--<property name="converters">-->
+            <!--<list>-->
+                <!--<bean class="cn.llf.framework.gateway.interceptor.JsonArrayToListConverter"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 </beans>
