@@ -29,16 +29,7 @@
         </property>
     </bean>
 
-    <!--<mvc:annotation-driven conversion-service="conversionService">-->
-        <!--<mvc:argument-resolvers>-->
-            <!--<bean-->
-        <!--</mvc:argument-resolvers>-->
-    <!--</mvc:annotation-driven>-->
-    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
-        <!--<property name="converters">-->
-            <!--<list>-->
-                <!--<bean class="cn.llf.framework.gateway.interceptor.JsonArrayToListConverter"/>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <!--使用格式化的参数转换解析器，支持数组对象的接收-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+    <mvc:annotation-driven conversion-service="conversionService"/>
 </beans>
