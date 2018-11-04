@@ -30,20 +30,20 @@ public class RequestAdvice {
 
     /**
      * 直接在通知方法定义切点
-     * @param joinpoint
+     * @param joinPoint
      */
-    @Before("execution(* cn.llf.framework.services..*.*(..))")
-    public void before(JoinPoint joinpoint){
+    @Before("pointcut()")
+    public void before(JoinPoint joinPoint){
 
         log.warn(">>>>>前置通知");
     }
 
     /**
      * 引用定义好的切点
-     * @param joinpoint
+     * @param joinPoint
      */
     @After("pointcut()")
-    public void after(JoinPoint joinpoint){
+    public void after(JoinPoint joinPoint){
         log.warn(">>>>>后置通知");
     }
 
