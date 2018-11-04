@@ -4,9 +4,8 @@ import cn.llf.framework.dao.impl.mybatis.BillDao;
 import cn.llf.framework.model.mybatis.Bill;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -25,8 +24,7 @@ public class BillAction {
     @Autowired
     BillDao billDao;
 
-    @ResponseBody
-    @RequestMapping(value = "listBill",method = RequestMethod.GET)
+    @GetMapping(value = "listBill")
     public List<Bill> listBill(){
         List<Bill> result = new ArrayList<>();
         result = billDao.getSqlSession().selectList("listBillConfig");
