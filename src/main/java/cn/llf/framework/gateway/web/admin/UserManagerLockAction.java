@@ -60,6 +60,7 @@ public class UserManagerLockAction {
     public void update(@RequestBody UserInfoPO form){
         service.update(form);
     }
+
     @GetMapping(value = "list")
     public List<UserInfoPO> list(@ModelAttribute UserInfoPO form){
         return service.list(form);

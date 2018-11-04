@@ -1,6 +1,7 @@
 package cn.llf.framework.services.user.south.impl;
 
 import cn.eleven.common.exception.BasicRuntimeException;
+import cn.llf.framework.annotation.MethodInvocationStatistic;
 import cn.llf.framework.dao.impl.mybatis.UserInfoDao;
 import cn.llf.framework.model.mybatis.UserInfoPO;
 import cn.llf.framework.services.user.UserErrorCodeConst;
@@ -88,6 +89,7 @@ public class UserManagerServiceImpl implements IUserManagerService {
     }
 
     @Override
+    @MethodInvocationStatistic(methodName = "获取用户分页数据")
     public List<UserInfoPO> list(UserInfoPO query) {
         List<UserInfoPO> list = dao.list(query);
         return list;
