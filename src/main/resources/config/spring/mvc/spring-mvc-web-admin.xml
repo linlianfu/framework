@@ -11,6 +11,12 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 指定搜索自动装配组件的路径 -->
+    <!--该标签实现的部分内容：
+        1.内部注册一个参数解析器conversionService，为FormattingConversionServiceFactoryBean的实例，前端参数会自动转换绑定到
+        对象上就是此功能实现的
+        2.默认注册一个校验框架，所以controller的@valid能起作用也是此处设置的；
+
+    -->
     <mvc:annotation-driven/>
     <!--平台层web测请求入口所在的控制器-->
     <context:component-scan base-package="cn.llf.framework.gateway.web.admin"/>
@@ -30,6 +36,7 @@
     </bean>
 
     <!--使用格式化的参数转换解析器，支持数组对象的接收-->
+    <!--该格式化的-->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
     <mvc:annotation-driven conversion-service="conversionService"/>
 </beans>
