@@ -1,6 +1,6 @@
-package cn.llf.spring;
+package cn.llf.spring.bean;
 
-import cn.llf.spring.bean.Car;
+import cn.llf.spring.dto.Car;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
