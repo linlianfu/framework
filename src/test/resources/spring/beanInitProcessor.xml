@@ -10,4 +10,5 @@
           p:color="黑色"
           p:count="1220"/>
     <bean id="myBeanPostProcessor" class="cn.llf.spring.bean.MyBeanPostProcessor"/>
+    <bean class="cn.llf.spring.bean.MyInstantiationAwareBeanPostProcessorAdapter"/>
 </beans>
