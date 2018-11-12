@@ -3,11 +3,14 @@ package cn.llf.spring.bean;
 import cn.llf.spring.dto.Car;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
@@ -17,8 +20,12 @@ import java.io.IOException;
  * @description
  */
 @Slf4j
+@RunWith(value = SpringJUnit4ClassRunner.class)
+@ContextConfiguration(value = "/spring/beanInitProcessor.xml")
 public class BeanTest {
 
+//    @Autowired
+//    BeanInitProcessorService beanInitProcessor;
     @Test
     public void test() throws IOException {
 //        log.info("111");
@@ -37,6 +44,14 @@ public class BeanTest {
         //实例化bean，如果bean是singleton，则第二次调用直接从缓存去，不会再实例化bean
         Car bean = beanFactory.getBean(Car.class);
         bean.introduce();
+
+    }
+
+
+    @Test
+    public void beanInitProcessorTest(){
+
+        log.warn("========================请查看控制台打印序号");
 
     }
 
