@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 /**
  * @author eleven
  * @date 2018/11/12
- * @description
+ * @description spring ioc容器级别的后置处理器，spring创建任何的bean的时候，这些后处理器都会起作用，可以业务代码实现对感兴趣的bean处理
  */
 @Slf4j
 public class MyBeanPostProcessor implements BeanPostProcessor {
