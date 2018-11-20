@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import priv.llf.ability.course.south.arg.CourseQuery;
 import priv.llf.ability.course.south.dto.CourseDto;
 
 import java.util.Collections;
@@ -31,6 +32,15 @@ public class CourseAction extends AbstractFrameWorkAction{
     @PostMapping(value = "addCourse")
     public void addCourse(){
 
+    }
+
+    /**
+     * 模拟参数没有使用注解绑定，springMVC可以自动绑定参数到model
+     * @param query
+     */
+    @GetMapping(value = "getCourse")
+    public void getCourse(CourseQuery query){
+        log.info(query.toString());
     }
 
     @GetMapping(value = "listCourse")
