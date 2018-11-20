@@ -40,7 +40,7 @@ public class CourseAction extends AbstractFrameWorkAction{
      */
     @GetMapping(value = "getCourse")
     public void getCourse(CourseQuery query){
-        log.info(query.toString());
+         log.info(query.toString());
     }
 
     @GetMapping(value = "listCourse")
