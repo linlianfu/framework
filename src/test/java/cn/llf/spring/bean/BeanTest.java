@@ -26,6 +26,19 @@ public class BeanTest {
 
 //    @Autowired
 //    BeanInitProcessorService beanInitProcessor;
+
+    /**
+     * 测试bean的生命周期
+     * 1.初始化beanFactory：将spring的配置文件信息装入到bean定义注册表{@link org.springframework.beans.factory.support.BeanDefinitionRegistry}中，
+     * 但此时bean还未初始化
+     * 2.调用工厂后处理器：根据反射机制从BeanDefinitionRegistry中找出所有实现了{@link org.springframework.beans.factory.config.BeanFactoryPostProcessor}的接口
+     * 调用唯一的接口方法{postProcessBeanFactory}，该方法目前可以实现初始化一些配置文件，比如配置了数据库配置文件的systemProperty文件等信息；
+     * 3.注册bean后处理器：根据反射机制从BeanDefinitionRegistry中找出所有实现了{@link org.springframework.beans.factory.config.BeanPostProcessor}的bean
+     * 并将他们注册到容器bean后处理器表中
+     * 4.还有其他一系列操作，这里不在描述
+     * 5.初始化所有单例模式的bean，除了懒加载模式的bean外；初始化后将他们放到spring的缓存容器中；
+     * @throws IOException
+     */
     @Test
     public void test() throws IOException {
 //        log.info("111");

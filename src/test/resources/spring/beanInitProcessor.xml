@@ -9,6 +9,9 @@
           destroy-method="myDestroy"
           p:color="黑色"
           p:count="1220"/>
+    <!--测试BeanPostProcessor执行顺序-->
     <bean id="myBeanPostProcessor" class="cn.llf.spring.bean.MyBeanPostProcessor"/>
+    <!--测试InstantiationAwareBeanPostProcessorAdapter生命周期-->
     <bean class="cn.llf.spring.bean.MyInstantiationAwareBeanPostProcessorAdapter"/>
+    <bean class="cn.llf.spring.bean.SystemPropertyBeanFactoryPostProcessor"/>
 </beans>
