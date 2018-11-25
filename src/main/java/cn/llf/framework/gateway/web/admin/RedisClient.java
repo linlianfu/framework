@@ -4,7 +4,6 @@ import cn.llf.framework.model.mybatis.UserInfo;
 import com.alibaba.fastjson.JSONObject;
 import redis.clients.jedis.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,8 +83,8 @@ public class RedisClient {
 
         String key = "java";
         UserInfo userInfo = new UserInfo();
-        userInfo.setSalary(new BigDecimal(200));
-        userInfo.setUserName("林连福");
+        userInfo.setAge(20);
+        userInfo.setName("林连福");
 
         jedis.set(key, JSONObject.toJSONString(userInfo));
         System.out.println(jedis.get(key));
