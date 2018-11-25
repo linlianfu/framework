@@ -55,6 +55,11 @@ public class DriveManager {
                 userInfo.setIdentity(identity);
                 log.info("查询集合：{}",userInfo.toString());
             }
+
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT into user_info values(REPLACE(UUID(),'-',''),'java_driver',22,'312315050')");
+            int updateCount = insertStatement.executeUpdate();
+            log.info("update count：{}",updateCount);
+            connection.close();
         } catch (SQLException e) {
             log.error("数据库连接失败");
             e.printStackTrace();
