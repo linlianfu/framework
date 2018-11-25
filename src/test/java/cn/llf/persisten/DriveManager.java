@@ -28,8 +28,7 @@ public class DriveManager {
     @Autowired
     SystemProperty systemProperty;
 
-    @Test
-    public void testGetData(){
+    public Connection getConnection(){
         String dataBaseDriver = systemProperty.getProperty("database.driver");
         String dataBaseUrl = systemProperty.getProperty("database.url");
         String user = systemProperty.getProperty("database.user");
@@ -40,7 +39,19 @@ public class DriveManager {
         dataSource.setUsername(user);
         dataSource.setPassword(password);
         try {
-            Connection connection = dataSource.getConnection();
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("数据库连接失败");
+        }
+        return null;
+    }
+
+    @Test
+    public void testGetData(){
+
+        try {
+            Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM  user_info");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
@@ -61,7 +72,6 @@ public class DriveManager {
             log.info("update count：{}",updateCount);
             connection.close();
         } catch (SQLException e) {
-            log.error("数据库连接失败");
             e.printStackTrace();
         }
 
