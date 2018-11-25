@@ -24,7 +24,7 @@ public class SystemPropertyTest {
     @Test
     public void getContext(){
         String exportUrl = system.getProperty("exportUrl");
-        log.info(">>>>>",exportUrl);
+        log.info(">>>>>导入路径：{}",exportUrl);
 
     }
 }

@@ -33,7 +33,7 @@ public class SystemPropertyPlaceholderConfigurer extends PropertyPlaceholderConf
     public String getProperty(String key){
         String value = "";
         value = systemPropertyMap.getOrDefault(key,"");
-        log.debug("获取的key:{},value:{}");
+        log.debug("获取的key:{},value:{}",key,value);
         return value;
     }
 
