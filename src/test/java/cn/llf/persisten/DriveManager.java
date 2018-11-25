@@ -51,7 +51,7 @@ public class DriveManager {
                 UserInfo userInfo = new UserInfo();
                 userInfo.setId(id);
                 userInfo.setName(name);
-                userInfo.setAge(Integer.parseInt(identity));
+                userInfo.setAge(Integer.parseInt(age));
                 userInfo.setIdentity(identity);
                 log.info("查询集合：{}",userInfo.toString());
             }
