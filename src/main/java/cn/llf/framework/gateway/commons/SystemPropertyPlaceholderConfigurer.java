@@ -1,5 +1,6 @@
 package cn.llf.framework.gateway.commons;
 
+import cn.llf.framework.utils.prop.SystemProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -15,7 +16,7 @@ import java.util.Properties;
  * @description
  */
 @Slf4j
-public class SystemPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
+public class SystemPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer implements SystemProperty{
 
     public Map<String,String> systemPropertyMap = new HashMap<>();
 
@@ -30,6 +31,7 @@ public class SystemPropertyPlaceholderConfigurer extends PropertyPlaceholderConf
 
     }
 
+    @Override
     public String getProperty(String key){
         String value = "";
         value = systemPropertyMap.getOrDefault(key,"");

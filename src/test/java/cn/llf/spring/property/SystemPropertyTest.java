@@ -1,6 +1,6 @@
 package cn.llf.spring.property;
 
-import cn.llf.framework.gateway.commons.SystemPropertyPlaceholderConfigurer;
+import cn.llf.framework.utils.prop.SystemProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SystemPropertyTest {
 
     @Autowired
-    SystemPropertyPlaceholderConfigurer system;
+    SystemProperty system;
 
     @Test
     public void getContext(){
