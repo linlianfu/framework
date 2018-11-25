@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
     <bean id="elearningPropertiesPlaceholderConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+          class="cn.llf.framework.gateway.commons.SystemPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:/config/properties/*.properties</value>
