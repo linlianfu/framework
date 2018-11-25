@@ -22,7 +22,7 @@ public class SystemPropertyPlaceholderConfigurer extends PropertyPlaceholderConf
     @Override
     protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess, Properties props) throws BeansException {
         super.processProperties(beanFactoryToProcess, props);
-        
+
         for (Object key : props.keySet()) {
             Object value = props.get(key);
             systemPropertyMap.put(key.toString(),value.toString());
