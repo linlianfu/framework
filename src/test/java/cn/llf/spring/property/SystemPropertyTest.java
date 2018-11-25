@@ -23,6 +23,9 @@ public class SystemPropertyTest {
 
     @Test
     public void getContext(){
+        //考虑递归情况，再property文件中，本身也可以直接使用${}引用其他变量，
+        //countyId=350101
+        //比如：regionPath = 350000/350100/${countyId},则regionPath实际值为350000/350100/350101
         String exportUrl = system.getProperty("exportUrl");
         log.info(">>>>>导入路径：{}",exportUrl);
 
