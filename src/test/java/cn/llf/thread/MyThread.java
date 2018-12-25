@@ -30,7 +30,9 @@ public class MyThread extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-           notify();
+            synchronized (AsyncThread.lock){
+                AsyncThread.lock.notify();
+            }
         }
         log.info("异步任务结束，唤醒主线程");
     }
