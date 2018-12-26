@@ -77,6 +77,7 @@ public class MyThread extends Thread{
 //                TimeUnit.SECONDS.sleep(5);
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
+////                break;
 //            }
 //        }
 //        log.info(">>>>>【子线程】运行结束");
@@ -99,6 +100,7 @@ public class MyThread extends Thread{
                 TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException e) {
                 //try-catch之后，通过break正确停止子线程
+//                e.printStackTrace();
                 log.error(">>>>>阻塞中断异常,通过break正确停止子线程");
                 break;
             }
@@ -107,12 +109,8 @@ public class MyThread extends Thread{
     }
 
 
-    public void logInfo(){
-        log.info("方法延时");
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            log.info("》》》》》线程延时异常");
-        }
+    private void logInfo() throws InterruptedException {
+        log.info("测试不同方法同属一个线程id");
+        TimeUnit.SECONDS.sleep(3);
     }
 }

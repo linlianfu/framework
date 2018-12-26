@@ -92,12 +92,19 @@ public class AsyncThread {
         log.info(">>>>>【主线程】启动【子线程】");
         myThread.start();
         try {
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         log.info(">>>>>【主线程】中断【子线程】");
         myThread.interrupt();
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         log.info("子线程异常停止之后，判断子线程是否还是活动状态，myThread.isAlive()：【{}】",myThread.isAlive());
 
         if (myThread.isAlive()){
