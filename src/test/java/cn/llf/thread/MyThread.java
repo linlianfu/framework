@@ -23,24 +23,24 @@ public class MyThread extends Thread{
     /**
      * 测试线程和唤醒
      */
-//    public void run(){
-//        log.info("异步线程【{}】开始执行,延时5s",name);
-//        try {
-//            TimeUnit.SECONDS.sleep(10);
-//            log.info("通知唤醒等待的线程");
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        //把代码块也整合到同步代块内，会导致该子线程会一直占用lock锁，
-//        //导致主线程无法获取lock的对象锁，所以主线程设置lock.wait(5000)5S超时会无效
-//        synchronized (lock){
-//            log.info("异步线程执行结束");
-//            //wait和notify等方法必须拥有的对象锁，否则会抛出 IllegalMonitorStateException异常，
-//            // 表示当前线程没有拥有该对象锁，确调用过了wait和notify等方法
-//            lock.notify();
-//        }
-//    }
+    public void run(){
+        log.info(">>>>>子线程【{}】开始执行,延时1s",name);
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //如果把业务代码块也整合到同步代块内，会导致该子线程会一直占用lock锁，
+        //导致主线程无法获取lock的对象锁，所以主线程设置lock.wait(2000)5S超时会无效,实际会等到子线程运行结束主线程才会被唤醒
+        synchronized (lock){
+            log.info(">>>>>子线程执行结束，唤醒主线程");
+            //wait和notify等方法必须拥有的对象锁，否则会抛出 IllegalMonitorStateException异常，
+            // 表示当前线程没有拥有该对象锁，却调用过了wait和notify等方法
+            //唤醒主线程
+            lock.notify();
+        }
+    }
 
 
     /**
@@ -86,27 +86,27 @@ public class MyThread extends Thread{
     /**
      * 测试线程中断-阻塞中断正常
      */
-    @Override
-    public void run() {
-        log.info(">>>>>【子线程】开始执行");
-        log.info(">>>>>【子线程】启动睡眠等待");
-//        for (int i=0; i<100;i++ ){
-//            log.info(""+i);
+//    @Override
+//    public void run() {
+//        log.info(">>>>>【子线程】开始执行");
+//        log.info(">>>>>【子线程】启动睡眠等待");
+////        for (int i=0; i<100;i++ ){
+////            log.info(""+i);
+////        }
+//        while (!this.isInterrupted()){
+//            //模拟子线程处于阻塞状态
+//            try {
+//                logInfo();
+//                TimeUnit.SECONDS.sleep(5);
+//            } catch (InterruptedException e) {
+//                //try-catch之后，通过break正确停止子线程
+////                e.printStackTrace();
+//                log.error(">>>>>阻塞中断异常,通过break正确停止子线程");
+//                break;
+//            }
 //        }
-        while (!this.isInterrupted()){
-            //模拟子线程处于阻塞状态
-            try {
-                logInfo();
-                TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException e) {
-                //try-catch之后，通过break正确停止子线程
-//                e.printStackTrace();
-                log.error(">>>>>阻塞中断异常,通过break正确停止子线程");
-                break;
-            }
-        }
-        log.info(">>>>>【子线程】运行结束");
-    }
+//        log.info(">>>>>【子线程】运行结束");
+//    }
 
 
     private void logInfo() throws InterruptedException {
