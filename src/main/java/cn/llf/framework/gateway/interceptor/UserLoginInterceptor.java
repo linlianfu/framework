@@ -1,6 +1,9 @@
 package cn.llf.framework.gateway.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -13,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
  * @description 用户登录拦截器
  */
 @Slf4j
-public class UserLoginInterceptor extends HandlerInterceptorAdapter {
+public class UserLoginInterceptor extends HandlerInterceptorAdapter implements ApplicationContextAware {
+
+    private ApplicationContext applicationContext;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -29,5 +34,10 @@ public class UserLoginInterceptor extends HandlerInterceptorAdapter {
 //        res.put("code","403");
 //        writer.print(res.toString());
         return true;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = this.applicationContext;
     }
 }
