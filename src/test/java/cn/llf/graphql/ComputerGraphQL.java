@@ -3,8 +3,11 @@ package cn.llf.graphql;
 import cn.llf.graphql.dto.ComputerDTO;
 import cn.llf.graphql.dto.CpuDTO;
 import cn.llf.graphql.dto.MemoryDTO;
+import graphql.ExecutionResult;
 import graphql.GraphQL;
+import graphql.GraphQLError;
 import graphql.Scalars;
+import graphql.schema.GraphQLArgument;
 import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLList;
 import graphql.schema.GraphQLObjectType;
@@ -18,11 +21,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author eleven
  * @date 2019/1/22
  * @description
+ *
+ *
+ * http://www.zhaiqianfeng.com/2017/06/learn-graphql-action-by-java.html
+ *
+ * query查询及mutation动作：https://github.com/zhaiqianfeng/GraphQL-Demo/blob/master/java/src/main/java/com/zqf/advance/GraphQL_argument.java
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -84,13 +93,58 @@ public class ComputerGraphQL {
 
         GraphQL graphQL = GraphQL.newGraphQL(schema).build();
 
-        Map<String, Object> result = graphQL.execute("{computer{name,cpu{name,cache},memoryList{name,size}}}")
-                .getData();
+        ExecutionResult execute = graphQL.execute("{computer{name,cpu{name,cache},memory1List{name,size}}}");
+        Map<String, Object> dataMap = execute.getData();
+        List<GraphQLError> errors = execute.getErrors();
 
         // 打印返回结果
-        System.out.println(result);
+        System.out.println("成功数据："+dataMap);
+        System.out.println("失败数据："+errors);
+    }
 
 
+    @Test
+    public void buildGraphQLWithArgument(){
+        CpuDTO cpuType1 = new CpuDTO();
+        cpuType1.setId(UUID.randomUUID().toString());
+        cpuType1.setName("I7");
+        cpuType1.setCache("19M");
+        cpuType1.setCpuType(1);
+        CpuDTO cpuType2 = new CpuDTO();
+        cpuType2.setName("I7");
+        cpuType2.setCache("19M");
+        cpuType2.setCpuType(2);
+        CpuDTO cpuType3 = new CpuDTO();
+        cpuType3.setName("I7");
+        cpuType3.setCache("19M");
+        cpuType3.setCpuType(3);
+
+        GraphQLObjectType basicOutPutType = GraphQLObjectType.newObject().name("basicField")
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("id").type(Scalars.GraphQLString).build())
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("name").type(Scalars.GraphQLString).build())
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("cpuType").type(Scalars.GraphQLString).build())
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("cache").type(Scalars.GraphQLString).build()).build();
+
+        GraphQLObjectType cpuDtoObjectType = GraphQLObjectType.newObject().name("getCpuDto")
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("cpuDto").type(basicOutPutType)
+                        .argument(GraphQLArgument.newArgument().name("id").type(Scalars.GraphQLString).build())
+                        .dataFetcher(e -> {
+                            String id = e.getArgument("id");
+                            log.info("参数id:{}",id);
+                            return cpuType1;
+                        })
+                ).build();
+
+        GraphQLSchema schema = GraphQLSchema.newSchema().query(cpuDtoObjectType).build();
+        GraphQL graphQL = GraphQL.newGraphQL(schema).build();
+
+        String schemeQuery = "{cpuDto(id:\"111\"){id,name,cache,cpuType}}";
+
+        ExecutionResult execute = graphQL.execute(schemeQuery);
+        Map<String,Object> map = execute.getData();
+        List<GraphQLError> errors = execute.getErrors();
+        log.info("success:{}",map);
+        log.error("error:{}",errors);
     }
 
 }

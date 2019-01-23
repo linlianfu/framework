@@ -10,6 +10,14 @@ import lombok.Data;
 @Data
 public class CpuDTO {
     /**
+     * 主键id
+     */
+    private String id;
+    /**
+     * cpu型号类型
+     */
+    private int cpuType;
+    /**
      * cpu名字
      */
     private String name;
