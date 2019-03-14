@@ -42,7 +42,7 @@ public class UserManagerAction {
             log.error("获取锁失败");
             e.printStackTrace();
         }
-        log.warn("name:{},region:{}",query.getName(),query.getRegion());
+        log.warn(">>>>>name:{},region:{}",query.getName(),query.getRegion());
 
         List<UserBaseDto> userBaseDtos = userQueryService.listBase(query);
         List<UserBaseDto> secondList = userQueryService.listBase(query);
