@@ -8,7 +8,7 @@
             <property name="namespace" value="cn.llf.framework"/>
             <property name="zkAddressList">
                   <list>
-                        <value>127.0.0.1</value>
+                        <value>${zookeeperAddress}</value>
                   </list>
             </property>
       </bean>
