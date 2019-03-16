@@ -20,6 +20,7 @@ public class RequestAdvice {
 
     public RequestAdvice(){
         log.warn("实例化");
+        log.info(">>>>请时刻关注《开源中国》，关注前沿技术");
     }
 
     /**
