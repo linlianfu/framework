@@ -3,7 +3,7 @@ package cn.llf.framework.gateway.web.admin;
 import cn.eleven.basic.data.user.south.api.IUserQueryService;
 import cn.eleven.basic.data.user.south.api.arg.UserQuery;
 import cn.eleven.basic.data.user.south.api.dto.UserBaseDto;
-import cn.llf.framework.services.Lock;
+import cn.eleven.common.zookeeper.LockFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +29,11 @@ public class UserManagerAction {
     private IUserQueryService userQueryService;
 
     @Autowired
-    private Lock lock;
+    private LockFactory lockFactory;
 
     @GetMapping("listBase")
     public List<UserBaseDto> listBase(@ModelAttribute UserQuery query){
-        InterProcessMutex interProcessMutex = lock.getInterProcessMutex("user");
+        InterProcessMutex interProcessMutex = lockFactory.getInterProcessMutex("user");
         try {
             interProcessMutex.acquire();
             Collection<String> participantNodes = interProcessMutex.getParticipantNodes();
@@ -57,7 +57,7 @@ public class UserManagerAction {
     }
     @GetMapping("lock")
     public List<UserBaseDto> lock(@ModelAttribute UserQuery query){
-        InterProcessMutex interProcessMutex = lock.getInterProcessMutex("lock");
+        InterProcessMutex interProcessMutex = lockFactory.getInterProcessMutex("lock");
 //        try {
 //            interProcessMutex.acquire();
 //        } catch (Exception e) {
