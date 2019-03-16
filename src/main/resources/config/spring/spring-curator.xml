@@ -5,7 +5,7 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
       <bean class="cn.eleven.common.zookeeper.CuratorFrameworkFactoryBean" id="curatorFramework">
-            <property name="namespace" value="cn.llf.framework"/>
+            <property name="namespace" value="cn/llf/framework"/>
             <property name="zkAddressList">
                   <list>
                         <value>${zookeeperAddress}</value>
