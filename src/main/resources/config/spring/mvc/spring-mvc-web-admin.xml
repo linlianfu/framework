@@ -38,8 +38,9 @@
         </property>
     </bean>
 
-    <!--使用格式化的参数转换解析器，支持数组对象的接收-->
-    <!--该格式化的-->
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
-    <mvc:annotation-driven conversion-service="conversionService"/>
+    <!--todo 为什么和自己的cn.eleven.common.intercept.WriteFastJsonHttpMessageConverter冲突-->
+    <!--&lt;!&ndash;使用格式化的参数转换解析器，支持数组对象的接收&ndash;&gt;-->
+    <!--&lt;!&ndash;该格式化的&ndash;&gt;-->
+    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>-->
+    <!--<mvc:annotation-driven conversion-service="conversionService"/>-->
 </beans>
