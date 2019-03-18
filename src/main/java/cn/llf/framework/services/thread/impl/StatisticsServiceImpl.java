@@ -1,6 +1,7 @@
 package cn.llf.framework.services.thread.impl;
 
 import cn.llf.framework.services.thread.IStatisticsService;
+import cn.llf.framework.services.thread.support.ThreadProcessTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class StatisticsServiceImpl implements IStatisticsService {
     @Override
     public String print(String message) {
 
-//        for (int i = 0;i<=10;i++){
-//            taskExecutor.execute(new ThreadProcessTask());
-//        }
+        for (int i = 0;i<=10;i++){
+            taskExecutor.execute(new ThreadProcessTask());
+        }
         return "执行完毕";
     }
 }
