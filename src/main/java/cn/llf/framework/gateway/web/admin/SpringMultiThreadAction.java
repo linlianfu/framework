@@ -24,6 +24,6 @@ public class SpringMultiThreadAction {
      */
     @GetMapping(value = "statistics")
     public String statistics(){
-        return statisticsService.print("trst");
+        return statisticsService.print("test");
     }
 }
