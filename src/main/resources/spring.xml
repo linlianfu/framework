@@ -21,7 +21,7 @@
     <import resource="classpath:/config/spring/spring_dubbo-consumer.xml"/>
     <import resource="classpath:/config/spring/spring-shell.xml"/>
     <import resource="classpath:/config/spring/spring-curator.xml"/>
-    <import resource="classpath:/config/spring/spring-multi-thread.xml"/>
+    <import resource="classpath:/config/spring/spring-thread-pool.xml"/>
     <bean id="cacheSupport" class="cn.llf.framework.cache.CacheSupport" init-method="initMethod">
         <property name="projectName" value="framework"/>
     </bean>
