@@ -138,4 +138,14 @@ public class UserManagerServiceImpl implements IUserManagerService {
         dao.add(userInfoPO);
         return userInfoPO;
     }
+
+
+    @Override
+    public UserInfoPO memory() {
+        UserInfoPO po = new UserInfoPO();
+        po.setAge(234);
+        po.setIdentity("350524192121");
+        po.setName("eleven");
+        return po;
+    }
 }

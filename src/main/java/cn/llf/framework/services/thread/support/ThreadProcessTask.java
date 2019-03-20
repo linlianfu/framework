@@ -1,6 +1,9 @@
 package cn.llf.framework.services.thread.support;
 
+import cn.llf.framework.model.mybatis.UserInfoPO;
+import cn.llf.framework.services.user.south.IUserManagerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author eleven
@@ -20,10 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ThreadProcessTask implements Runnable {
 
+
+    @Autowired
+    private IUserManagerService userManagerService;
+
     @Override
     public void run() {
 
         log.info(">>>>>线程[{}]开始执行任务",Thread.currentThread().getName());
+        UserInfoPO memory = userManagerService.memory();
+        log.info("调用用户服务返回结果:{}",memory);
 //        try {
 ////            TimeUnit.SECONDS.sleep(10);
 //
@@ -36,7 +45,7 @@ public class ThreadProcessTask implements Runnable {
             i++;
             if (i >=100)
                 break;
-            log.info(">>>>>线程【{}】统计中",Thread.currentThread().getName());
+//            log.info(">>>>>线程【{}】统计中",Thread.currentThread().getName());
         }
         log.info(">>>>>线程[{}]执行结束",Thread.currentThread().getName());
     }

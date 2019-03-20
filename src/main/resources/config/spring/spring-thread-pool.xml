@@ -10,10 +10,10 @@
         <!-- 允许的空闲时间 -->
         <property name="keepAliveSeconds" value="200" />
         <!-- 线程池维护线程的最大数量 -->
-        <property name="maxPoolSize" value="10" />
+        <property name="maxPoolSize" value="6" />
         <!-- 缓存队列 -->
         <property name="queueCapacity" value="1" />
-        <!-- 对拒绝task的处理策略 -->
+        <!-- 对拒绝task的处理策略，覆盖掉默认的抛异常策略AbortPolicy，改由主线程执行 -->
         <property name="rejectedExecutionHandler">
             <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
         </property>

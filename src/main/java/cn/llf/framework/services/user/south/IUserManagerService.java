@@ -78,4 +78,9 @@ public interface IUserManagerService {
      */
     UserInfoPO simulationDeadLockSessionB(List<UserInfoPO> entityList);
 
+    /**
+     * 内存模拟返回一个数据
+     * @return
+     */
+    UserInfoPO memory();
 }
