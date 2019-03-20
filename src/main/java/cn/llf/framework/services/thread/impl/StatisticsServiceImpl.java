@@ -25,8 +25,16 @@ public class StatisticsServiceImpl implements IStatisticsService {
     @Override
     public String print(String message) {
         log.info("有活动的线程数:{}",taskExecutor.getActiveCount());
-        for (int i = 0;i<=29;i++){
+        for (int i = 0;i<=10;i++){
+            log.info(">>>>>>>>>>开始创建第【{}】线程",i);
+            log.info("当前正在执行任务的线程数:{}",taskExecutor.getActiveCount());
+            log.info("核心线程数:{}",taskExecutor.getCorePoolSize());
+            log.info("最大线程数:{}",taskExecutor.getMaxPoolSize());
+            log.info("当前线程存在的总线程数:{}",taskExecutor.getPoolSize());
+            log.info("线程队列处理长度:{}",taskExecutor.getThreadPoolExecutor().getQueue().size());
             taskExecutor.execute(new ThreadProcessTask());
+            log.info(">>>>>>>>>>第【{}】线程创建完成",i);
+            log.info("");
         }
         long completedTaskCount = taskExecutor.getThreadPoolExecutor().getCompletedTaskCount();
         log.info("已经执行完成的任务数:{}",completedTaskCount);
