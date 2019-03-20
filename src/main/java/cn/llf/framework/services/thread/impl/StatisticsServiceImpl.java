@@ -26,7 +26,7 @@ public class StatisticsServiceImpl implements IStatisticsService {
     public String print(String message) {
         log.info("有活动的线程数:{}",taskExecutor.getActiveCount());
         for (int i = 0;i<=29;i++){
-            taskExecutor.execute(new ThreadProcessTask());
+            taskExecutor.execute(new ThreadProcessTask() );
         }
         long completedTaskCount = taskExecutor.getThreadPoolExecutor().getCompletedTaskCount();
         log.info("已经执行完成的任务数:{}",completedTaskCount);
