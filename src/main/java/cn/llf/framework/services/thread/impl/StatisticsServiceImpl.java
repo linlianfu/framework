@@ -23,9 +23,9 @@ import org.springframework.stereotype.Service;
 public class StatisticsServiceImpl implements IStatisticsService, ApplicationContextAware {
 
     @Autowired
-    ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolTaskExecutor taskExecutor;
 
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
     @Override
     public String print(String message) {
         log.info("有活动的线程数:{}",taskExecutor.getActiveCount());
@@ -50,10 +50,10 @@ public class StatisticsServiceImpl implements IStatisticsService, ApplicationCon
 
 
         //如果线程执行shutdown之后，后续线程不会再次执行任务，如果线程池的话，需要考虑是否调用shutdown
-        //shutdownNow：后续线程不会再执行任务
-        //shutdown：
-        log.info("执行线程shutdown");
-        taskExecutor.getThreadPoolExecutor().shutdownNow();
+        //shutdownNow：后续线程不会再执行任务，并且尝试中断正在执行的任务，返回正在等待执行的任务列表（等待队列的任务，而不是正在执行的任务）
+        //shutdown：启动一次有序的关闭，之前提交的任务执行，但不接受新任务，这个方法不会等待之前提交的任务执行完毕
+//        log.info("执行线程shutdown");
+//        taskExecutor.getThreadPoolExecutor().shutdownNow();
         return "执行完毕";
     }
 
