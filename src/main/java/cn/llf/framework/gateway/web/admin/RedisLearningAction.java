@@ -30,7 +30,7 @@ public class RedisLearningAction {
     @Resource(name = "billConfig")
     BillConfigImpl billConfigImpl;
 
-//    @Resource(name = "jedisConnectionFactory")
+    @Resource(name = "jedisConnectionFactory")
     JedisConnectionFactory jedisConnectionFactory;
 
     Jedis jedis = null;
