@@ -22,6 +22,7 @@
     <import resource="classpath:/config/spring/spring-shell.xml"/>
     <import resource="classpath:/config/spring/spring-curator.xml"/>
     <import resource="classpath:/config/spring/spring-thread-pool.xml"/>
+    <!--<import resource="classpath:/config/spring/spring-transaction.xml"/>-->
     <bean id="cacheSupport" class="cn.llf.framework.cache.CacheSupport" init-method="initMethod">
         <property name="projectName" value="framework"/>
     </bean>

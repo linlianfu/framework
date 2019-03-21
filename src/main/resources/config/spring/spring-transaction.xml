@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 配置事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--事物管理的对象，通常直接是数据库-->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 声明式事务管理 配置事物的注解方式注入,强制使用CGLIB动态代理，针对controller和service都起作用-->
+    <!--高版本的spring已经实现了代理方式的自动切换，即使没有声明强制使用cglib代理方式，也可以实现对没有实现接口
+    的类的事物管理，-->
+    <!--如果要实现对controller层的事物管理，则需要在对应的mvc配置文件启动事物管理，否则controller的没有事物管理-->
+    <!--该作用是启动支持@Transactional事务的申明-->
+    <tx:annotation-driven  transaction-manager="txManager" proxy-target-class="true"/>
+
+
+
+    <!--基于aop切面实现的事务管理-->
+    <tx:advice transaction-manager="txManager" id="txAdvice">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRES_NEW"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="interceptorPointCuts" expression="execution(* cn.llf.framework.services..*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts"/>
+    </aop:config>
+
+
+
+
+    <!--事物隔离级别待验证-->
+    <!--参考文章:https://bbs.csdn.net/topics/380127964-->
+    <!--<bean class="org.springframework.transaction.interceptor.TransactionInterceptor">-->
+        <!--<property name="transactionManager" ref="txManager"></property>-->
+        <!--<property name="transactionAttributes">-->
+            <!--<props>-->
+                <!--<prop key="*">PROPAGATION_REQUIRED,-Exception</prop>-->
+                <!--<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>-->
+                <!--<prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>-->
+                <!--<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+</beans>
