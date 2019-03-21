@@ -32,13 +32,14 @@ public class StatisticsServiceImpl implements IStatisticsService, ApplicationCon
         AutowireCapableBeanFactory autowireCapableBeanFactory = applicationContext.getAutowireCapableBeanFactory();
         for (int i = 0;i<=10;i++){
             log.info(">>>>>>>>>>开始创建第【{}】线程",i);
-            log.info("当前正在执行任务的线程数:{}",taskExecutor.getActiveCount());
-            log.info("核心线程数:{}",taskExecutor.getCorePoolSize());
-            log.info("最大线程数:{}",taskExecutor.getMaxPoolSize());
-            log.info("当前线程存在的总线程数:{}",taskExecutor.getPoolSize());
-            log.info("线程队列处理长度:{}",taskExecutor.getThreadPoolExecutor().getQueue().size());
+//            log.info("当前正在执行任务的线程数:{}",taskExecutor.getActiveCount());
+//            log.info("核心线程数:{}",taskExecutor.getCorePoolSize());
+//            log.info("最大线程数:{}",taskExecutor.getMaxPoolSize());
+//            log.info("当前线程存在的总线程数:{}",taskExecutor.getPoolSize());
+//            log.info("线程队列处理长度:{}",taskExecutor.getThreadPoolExecutor().getQueue().size());
 
             ThreadProcessTask bean = (ThreadProcessTask) autowireCapableBeanFactory.createBean(ThreadProcessTask.class, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, false);
+            bean.setCurrentThreadCount(i);
             taskExecutor.execute(bean);
             log.info(">>>>>>>>>>第【{}】线程创建完成",i);
             log.info("");
@@ -47,6 +48,12 @@ public class StatisticsServiceImpl implements IStatisticsService, ApplicationCon
         log.info("已经执行完成的任务数:{}",completedTaskCount);
         log.info("有活动的线程数:{}",taskExecutor.getActiveCount());
 
+
+        //如果线程执行shutdown之后，后续线程不会再次执行任务，如果线程池的话，需要考虑是否调用shutdown
+        //shutdownNow：后续线程不会再执行任务
+        //shutdown：
+        log.info("执行线程shutdown");
+        taskExecutor.getThreadPoolExecutor().shutdownNow();
         return "执行完毕";
     }
 
