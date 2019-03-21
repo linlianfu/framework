@@ -31,7 +31,7 @@ public class StatisticsServiceImpl implements IStatisticsService, ApplicationCon
         log.info("有活动的线程数:{}",taskExecutor.getActiveCount());
         AutowireCapableBeanFactory autowireCapableBeanFactory = applicationContext.getAutowireCapableBeanFactory();
         for (int i = 0;i<=10;i++){
-            log.info(">>>>>>>>>>开始创建第【{}】线程",i);
+            log.info(">>>>>>>>>>开始创建第【{}】线1程",i);
 //            log.info("当前正在执行任务的线程数:{}",taskExecutor.getActiveCount());
 //            log.info("核心线程数:{}",taskExecutor.getCorePoolSize());
 //            log.info("最大线程数:{}",taskExecutor.getMaxPoolSize());
