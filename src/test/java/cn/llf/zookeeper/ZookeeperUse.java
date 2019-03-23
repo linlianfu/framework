@@ -191,7 +191,7 @@ public class ZookeeperUse implements Watcher {
 //    public static void main(String[] arg){
 //
 //        try {
-//            zooKeeper = new ZooKeeper(connectString,sessionTimeout,new ZookeeperUse());
+//            zooKeeper = getZooKeeper();
 //
 //
 //            countDownLatch.await();
@@ -220,7 +220,7 @@ public class ZookeeperUse implements Watcher {
 //            TimeUnit.SECONDS.sleep(2);
 //
 //
-//        } catch (IOException | InterruptedException | KeeperException e) {
+//        } catch (InterruptedException | KeeperException e) {
 //            e.printStackTrace();
 //        }
 //
@@ -260,7 +260,7 @@ public class ZookeeperUse implements Watcher {
 //
 //        try {
 //            Stat stat = new Stat();
-//            zooKeeper = new ZooKeeper(connectString,sessionTimeout,new ZookeeperUse());
+//            zooKeeper = getZooKeeper();
 //            countDownLatch.await();
 //
 //            //该方法为异步通知机制，也可以适用同步机制
@@ -281,7 +281,7 @@ public class ZookeeperUse implements Watcher {
 ////            log.info(">>>>>数据二次变更");
 ////            stat = zooKeeper.setData(path, "data change".getBytes(), -1);
 ////            log.info(">>>>>数据二次变更完成");
-//        } catch (IOException | InterruptedException e) {
+//        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
 //        catch (KeeperException e) {
@@ -311,7 +311,7 @@ public class ZookeeperUse implements Watcher {
         try {
             String path = "/zk-test";
             Stat stat = new Stat();
-            zooKeeper = new ZooKeeper(connectString,sessionTimeout,new ZookeeperUse());
+            zooKeeper = getZooKeeper();
             byte[] data = zooKeeper.getData(path, true, stat);
             log.info("数据变更之前获取到的数据:{},",new String(data));
             log.info("数据变更之前获取到的元数据:czxid:【{}】,mzxid:【{}】,version:【{}】,",stat.getCzxid(),stat.getMzxid(),stat.getVersion());
@@ -322,8 +322,6 @@ public class ZookeeperUse implements Watcher {
 
             //必须设置此延时函数，否则主线程结束之后，要是回调函数还没通知，则接收不到通知
             TimeUnit.SECONDS.sleep(4);
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (KeeperException e) {
@@ -363,7 +361,7 @@ public class ZookeeperUse implements Watcher {
 
     /**
      * 通用的实现类
-     * @param event
+//     * @param event
      */
 
 //    @Override
@@ -376,4 +374,22 @@ public class ZookeeperUse implements Watcher {
 //            countDownLatch.countDown();
 //        }
 //    }
+
+
+
+
+
+    public static ZooKeeper getZooKeeper(){
+        try {
+            zooKeeper =  new ZooKeeper(connectString,sessionTimeout,new ZookeeperAuth());
+            countDownLatch.await();
+            return zooKeeper;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
