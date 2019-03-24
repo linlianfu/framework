@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
  * @author eleven
  * @date 2019/3/24
  * @description
+ *
+ *   master轮流选举待研究文章：https://blog.csdn.net/qq_34021712/article/details/82880062
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,7 +45,7 @@ public class CuratorFrameworkDemo {
                 log.info("任务执行结束");
             }
         });
-        leaderSelector.autoRequeue();
+//        leaderSelector.autoRequeue();
         leaderSelector.start();
         try {
             TimeUnit.SECONDS.sleep(20);
