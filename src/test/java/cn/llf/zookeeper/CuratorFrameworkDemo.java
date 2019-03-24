@@ -11,11 +11,13 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author eleven
- * @date 2019/3/24
+ * @date 2019/3/
  * @description
  *
  *   master轮流选举待研究文章：https://blog.csdn.net/qq_34021712/article/details/82880062
@@ -31,22 +33,32 @@ public class CuratorFrameworkDemo {
 
     @Test
     public void masterSelect(){
-        CuratorFramework client = CuratorFrameworkFactory.builder()
-                .connectString(connectString)
-                .namespace("curatorFramework")
-                .retryPolicy(new ExponentialBackoffRetry(1000,3))
-                .build();
-        client.start();
-        LeaderSelector leaderSelector = new LeaderSelector(client, masterPath, new LeaderSelectorListenerAdapter() {
-            @Override
-            public void takeLeadership(CuratorFramework client) throws Exception {
-                log.info("开始执行leader任务");
-                TimeUnit.SECONDS.sleep(3);
-                log.info("任务执行结束");
-            }
-        });
-//        leaderSelector.autoRequeue();
-        leaderSelector.start();
+
+        log.info("测试master选举，当leader产生之后，则其他的线程队列变成follower，等待leader放弃领导权，这时候，其他线程队列依次选举为master");
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+
+        for (int i = 0;i <3;i++ ){
+            String name = "线程:"+i;
+            executorService.execute(() -> {
+                CuratorFramework client = CuratorFrameworkFactory.builder()
+                        .connectString(connectString)
+                        .namespace("curatorFramework")
+                        .retryPolicy(new ExponentialBackoffRetry(1000,3))
+                        .build();
+                client.start();
+                LeaderSelector leaderSelector = new LeaderSelector(client, masterPath, new LeaderSelectorListenerAdapter() {
+                    @Override
+                    public void takeLeadership(CuratorFramework client) throws Exception {
+                        log.info("【{}】开始执行leader任务",name);
+                        TimeUnit.SECONDS.sleep(3);
+                        log.info("【{}】任务执行结束",name);
+                    }
+                });
+                leaderSelector.autoRequeue();
+                leaderSelector.start();
+            });
+        }
+
         try {
             TimeUnit.SECONDS.sleep(20);
         } catch (InterruptedException e) {
