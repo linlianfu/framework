@@ -134,4 +134,11 @@ public class CuratorFrameworkDemo {
         log.info("【{}】个线程都执行完毕，结束主线程",threadCount);
 
     }
+
+    /**
+     * spring根据请求切换数据源
+     * 参考文章： https://blog.csdn.net/laojiaqi/article/details/78964862
+     */
+    public void abstractRoutingDataSource(){
+    }
 }
