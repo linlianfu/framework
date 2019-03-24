@@ -12,9 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @author eleven
@@ -92,6 +90,48 @@ public class CuratorFrameworkDemo {
             e.printStackTrace();
         }
         log.info("程序执行完成");
+
+    }
+
+
+    /**
+     * 单机环境下，利用JDK自带的{@link CountDownLatch}和{@link CyclicBarrier}是俺多线程同步
+     */
+    @Test
+    public void CyclicBarrierDemo(){
+
+        int threadCount = 5;
+
+        CountDownLatch countDownLatch = new CountDownLatch(threadCount);
+        CyclicBarrier barrier = new CyclicBarrier(threadCount);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+
+        for (int i = 0 ; i < threadCount ; i++ ) {
+
+            int currentThreadNumber = i;
+            executorService.execute(()->{
+                try {
+                    TimeUnit.SECONDS.sleep(currentThreadNumber);
+                    log.info("线程【{}】准备好了",currentThreadNumber);
+                    //等待threadCount个线程都进入等待状态，才同步执行接下去的代码
+                    barrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    e.printStackTrace();
+                }
+                log.info("线程【{}】开始执行任务",currentThreadNumber);
+                countDownLatch.countDown();
+            });
+        }
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        log.info("【{}】个线程都执行完毕，结束主线程",threadCount);
 
     }
 }
