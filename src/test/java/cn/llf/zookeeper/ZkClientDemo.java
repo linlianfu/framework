@@ -1,6 +1,7 @@
 package cn.llf.zookeeper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooKeeper;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author eleven
@@ -35,6 +37,7 @@ public class ZkClientDemo {
     private  String auth = "foo:true";
     private  String scheme = "digest";
     private ZkClient client = null;
+    private String testZkClientCreatePath = "/test-zk-client-create";
 
 
 
@@ -63,6 +66,13 @@ public class ZkClientDemo {
         Object o = client.readData("/test-zk-client-create");
         log.info("读取到的节点数据:{}",o.toString());
     }
+
+
+    @Test
+    public void createTestZkClientCreateNode(){
+        client.create(testZkClientCreatePath,"我是原始数据",CreateMode.PERSISTENT);
+    }
+
 
     /**
      * 获取子节点并监听子节点变化
@@ -97,4 +107,43 @@ public class ZkClientDemo {
         }
     }
 
+
+    /**
+     * 更新节点数据，并订阅监听
+     */
+    @Test
+    public void updateDataAndSubscribeDataChange(){
+        log.info(">>>>>测试节点数据更新并注册监听");
+        Object originData = client.readData(testZkClientCreatePath);
+        log.info("节点【{}】原始数据【{}】",testZkClientCreatePath, originData.toString());
+         CountDownLatch countDownLatch = new CountDownLatch(2);
+        client.subscribeDataChanges(testZkClientCreatePath, new IZkDataListener() {
+            @Override
+            public void handleDataChange(String dataPath, Object data) throws Exception {
+                log.info("收到节点【{}】的数据更新通知，新的数据",dataPath);
+                countDownLatch.countDown();
+            }
+
+            @Override
+            public void handleDataDeleted(String dataPath) throws Exception {
+                log.info("收到节点【{}】的删除通知",dataPath);
+                countDownLatch.countDown();
+            }
+        });
+
+
+        client.writeData(testZkClientCreatePath,"我是新的数据");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        client.delete(testZkClientCreatePath);
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
