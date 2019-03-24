@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.leader.LeaderSelector;
+import org.apache.curator.framework.recipes.leader.LeaderSelectorListener;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.junit.Test;
@@ -11,9 +12,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author eleven
@@ -31,10 +32,29 @@ public class CuratorFrameworkDemo {
     private static String masterPath = "/curator_master_path";
 
 
+    /**
+     * 待解决问题：如何实现集群中的一个机器执行完之后，整个任务就算完成，不用再去轮询其他机器
+     *
+     * 选举实现的大概流程：
+     *
+     * 1：当多台机器同时像zookeeper执行创建同一个path的节点时候，利用zookeeper的特性，只有一台会创建成功；
+     *      原因：当节点已经存在的时候，如果再创建，则zookeeper会抛出NodeExistsException(具体异常待再次确定)，创建失败
+     * 2：创建成功的机器就是作为master
+     * 3：该代码中主要创建了一个LeaderSelector实例，该实例封装了所有master选举的逻辑，包括和所有zookeeper服务器的交互；
+     * 4：LeaderSelector实例还要求传一个回调函数，当，master选举成功之后，Curator会回调该函数，实现需要的业务逻辑
+     * 5：当一旦执行完回调函数{@link LeaderSelectorListener#takeLeadership(org.apache.curator.framework.CuratorFramework)},
+     *    则当前机器将释放master权力，然后开始新一轮的master选举
+     * 6：如果当前机器需要参加下一次的master选举，则需要调用{@link LeaderSelector#autoRequeue}，该机器才会参加下一此的master选举
+     * 7：当master选举完成之后，其他所有机器都会进入等待队列，等待下一次的master选举
+     *
+     */
     @Test
     public void masterSelect(){
 
         log.info("测试master选举，当leader产生之后，则其他的线程队列变成follower，等待leader放弃领导权，这时候，其他线程队列依次选举为master");
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
         ExecutorService executorService = Executors.newFixedThreadPool(3);
 
         for (int i = 0;i <3;i++ ){
@@ -50,8 +70,9 @@ public class CuratorFrameworkDemo {
                     @Override
                     public void takeLeadership(CuratorFramework client) throws Exception {
                         log.info("【{}】开始执行leader任务",name);
-                        TimeUnit.SECONDS.sleep(3);
+//                        TimeUnit.SECONDS.sleep(3);
                         log.info("【{}】任务执行结束",name);
+                        countDownLatch.countDown();
                     }
                 });
                 leaderSelector.autoRequeue();
@@ -59,11 +80,18 @@ public class CuratorFrameworkDemo {
             });
         }
 
+//        try {
+//            TimeUnit.SECONDS.sleep(20);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        //通过CountDownLatch实现只要有一个机器执行了任务，就结束整个流程，不在等待其他机器再次执行任务，因为任务只要执行一次，不用重复执行
         try {
-            TimeUnit.SECONDS.sleep(20);
+            countDownLatch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        log.info("程序执行完成");
 
     }
 }
