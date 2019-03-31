@@ -9,6 +9,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  */
 public class MultipleDataSourceConfig extends AbstractRoutingDataSource {
 
+    // TODO: 2019/3/31   必须使用线程变量 
     public static String DATA_SOURCE_KEY = "calvin";
 
     @Override
