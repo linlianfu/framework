@@ -28,6 +28,10 @@ public class UserInfoPO implements PersistentBean {
      * 用户身份证
      */
     private String identity;
+    /**
+     * 数据库选择key
+     */
+    private int dataSourceKey;
 
 
 }

@@ -13,7 +13,7 @@
     <import resource="classpath:/config/spring/spring-mybatis.xml"/>
     <import resource="classpath:/config/spring/spring-annotation.xml"/>
     <import resource="classpath:/config/spring/spring-asynchronous-Job.xml"/>
-    <!--<import resource="classpath:/config/spring/spring-redis.xml"/>-->
+    <import resource="classpath:/config/spring/spring-redis.xml"/>
     <!--<import resource="classpath:/config/spring/spring-elasticsearch.xml"/>-->
     <import resource="classpath:/config/spring/spring-mongo.xml"/>
     <import resource="classpath:/config/spring/spring-rocket-mq.xml"/>
