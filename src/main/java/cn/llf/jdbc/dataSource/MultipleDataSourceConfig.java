@@ -9,21 +9,20 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  */
 public class MultipleDataSourceConfig extends AbstractRoutingDataSource {
 
-    // TODO: 2019/3/31   必须使用线程变量
-    public static String DATA_SOURCE_KEY = "calvinDataSource";
+    private static ThreadLocal<String> DATA_SOURCE_KEY = ThreadLocal.withInitial(() -> "calvinDataSource");
 
     @Override
     protected Object determineCurrentLookupKey() {
-        return DATA_SOURCE_KEY;
+        return DATA_SOURCE_KEY.get();
     }
 
 
     public static void setDataSourceKey(int platform){
 
         if (platform == 1){
-            DATA_SOURCE_KEY = "calvinDataSource";
+            DATA_SOURCE_KEY.set("calvinDataSource");
         }else {
-            DATA_SOURCE_KEY = "abilityCourseDataSource";
+            DATA_SOURCE_KEY.set("abilityCourseDataSource");
         }
 
     }
