@@ -15,7 +15,7 @@
         1.内部注册一个参数解析器conversionService，为FormattingConversionServiceFactoryBean的实例，前端参数会自动转换绑定到
         对象上就是此功能实现的
         2.默认注册一个校验框架，所以controller的@valid能起作用也是此处设置的；
-
+        3.注册RequestMappingHandlerMapping与RequestMappingHandlerAdapter，启用mvc注解模式
     -->
     <mvc:annotation-driven/>
     <!--平台层web测请求入口所在的控制器-->
