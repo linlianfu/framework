@@ -46,4 +46,24 @@ public class CommodityManagerServiceImpl implements ICommodityManagerService{
         return list;
 
     }
+
+
+    @Override
+    public List<CommoditySku> lisCommodityBySkuOr() {
+
+        Criteria criteria = new Criteria();
+
+
+
+        Criteria yearCondition = Criteria.where("propertyId").is("year").and("value").is("2021");
+        Criteria subjectCondition = Criteria.where("propertyId").is("subject").and("value").is("public");
+
+
+        criteria.and("propertyList").in(yearCondition.getCriteriaObject(),subjectCondition.getCriteriaObject());
+        List<CommoditySku> list = (List<CommoditySku> )commoditySkuDao.findByQuery(new Query(criteria));
+        list.forEach(p->{
+            log.info(">>>>>>>>>>>>>item:{}",p);
+        });
+        return list;
+    }
 }

@@ -22,8 +22,17 @@ public class CommodityManagerAction {
     @Autowired
     private ICommodityManagerService service;
 
+
+    /**
+     * http://localhost:8080/web/admin/commodityManager/listBySkuProperty
+     * @return
+     */
     @GetMapping(value = "listBySkuProperty")
     public List<CommoditySku> listBySkuProperty(){
         return service.listBySkuProperty();
+    }
+    @GetMapping(value = "lisCommodityBySkuOr")
+    public List<CommoditySku> lisCommodityBySkuOr(){
+        return service.lisCommodityBySkuOr();
     }
 }
