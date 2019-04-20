@@ -13,7 +13,32 @@ import java.util.List;
 public interface ICommodityManagerService {
 
     /**
-     * 根据sku属性值多汁匹配
+     * 根据sku属性值匹配
+     * @see note.youdao.com mongodb nosql使用
+     * <code>对应的query执行语句</code>
+     * <code>
+     *
+     * db.commoditySku.find(
+         {
+             "propertyList":{
+                 "$all":[
+                     {
+                         "$elemMatch":{
+                             "propertyId":"year",
+                             "value":"2018"
+                         }
+                     },
+                     {
+                         "$elemMatch":{
+                             "propertyId":"subject",
+                             "value":"public"
+                         }
+                     }
+                 ]
+             }
+         }
+        )
+     * </code>
      */
     List<CommoditySku> listBySkuProperty();
 }
