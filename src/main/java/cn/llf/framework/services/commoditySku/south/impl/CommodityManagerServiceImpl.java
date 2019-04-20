@@ -17,6 +17,7 @@ import java.util.List;
  * @author eleven
  * @date 2019/4/18
  * @description
+ * spring-data-mongo api操作官方文档:https://docs.spring.io/spring-data/mongodb/docs/2.0.5.RELEASE/reference/html/#mongo.query
  */
 @Slf4j
 @Service("commodityManagerService")
