@@ -1,6 +1,7 @@
 package cn.llf.framework.gateway.web.admin;
 
 import cn.llf.framework.gateway.commons.AbstractFrameWorkAction;
+import cn.llf.framework.gateway.web.admin.dto.CourseDTO;
 import cn.llf.framework.services.course.south.ICourseManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,16 @@ public class CourseAction extends AbstractFrameWorkAction{
         CourseDto courseDto =new CourseDto();
         courseDto.setName("1212");
         return Collections.singletonList(courseDto);
+    }
+
+
+    @GetMapping("course")
+    public CourseDTO course(String id){
+        log.info(">>>>>收到入参[{}]",id);
+        CourseDTO courseDTO = new CourseDTO();
+        courseDTO.setEnable(true);
+        courseDTO.setName("eleven");
+        courseDTO.setId("111111111111222222222222222222");
+        return courseDTO;
     }
 }
