@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import priv.llf.ability.course.south.arg.CourseQuery;
@@ -29,11 +30,6 @@ public class CourseAction extends AbstractFrameWorkAction{
     ICourseManagerService courseManagerService;
 
 
-
-    @PostMapping(value = "addCourse")
-    public void addCourse(){
-
-    }
 
     /**
      * 模拟参数没有使用注解绑定，springMVC可以自动绑定参数到model
@@ -65,6 +61,15 @@ public class CourseAction extends AbstractFrameWorkAction{
         courseDTO.setEnable(true);
         courseDTO.setName("eleven");
         courseDTO.setId("111111111111222222222222222222");
+        return courseDTO;
+    }
+
+    @PostMapping("addCourse")
+    public CourseDTO addCourse(@RequestBody CourseDTO courseDTO){
+        log.info("收到入参:{}",courseDTO);
+        courseDTO.setId("3333333333333333333333333");
+        courseDTO.setName("chinese");
+        courseDTO.setEnable(true);
         return courseDTO;
     }
 }
