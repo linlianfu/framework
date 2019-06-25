@@ -10,6 +10,7 @@
         <property name="mergeSql" value="true"/>
     </bean>
 
+    <!--抽象的数据源配置，是一个抽象类，由具体的子类实例化，这边提取一些公共的属性配置-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           init-method="init"
           destroy-method="close"
@@ -46,10 +47,12 @@
     </bean>
 
 
+    <!--平台库数据源，指定父类的数据源为dataSource，自动继承了其一些基础的属性配置-->
     <bean id="calvinDataSource" parent="dataSource">
         <property name="name" value="calvin"/>
         <property name="url" value="${database.url.calvin}"/>
     </bean>
+    <!--课程读物库数据源，指定父类的数据源为dataSource，自动继承了其一些基础的属性配置-->
     <bean id="abilityCourseDataSource" parent="dataSource">
         <property name="name" value="abilityCourse"/>
         <property name="url" value="${database.url.ability.course}"/>

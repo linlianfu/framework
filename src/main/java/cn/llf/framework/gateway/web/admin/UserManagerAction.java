@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: eleven
@@ -35,25 +37,30 @@ public class UserManagerAction {
     public List<UserBaseDto> listBase(@ModelAttribute UserQuery query){
         InterProcessMutex interProcessMutex = lockFactory.getInterProcessMutex("user");
         try {
-            interProcessMutex.acquire();
-            Collection<String> participantNodes = interProcessMutex.getParticipantNodes();
-            log.warn("{}", participantNodes);
+            boolean acquire = interProcessMutex.acquire(1, TimeUnit.MINUTES);
+            if (acquire){
+                Collection<String> participantNodes = interProcessMutex.getParticipantNodes();
+                log.warn("{}", participantNodes);
+                log.warn(">>>>>name:{},region:{}",query.getName(),query.getRegion());
+
+                List<UserBaseDto> userBaseDtos = userQueryService.listBase(query);
+                List<UserBaseDto> secondList = userQueryService.listBase(query);
+                List<UserBaseDto> thirdList = userQueryService.listBase(query);
+                try {
+                    interProcessMutex.release();
+                } catch (Exception e) {
+                    log.info("释放锁失败");
+                    e.printStackTrace();
+                }
+                return   userQueryService.listBase(query);
+            }else {
+                log.error(">>>>>等待1分钟后还是没有获得锁，请求失败");
+            }
         } catch (Exception e) {
             log.error("获取锁失败");
             e.printStackTrace();
         }
-        log.warn(">>>>>name:{},region:{}",query.getName(),query.getRegion());
-
-        List<UserBaseDto> userBaseDtos = userQueryService.listBase(query);
-        List<UserBaseDto> secondList = userQueryService.listBase(query);
-        List<UserBaseDto> thirdList = userQueryService.listBase(query);
-        try {
-            interProcessMutex.release();
-        } catch (Exception e) {
-            log.info("释放锁失败");
-            e.printStackTrace();
-        }
-        return   userQueryService.listBase(query);
+        return Collections.emptyList();
     }
     @GetMapping("lock")
     public List<UserBaseDto> lock(@ModelAttribute UserQuery query){

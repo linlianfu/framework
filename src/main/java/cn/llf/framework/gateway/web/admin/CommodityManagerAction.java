@@ -1,11 +1,14 @@
 package cn.llf.framework.gateway.web.admin;
 
+import cn.llf.framework.model.mongo.CommoditySku;
 import cn.llf.framework.services.commoditySku.south.ICommodityManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author eleven
@@ -19,8 +22,17 @@ public class CommodityManagerAction {
     @Autowired
     private ICommodityManagerService service;
 
+
+    /**
+     * http://localhost:8080/web/admin/commodityManager/listBySkuProperty
+     * @return
+     */
     @GetMapping(value = "listBySkuProperty")
-    public void listBySkuProperty(){
-        service.listBySkuProperty();
+    public List<CommoditySku> listBySkuProperty(){
+        return service.listBySkuProperty();
+    }
+    @GetMapping(value = "lisCommodityBySkuOr")
+    public List<CommoditySku> lisCommodityBySkuOr(){
+        return service.lisCommodityBySkuOr();
     }
 }
