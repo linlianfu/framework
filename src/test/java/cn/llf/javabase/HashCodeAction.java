@@ -47,4 +47,21 @@ public class HashCodeAction {
 
 
     }
+    @Test
+    public void copyTest(){
+
+        CopyDTO copyDTO = new CopyDTO();
+        CodeDto codeDto = new CodeDto();
+        codeDto.setCode("原始对象");
+        copyDTO.setCodeDto(codeDto);
+        copyDTO.setI(10);
+        log.info("原始对象:{}",copyDTO);
+        CopyDTO clone = null;
+        try {
+            clone = (CopyDTO) copyDTO.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        log.info("clone result:{}",clone);
+    }
 }
