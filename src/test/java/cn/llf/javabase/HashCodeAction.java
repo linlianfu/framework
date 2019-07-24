@@ -33,6 +33,8 @@ public class HashCodeAction {
         log.info(String.valueOf("math的hashcode值为："+math.hashCode()));
         log.info(String.valueOf("chinese的hashcode值为："+chinese.hashCode()));
         log.info(String.valueOf("对象equals是否相等:"+math.equals(chinese)));
+        //==比较的是是否完全是同一个对象，也就是是否在同一片内存空间上
+        //而math和chinese存的分别是指向不同堆内对象的reference。
         log.info(String.valueOf("对象=否相等:"+(math==chinese)));
 
 
