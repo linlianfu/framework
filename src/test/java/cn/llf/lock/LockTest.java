@@ -6,8 +6,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author eleven
  * @date 2019/7/28
@@ -24,7 +22,8 @@ public class LockTest {
 
 
     @Test
-    public void lock(){
+    public void synchronizedLock(){
+
         TicketWindow firstWindow = new TicketWindow(1);
         TicketWindow secondWndow = new TicketWindow(2);
         TicketWindow thirdWindow = new TicketWindow(3);
@@ -32,12 +31,12 @@ public class LockTest {
         secondWndow.start();
         thirdWindow.start();
         while (true){
+            //子线程已经结束，这里为什么不会退出循环？
             if (totalTicket <= 0){
                 log.info(">>>>>>>>");
                 break;
-            }else {
-                log.info("上有余票");
             }
+//            TicketWindow window = new TicketWindow(4);
         }
         log.info(">> 暂无余票，谢谢！");
 
@@ -63,16 +62,16 @@ public class LockTest {
                     if (totalTicket <= 0){
                         break;
                     }
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        TimeUnit.SECONDS.sleep(1);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     totalTicket-- ;
                     log.info(">> 窗口[{}]售卖了第[{}]张票",windowNumber,totalTicket);
                 }
             }
-            log.info(">> 窗口[{}]结束售票",windowNumber);
+            log.info(">> 窗口[{}]结束售票，余票[{}]",windowNumber,totalTicket);
         }
     }
 }
