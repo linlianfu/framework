@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @ContextConfiguration("classpath:common.xml")
 public class LockTest {
 
-    private int totalTicket = 10;
+    private  int totalTicket = 10;
 
     private final Object objectLock = new Object();
 
@@ -36,7 +36,9 @@ public class LockTest {
         secondWindow.start();
         thirdWindow.start();
         while (true){
-            //子线程已经结束，这里为什么不会退出循环？
+            //子线程已经结束，这里为什么不会退出循环？因为每个线程只是修改自己本地内存的值？主内存还是修改器按的值？
+            //当totalTicket使用了volatile修饰之后，不会出现死循环，z
+            // 由此引发另外一个问题:线程内存修改的变量什么时候会同步给煮内存？
             if (totalTicket <= 0){
                 log.info(">>>>>>>>");
                 break;
