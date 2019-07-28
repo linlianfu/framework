@@ -6,6 +6,11 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @author eleven
  * @date 2019/7/28
@@ -16,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration("classpath:common.xml")
 public class LockTest {
 
-    private int totalTicket = 10;
+    private int totalTicket = 100;
 
     private final Object objectLock = new Object();
 
@@ -25,10 +30,10 @@ public class LockTest {
     public void synchronizedLock(){
 
         TicketWindow firstWindow = new TicketWindow(1);
-        TicketWindow secondWndow = new TicketWindow(2);
+        TicketWindow secondWindow = new TicketWindow(2);
         TicketWindow thirdWindow = new TicketWindow(3);
         firstWindow.start();
-        secondWndow.start();
+        secondWindow.start();
         thirdWindow.start();
         while (true){
             //子线程已经结束，这里为什么不会退出循环？
@@ -62,11 +67,6 @@ public class LockTest {
                     if (totalTicket <= 0){
                         break;
                     }
-//                    try {
-//                        TimeUnit.SECONDS.sleep(1);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                     totalTicket-- ;
                     log.info(">> 窗口[{}]售卖了第[{}]张票",windowNumber,totalTicket);
                 }
@@ -74,4 +74,68 @@ public class LockTest {
             log.info(">> 窗口[{}]结束售票，余票[{}]",windowNumber,totalTicket);
         }
     }
+
+
+
+    private Lock lock = new ReentrantLock();
+    @Test
+    public void reentrantLockTest(){
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+        Ticket first = new Ticket(1,countDownLatch);
+        Ticket second = new Ticket(2,countDownLatch);
+        Ticket third = new Ticket(3,countDownLatch);
+        first.start();
+        second.start();
+        third.start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(">>>>>售票完成");
+
+    }
+
+    public class Ticket extends Thread{
+        /**
+         * 窗口编号
+         */
+        private int windowNumber;
+        private CountDownLatch countDownLatch;
+
+        Ticket(int windowNumber,CountDownLatch countDownLatch){
+            this.windowNumber = windowNumber;
+            this.countDownLatch = countDownLatch;
+
+        }
+
+        @Override
+        public void run() {
+            log.info(">> 窗口[{}]开始售票",windowNumber);
+            while (true){
+                boolean acquire = false;
+                try {
+                    acquire = lock.tryLock(2, TimeUnit.MILLISECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if (acquire) {
+                    try {
+                        if (totalTicket <= 0) {
+                            break;
+                        }
+                        totalTicket--;
+                        log.info(">> 窗口[{}]售卖了第[{}]张票", windowNumber, totalTicket);
+                    } finally {
+                        log.info("窗口[{}]释放锁", windowNumber);
+                        lock.unlock();
+                    }
+                }
+            }
+            log.info(">> 窗口[{}]结束售票，余票[{}]",windowNumber,totalTicket);
+            countDownLatch.countDown();
+        }
+    }
+
 }
