@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @ContextConfiguration("classpath:common.xml")
 public class LockTest {
 
-    private int totalTicket = 100;
+    private int totalTicket = 10;
 
     private final Object objectLock = new Object();
 
@@ -130,6 +130,11 @@ public class LockTest {
                     } finally {
                         log.info("窗口[{}]释放锁", windowNumber);
                         lock.unlock();
+//                        try {
+//                            TimeUnit.MILLISECONDS.sleep(500);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                     }
                 }
             }
