@@ -1,6 +1,8 @@
 package cn.llf.lock;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -57,16 +59,13 @@ public class LockTest {
     /**
      * 测试synchronized的实现和应用
      */
+    @AllArgsConstructor
     public class TicketWindow extends Thread{
         /**
          * 窗口编号
          */
         private int windowNumber;
 
-        TicketWindow(int windowNumber){
-            this.windowNumber = windowNumber;
-
-        }
 
         @Override
         public void run() {
@@ -109,6 +108,7 @@ public class LockTest {
 
     }
 
+    @AllArgsConstructor
     public class Ticket extends Thread{
         /**
          * 窗口编号
@@ -120,39 +120,25 @@ public class LockTest {
          */
         private Lock lock;
 
-        Ticket(int windowNumber,CountDownLatch countDownLatch,Lock lock){
-            this.windowNumber = windowNumber;
-            this.countDownLatch = countDownLatch;
-            this.lock = lock;
-        }
-
         @Override
         public void run() {
             log.info(">> 窗口[{}]开始售票",windowNumber);
             while (true){
-                boolean acquire = false;
+                lock.lock();
                 try {
-                    acquire = lock.tryLock(2, TimeUnit.MILLISECONDS);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if (acquire) {
-                    try {
-                        if (totalTicket <= 0) {
-                            break;
-                        }
-                        totalTicket--;
-                        log.info(">> 窗口[{}]售卖了第[{}]张票", windowNumber, totalTicket);
-                    } finally {
-                        log.info("窗口[{}]释放锁", windowNumber);
-                        lock.unlock();
+                    if (totalTicket <= 0) {
+                        break;
+                    }
+                    totalTicket--;
+                    log.info(">> 窗口[{}]售卖了第[{}]张票", windowNumber, totalTicket);
+                } finally {
+                    log.info("窗口[{}]释放锁", windowNumber);
+                    lock.unlock();
 //                        try {
 //                            TimeUnit.MILLISECONDS.sleep(500);
 //                        } catch (InterruptedException e) {
 //                            e.printStackTrace();
 //                        }
-                    }
                 }
             }
             log.info(">> 窗口[{}]结束售票，余票[{}]",windowNumber,totalTicket);
@@ -190,27 +176,21 @@ public class LockTest {
     /**
      * 测试中断响应
      */
+    @AllArgsConstructor
     class InterruptThread extends Thread{
-
-        /**
-         * 线程使用的锁
-         */
-        private  Lock lock;
 
         /**
          * 线程编号
          */
         private int threadNumber;
         /**
+         * 线程使用的锁
+         */
+        private  Lock lock;
+        /**
          * 线程计数器
          */
         private CountDownLatch countDownLatch;
-
-        InterruptThread (int threadNumber,Lock lock,CountDownLatch countDownLatch){
-            this.lock = lock;
-            this.threadNumber = threadNumber;
-            this.countDownLatch = countDownLatch;
-        }
 
         @Override
         public void run() {
@@ -229,6 +209,60 @@ public class LockTest {
                 log.info(">> 线程[{}]释放锁",threadNumber);
             }
 
+        }
+    }
+
+
+    /**
+     * 测试获取锁失败重新获取
+     */
+    @Test
+    public void testTryLock(){
+        Lock lock = new ReentrantLock();
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+
+        TryLockThread thread = new TryLockThread(1,lock,countDownLatch);
+        TryLockThread thread2 = new TryLockThread(2,lock,countDownLatch);
+        thread.start();
+        thread2.start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(">> 主线程结束");
+    }
+
+    @AllArgsConstructor
+    class TryLockThread extends Thread{
+        /**
+         * 线程编号
+         */
+        private int threadNumber;
+        /**
+         * 应用的锁
+         */
+        private Lock lock;
+
+        private CountDownLatch countDownLatch;
+
+        @Override
+        public void run() {
+
+            try {
+                while (!lock.tryLock(1, TimeUnit.SECONDS)){
+                    log.info(">> 线程[{}]获取锁失败",threadNumber);
+                }
+                log.info(">> 线程[{}]获取锁",threadNumber);
+                TimeUnit.SECONDS.sleep(5);
+                log.info(">> 线程[{}]完成业务流程",threadNumber);
+            }catch (Exception e){
+                log.info(">> 线程[{}]异常：{}",threadNumber, ExceptionUtils.getStackTrace(e));
+            }finally {
+                lock.unlock();
+                countDownLatch.countDown();
+                log.info(">> 线程[{}]释放锁",threadNumber);
+            }
         }
     }
 
