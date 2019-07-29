@@ -26,6 +26,9 @@ public class LockTest {
     private final Object objectLock = new Object();
 
 
+    /**
+     * 测试synchronized的应用
+     */
     @Test
     public void synchronizedLock(){
 
@@ -37,8 +40,10 @@ public class LockTest {
         thirdWindow.start();
         while (true){
             //子线程已经结束，这里为什么不会退出循环？因为每个线程只是修改自己本地内存的值？主内存还是修改器按的值？
-            //当totalTicket使用了volatile修饰之后，不会出现死循环，z
+            //当totalTicket使用了volatile修饰之后，不会出现死循环
             // 由此引发另外一个问题:线程内存修改的变量什么时候会同步给煮内存？
+            //死循环结论：当没有使用volatile修饰是，这里涉及指令重排，
+            // 这里会被优化为  if (totalTicket <= 0){while(true)},所以导致了死循环
             if (totalTicket <= 0){
                 log.info(">>>>>>>>");
                 break;
@@ -49,7 +54,9 @@ public class LockTest {
 
     }
 
-
+    /**
+     * 测试synchronized的实现和应用
+     */
     public class TicketWindow extends Thread{
         /**
          * 窗口编号
@@ -78,14 +85,18 @@ public class LockTest {
     }
 
 
-
-    private Lock lock = new ReentrantLock();
+    /**
+     * jdk自带的重入锁的demo
+     */
     @Test
     public void reentrantLockTest(){
+
+        //使用公平锁，实现线程轮流获取锁
+        Lock lock = new ReentrantLock(true);
         CountDownLatch countDownLatch = new CountDownLatch(3);
-        Ticket first = new Ticket(1,countDownLatch);
-        Ticket second = new Ticket(2,countDownLatch);
-        Ticket third = new Ticket(3,countDownLatch);
+        Ticket first = new Ticket(1,countDownLatch,lock);
+        Ticket second = new Ticket(2,countDownLatch,lock);
+        Ticket third = new Ticket(3,countDownLatch,lock);
         first.start();
         second.start();
         third.start();
@@ -104,11 +115,15 @@ public class LockTest {
          */
         private int windowNumber;
         private CountDownLatch countDownLatch;
+        /**
+         * 外部调用传入参数
+         */
+        private Lock lock;
 
-        Ticket(int windowNumber,CountDownLatch countDownLatch){
+        Ticket(int windowNumber,CountDownLatch countDownLatch,Lock lock){
             this.windowNumber = windowNumber;
             this.countDownLatch = countDownLatch;
-
+            this.lock = lock;
         }
 
         @Override
@@ -144,5 +159,78 @@ public class LockTest {
             countDownLatch.countDown();
         }
     }
+
+
+
+
+    /**
+     * 测试响应中断
+     */
+    @Test
+    public void testResponseInterrupted(){
+        Lock lock = new ReentrantLock(true);
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+
+        InterruptThread thread = new InterruptThread(1,lock,countDownLatch);
+        InterruptThread thread1 = new InterruptThread(2,lock,countDownLatch);
+        thread.start();
+        thread1.start();
+
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+            thread.interrupt();
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(">> 主线程结束");
+    }
+
+    /**
+     * 测试中断响应
+     */
+    class InterruptThread extends Thread{
+
+        /**
+         * 线程使用的锁
+         */
+        private  Lock lock;
+
+        /**
+         * 线程编号
+         */
+        private int threadNumber;
+        /**
+         * 线程计数器
+         */
+        private CountDownLatch countDownLatch;
+
+        InterruptThread (int threadNumber,Lock lock,CountDownLatch countDownLatch){
+            this.lock = lock;
+            this.threadNumber = threadNumber;
+            this.countDownLatch = countDownLatch;
+        }
+
+        @Override
+        public void run() {
+            try {
+                lock.lockInterruptibly();
+                log.info(">> 线程[{}]获取锁",threadNumber);
+                log.info("测试响应中断，线程进入睡眠时间");
+                TimeUnit.SECONDS.sleep(3);
+                log.info(">> 线程[{}]正常结束",threadNumber);
+            } catch (InterruptedException e) {
+                log.info("线程编号[{}]中断异常，被动结束线程",threadNumber);
+                e.printStackTrace();
+            }finally {
+                lock.unlock();
+                countDownLatch.countDown();
+                log.info(">> 线程[{}]释放锁",threadNumber);
+            }
+
+        }
+    }
+
 
 }
