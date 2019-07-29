@@ -36,10 +36,15 @@ public class LockTest {
         secondWindow.start();
         thirdWindow.start();
         while (true){
-            //子线程已经结束，这里为什么不会退出循环？因为每个线程只是修改自己本地内存的值？主内存还是修改器按的值？
-            //当totalTicket使用了volatile修饰之后，不会出现死循环，z
-            // 由此引发另外一个问题:线程内存修改的变量什么时候会同步给煮内存？
+            //子线程已经结束，这里为什么不会退出循环？因为每个线程只是修改自己本地内存的值？主内存还是修改之前的值？
+            //当totalTicket使用了volatile修饰之后，不会出现死循环，保证了可见性
+            // 由此引发另外一个问题:当共享变量没有使用 volatile 修饰的时候，
+            // 线程内存修改的变量什么时候会同步给主内存？
+
+            //最终问题根源：没有使用volatile修饰共享变量，jvm进行指令重排，
+            // 重排结果为：if(totalTicket <= 0){while(true){}},所以导致了死循环，不会退出循环
             if (totalTicket <= 0){
+//                https://ask.csdn.net/questions/242833
                 log.info(">>>>>>>>");
                 break;
             }
