@@ -324,14 +324,19 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <!--该插件的作用是 创建项目的源码jar包  通过该插件，可以将该任务绑定到default声明周期的verify阶段
+      在执行万集成测试后和安装构建之前创建源码的jar包-->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
             <version>3.0.1</version>
             <executions>
+                <!--执行的一个子任务-->
                 <execution>
+                    <!--该阶段为maven default生命周期的verify阶段，将源码打包绑定到verify阶段-->
                     <phase>verify</phase>
                     <goals>
+                        <!--要执行的插件目标-->
                         <goal>jar-no-fork</goal>
                     </goals>
                 </execution>
