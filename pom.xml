@@ -309,6 +309,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
+          <!--申明基于java1.8进行编译，生成与java1.8兼容的字节码文件-->
           <source>1.8</source>
           <target>1.8</target>
         </configuration>
