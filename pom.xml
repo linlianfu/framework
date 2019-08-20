@@ -308,6 +308,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
         <configuration>
           <!--申明基于java1.8进行编译，生成与java1.8兼容的字节码文件-->
           <source>1.8</source>
@@ -353,16 +354,17 @@
   </build>
 
   <profiles>
-    <!-- 开发环境，默认激活 -->
+
+    <!-- 宿舍环境，默认激活 -->
     <profile>
       <id>home</id>
       <properties>
         <env>home</env>
       </properties>
-      <!--<activation>-->
-        <!--&lt;!&ndash;默认启用的是home环境配置&ndash;&gt;-->
-        <!--<activeByDefault>true</activeByDefault>-->
-      <!--</activation>-->
+      <activation>
+        <!--默认启用的是home环境配置-->
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <build>
         <plugins>
           <plugin>
@@ -373,27 +375,22 @@
                 *.js,*.json,app/**,.tmp/**,html/**,node_modules/**,bower_components/**,js/**,**/*.less,**/*.psd
               </warSourceExcludes>
               <!--<archive>-->
-                <!--<manifestEntries>-->
-                  <!--<SVN-Revision>${build.vcs.number}</SVN-Revision>-->
-                  <!--<SVN-path>${vcsroot.url}</SVN-path>-->
-                <!--</manifestEntries>-->
+              <!--<manifestEntries>-->
+              <!--<SVN-Revision>${build.vcs.number}</SVN-Revision>-->
+              <!--<SVN-path>${vcsroot.url}</SVN-path>-->
+              <!--</manifestEntries>-->
               <!--</archive>-->
             </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
-
     <!-- 公司环境 -->
     <profile>
       <id>company</id>
       <properties>
         <env>company</env>
       </properties>
-      <activation>
-        <!--默认启用的是company环境配置-->
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <build>
         <plugins>
           <plugin>
