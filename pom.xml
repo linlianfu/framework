@@ -367,6 +367,7 @@
       </activation>
       <build>
         <plugins>
+          <!--打包war包的插件配置-->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
@@ -394,6 +395,7 @@
       <build>
         <plugins>
 
+          <!--资源文件插件配置-->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
@@ -426,6 +428,7 @@
             </configuration>
           </plugin>
 
+          <!--打包war包的插件配置-->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>

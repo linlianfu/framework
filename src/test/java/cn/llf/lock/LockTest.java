@@ -34,25 +34,25 @@ public class LockTest {
     @Test
     public void synchronizedLock(){
 
-        TicketWindow firstWindow = new TicketWindow(1);
-        TicketWindow secondWindow = new TicketWindow(2);
-        TicketWindow thirdWindow = new TicketWindow(3);
-        firstWindow.start();
-        secondWindow.start();
-        thirdWindow.start();
-        while (true){
-            //子线程已经结束，这里为什么不会退出循环？因为每个线程只是修改自己本地内存的值？主内存还是修改器按的值？
-            //当totalTicket使用了volatile修饰之后，不会出现死循环
-            // 由此引发另外一个问题:线程内存修改的变量什么时候会同步给煮内存？
-            //死循环结论：当没有使用volatile修饰是，这里涉及指令重排，
-            // 这里会被优化为  if (totalTicket <= 0){while(true)},所以导致了死循环
-            if (totalTicket <= 0){
-                log.info(">>>>>>>>");
-                break;
-            }
-//            TicketWindow window = new TicketWindow(4);
-        }
-        log.info(">> 暂无余票，谢谢！");
+//        TicketWindow firstWindow = new TicketWindow(1);
+//        TicketWindow secondWindow = new TicketWindow(2);
+//        TicketWindow thirdWindow = new TicketWindow(3);
+//        firstWindow.start();
+//        secondWindow.start();
+//        thirdWindow.start();
+//        while (true){
+//            //子线程已经结束，这里为什么不会退出循环？因为每个线程只是修改自己本地内存的值？主内存还是修改器按的值？
+//            //当totalTicket使用了volatile修饰之后，不会出现死循环
+//            // 由此引发另外一个问题:线程内存修改的变量什么时候会同步给煮内存？
+//            //死循环结论：当没有使用volatile修饰是，这里涉及指令重排，
+//            // 这里会被优化为  if (totalTicket <= 0){while(true)},所以导致了死循环
+//            if (totalTicket <= 0){
+//                log.info(">>>>>>>>");
+//                break;
+//            }
+////            TicketWindow window = new TicketWindow(4);
+//        }
+//        log.info(">> 暂无余票，谢谢！");
 
     }
 
@@ -198,7 +198,7 @@ public class LockTest {
                 lock.lockInterruptibly();
                 log.info(">> 线程[{}]获取锁",threadNumber);
                 log.info("测试响应中断，线程进入睡眠时间");
-                TimeUnit.SECONDS.sleep(3);
+//                TimeUnit.SECONDS.sleep(3);
                 log.info(">> 线程[{}]正常结束",threadNumber);
             } catch (InterruptedException e) {
                 log.info("线程编号[{}]中断异常，被动结束线程",threadNumber);

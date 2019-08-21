@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +22,7 @@ public class ListTest {
 
     @Test
     public void modifyList(){
-        List<String> list = Arrays.asList("1");
+        List<String> list = new ArrayList<>();
         log.info("size:{}",list.size());
         list.add("1");
         log.info("size:{}",list.size());
