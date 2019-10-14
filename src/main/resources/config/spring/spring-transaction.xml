@@ -8,7 +8,7 @@
     <!-- 配置事务管理器 -->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!--事物管理的对象，通常直接是数据库-->
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="multipleDataSourceConfig" />
     </bean>
 
     <!-- 声明式事务管理 配置事物的注解方式注入,强制使用CGLIB动态代理，针对controller和service都起作用-->

@@ -64,4 +64,16 @@ public class HashCodeAction {
         }
         log.info("clone result:{}",clone);
     }
+
+    @Test
+    public void memoryTest(){
+
+        int i = Integer.MAX_VALUE;
+        log.info(i+"");
+        i++;
+        log.info(i+"");
+        long b = 1111111111;
+
+
+    }
 }
