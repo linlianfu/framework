@@ -22,4 +22,7 @@
             <bean class="cn.eleven.common.intercept.WriteFastJsonHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
+    <mvc:interceptors>
+        <bean class="cn.llf.framework.gateway.interceptor.GlobalInterceptor"/>
+    </mvc:interceptors>
 </beans>
