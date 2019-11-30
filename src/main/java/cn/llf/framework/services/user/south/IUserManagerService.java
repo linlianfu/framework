@@ -1,5 +1,7 @@
 package cn.llf.framework.services.user.south;
 
+import cn.eleven.common.dao.Page;
+import cn.llf.framework.gateway.web.admin.dto.UserInfo;
 import cn.llf.framework.model.mybatis.UserInfoPO;
 
 import java.util.List;
@@ -83,4 +85,10 @@ public interface IUserManagerService {
      * @return
      */
     UserInfoPO memory();
+
+    /**
+     * 获取用户分页
+     * @return
+     */
+    Page<UserInfo> pageUserInfo();
 }

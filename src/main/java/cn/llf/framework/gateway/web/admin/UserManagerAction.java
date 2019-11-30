@@ -3,7 +3,10 @@ package cn.llf.framework.gateway.web.admin;
 import cn.eleven.basic.data.user.south.api.IUserQueryService;
 import cn.eleven.basic.data.user.south.api.arg.UserQuery;
 import cn.eleven.basic.data.user.south.api.dto.UserBaseDto;
+import cn.eleven.common.dao.Page;
 import cn.eleven.common.zookeeper.LockFactory;
+import cn.llf.framework.gateway.web.admin.dto.UserInfo;
+import cn.llf.framework.services.user.south.IUserManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,8 @@ public class UserManagerAction {
 
     @Autowired
     private LockFactory lockFactory;
+    @Autowired
+    protected IUserManagerService userManagerService;
 
     @GetMapping("listBase")
     public List<UserBaseDto> listBase(@ModelAttribute UserQuery query){
@@ -83,5 +88,10 @@ public class UserManagerAction {
 //            e.printStackTrace();
 //        }
         return   userQueryService.listBase(query);
+    }
+
+    @GetMapping("pageUserInfo")
+    public Page<UserInfo> pageUserInfo(){
+        return userManagerService.pageUserInfo();
     }
 }

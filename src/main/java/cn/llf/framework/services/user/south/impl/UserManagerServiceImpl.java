@@ -1,8 +1,10 @@
 package cn.llf.framework.services.user.south.impl;
 
+import cn.eleven.common.dao.Page;
 import cn.eleven.common.exception.BasicRuntimeException;
 import cn.llf.framework.annotation.MethodInvocationStatistic;
 import cn.llf.framework.dao.impl.mybatis.UserInfoDao;
+import cn.llf.framework.gateway.web.admin.dto.UserInfo;
 import cn.llf.framework.model.mybatis.UserInfoPO;
 import cn.llf.framework.services.user.UserErrorCodeConst;
 import cn.llf.framework.services.user.south.IUserManagerService;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -150,5 +153,25 @@ public class UserManagerServiceImpl implements IUserManagerService {
         po.setIdentity("350524192121");
         po.setName("eleven");
         return po;
+    }
+
+
+    @Override
+    public Page<UserInfo> pageUserInfo() {
+        Page<UserInfo> page = new Page();
+        List<UserInfo> list = new ArrayList<>();
+        page.setCurrentPageData(list);
+
+        for (int i = 0;i<=10;i++){
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName("eleven");
+            userInfo.setIdentity("35052419920626201"+i);
+            userInfo.setSex(i%2);
+            userInfo.setRegion("福建省-泉州市-安溪县");
+            userInfo.setUnitName("华博教育");
+            userInfo.setPhone("18060614807");
+            list.add(userInfo);
+        }
+        return page;
     }
 }
