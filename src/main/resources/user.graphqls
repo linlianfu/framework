@@ -1,0 +1,27 @@
+# 用户信息对象
+type User {
+    # 编号
+    id: Int!
+    # 用户名
+    username: String!
+    # 密码
+    password: String!
+    # 年龄
+    age: Int
+}
+
+# 添加用户信息输入参数
+input addUserInput {
+    id: Int!
+    username: String!
+    password: String!
+    age: Int
+}
+
+# 更新用户信息输入参数
+input updateUserInput {
+    id: Int!
+    username: String!
+    password: String!
+    age: Int
+}

@@ -27,7 +27,7 @@ import java.util.UUID;
  * @author eleven
  * @date 2019/1/22
  * @description
- *
+ *GraphQLQueryResolver
  *
  * http://www.zhaiqianfeng.com/2017/06/learn-graphql-action-by-java.html
  *
@@ -93,7 +93,7 @@ public class ComputerGraphQL {
 
         GraphQL graphQL = GraphQL.newGraphQL(schema).build();
 
-        ExecutionResult execute = graphQL.execute("{computer{name,cpu{name,cache},memory1List{name,size}}}");
+        ExecutionResult execute = graphQL.execute("query{computer{name,cpu{name,cache}}}");
         Map<String, Object> dataMap = execute.getData();
         List<GraphQLError> errors = execute.getErrors();
 
