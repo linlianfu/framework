@@ -25,12 +25,19 @@ public class GraphQLAction {
 
 
     /**
-     * 请求路径格式位：127.0.0.1:8080/web/admin/platform/graphql?query=query{userInfoPage{name}}
+     * 请求路径格式位：127.0.0.1:8080/web/admin/platform/graphql?query={userInfo(id:"2222222"){id,name,age}userInfoList(count:10){userId,name,identity}}
      *
      * 后面的graphql位：
      * query{
-     *     userInfoPage{
-     *         name
+     *     userInfo(id:"2222222"){
+     *         id,
+     *         name,
+     *         age
+     *     }
+     *     userInfoList(count:10){
+     *         userId,
+     *         name,
+     *         identity
      *     }
      * }
      * @param query

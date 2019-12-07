@@ -147,8 +147,9 @@ public class UserManagerServiceImpl implements IUserManagerService {
 
 
     @Override
-    public UserInfoPO memory() {
+    public UserInfoPO memory(String id) {
         UserInfoPO po = new UserInfoPO();
+        po.setId(id);
         po.setAge(234);
         po.setIdentity("350524192121");
         po.setName("eleven");
@@ -173,5 +174,23 @@ public class UserManagerServiceImpl implements IUserManagerService {
             list.add(userInfo);
         }
         return page;
+    }
+
+
+    @Override
+    public List<UserInfo> graphQLListUserInfo(int count) {
+        List<UserInfo> list = new ArrayList<>();
+        for (;count>0;count--){
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(count+"");
+            userInfo.setIdentity("35052419920626201"+count);
+            userInfo.setName("eleven");
+            userInfo.setSex(count%2);
+            userInfo.setRegion("福建省-泉州市-安溪县");
+            userInfo.setUnitName("华博教育");
+            userInfo.setPhone("18060614807");
+            list.add(userInfo);
+        }
+        return list;
     }
 }

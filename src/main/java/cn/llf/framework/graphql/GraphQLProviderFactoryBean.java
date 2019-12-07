@@ -35,6 +35,7 @@ public class GraphQLProviderFactoryBean implements FactoryBean<GraphQLProvider>,
             builder.fields(graphQLFieldDefinitionList);
         }
 
+//        RuntimeWiring.newRuntimeWiring().directive("only", new OnlySchemaDirectiveWiring());
         GraphQLSchema schema = GraphQLSchema.newSchema().query(builder).build();
         _provider.set_schema(schema);
 

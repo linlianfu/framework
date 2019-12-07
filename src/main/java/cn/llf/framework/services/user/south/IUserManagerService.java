@@ -84,11 +84,18 @@ public interface IUserManagerService {
      * 内存模拟返回一个数据
      * @return
      */
-    UserInfoPO memory();
+    UserInfoPO memory(String id);
 
     /**
      * 获取用户分页
      * @return
      */
     Page<UserInfo> pageUserInfo();
+
+    /**
+     * 模拟graphQL返回集合数据
+     * @param count
+     * @return
+     */
+    List<UserInfo> graphQLListUserInfo(int count);
 }
