@@ -4,6 +4,8 @@ import cn.llf.framework.services.user.south.IUserManagerService;
 import graphql.Scalars;
 import graphql.schema.GraphQLArgument;
 import graphql.schema.GraphQLFieldDefinition;
+import graphql.schema.GraphQLInputObjectField;
+import graphql.schema.GraphQLInputObjectType;
 import graphql.schema.GraphQLList;
 import graphql.schema.GraphQLObjectType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +59,19 @@ public class PlatformGraphQLFactory implements GraphQLFieldProvider {
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("unitName").type(Scalars.GraphQLInt))
                 .build();
 
+        GraphQLInputObjectType.Builder inputObjectTypeBuilder = GraphQLInputObjectType.newInputObject().name("GraphQLUserForm")
+                .field(GraphQLInputObjectField.newInputObjectField().name("pageNo").type(Scalars.GraphQLInt).build())
+                .field(GraphQLInputObjectField.newInputObjectField().name("pageSize").type(Scalars.GraphQLInt).build())
+                .field(GraphQLInputObjectField.newInputObjectField().name("userName").type(Scalars.GraphQLString).build());
+
+        GraphQLArgument.Builder argumentBuilder = GraphQLArgument.newArgument().name("arg")
+                .type(inputObjectTypeBuilder.build());
 
         return GraphQLFieldDefinition.newFieldDefinition().name("userInfoList")
                 .type(new GraphQLList(userInfoObjectTypeList))
-                .argument(
-                        GraphQLArgument.newArgument().name("count").type(Scalars.GraphQLInt).build()
-                )
+                .argument(argumentBuilder)
                 .description("模拟graphQL返回集合数据")
-                .dataFetcher(environment ->  userManagerService.graphQLListUserInfo(environment.getArgument("count")))
+                .dataFetcher(environment ->  userManagerService.graphQLListUserInfo(environment.getArgument("arg")))
                 .build();
     }
 }

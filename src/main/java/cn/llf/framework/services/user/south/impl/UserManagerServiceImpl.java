@@ -7,6 +7,7 @@ import cn.llf.framework.dao.impl.mybatis.UserInfoDao;
 import cn.llf.framework.gateway.web.admin.dto.UserInfo;
 import cn.llf.framework.model.mybatis.UserInfoPO;
 import cn.llf.framework.services.user.UserErrorCodeConst;
+import cn.llf.framework.services.user.dto.GraphQLUserForm;
 import cn.llf.framework.services.user.south.IUserManagerService;
 import cn.llf.jdbc.dataSource.MultipleDataSourceConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -148,11 +149,18 @@ public class UserManagerServiceImpl implements IUserManagerService {
 
     @Override
     public UserInfoPO memory(String id) {
+        log.warn(">> 开始处理单个用户请求");
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         UserInfoPO po = new UserInfoPO();
         po.setId(id);
         po.setAge(234);
         po.setIdentity("350524192121");
         po.setName("eleven");
+        log.warn(">> 单个用户请求处理完成");
         return po;
     }
 
@@ -178,19 +186,22 @@ public class UserManagerServiceImpl implements IUserManagerService {
 
 
     @Override
-    public List<UserInfo> graphQLListUserInfo(int count) {
+    public List<UserInfo> graphQLListUserInfo(GraphQLUserForm form) {
+        log.warn(">> 开始处理批量用户请求");
+        int pageSize = form.getPageSize();
         List<UserInfo> list = new ArrayList<>();
-        for (;count>0;count--){
+        for (;pageSize>0;pageSize--){
             UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(count+"");
-            userInfo.setIdentity("35052419920626201"+count);
+            userInfo.setUserId(pageSize+"");
+            userInfo.setIdentity("35052419920626201"+pageSize);
             userInfo.setName("eleven");
-            userInfo.setSex(count%2);
+            userInfo.setSex(pageSize%2);
             userInfo.setRegion("福建省-泉州市-安溪县");
             userInfo.setUnitName("华博教育");
             userInfo.setPhone("18060614807");
             list.add(userInfo);
         }
+        log.warn(">> 批量用户请求处理完成");
         return list;
     }
 }

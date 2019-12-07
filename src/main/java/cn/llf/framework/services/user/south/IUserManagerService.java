@@ -3,6 +3,7 @@ package cn.llf.framework.services.user.south;
 import cn.eleven.common.dao.Page;
 import cn.llf.framework.gateway.web.admin.dto.UserInfo;
 import cn.llf.framework.model.mybatis.UserInfoPO;
+import cn.llf.framework.services.user.dto.GraphQLUserForm;
 
 import java.util.List;
 
@@ -94,8 +95,8 @@ public interface IUserManagerService {
 
     /**
      * 模拟graphQL返回集合数据
-     * @param count
+     * @param form
      * @return
      */
-    List<UserInfo> graphQLListUserInfo(int count);
+    List<UserInfo> graphQLListUserInfo(GraphQLUserForm form);
 }
