@@ -1,6 +1,8 @@
 package cn.llf.framework.graphql;
 
+import cn.llf.framework.services.user.dto.GraphQLUserForm;
 import cn.llf.framework.services.user.south.IUserManagerService;
+import com.alibaba.fastjson.JSON;
 import graphql.Scalars;
 import graphql.schema.GraphQLArgument;
 import graphql.schema.GraphQLFieldDefinition;
@@ -71,7 +73,10 @@ public class PlatformGraphQLFactory implements GraphQLFieldProvider {
                 .type(new GraphQLList(userInfoObjectTypeList))
                 .argument(argumentBuilder)
                 .description("模拟graphQL返回集合数据")
-                .dataFetcher(environment ->  userManagerService.graphQLListUserInfo(environment.getArgument("arg")))
+                .dataFetcher(environment -> {
+                    GraphQLUserForm form = JSON.parseObject(JSON.toJSONString(environment.getArgument("arg")),GraphQLUserForm.class);
+                   return userManagerService.graphQLListUserInfo(form);
+                })
                 .build();
     }
 }

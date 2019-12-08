@@ -150,11 +150,6 @@ public class UserManagerServiceImpl implements IUserManagerService {
     @Override
     public UserInfoPO memory(String id) {
         log.warn(">> 开始处理单个用户请求");
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         UserInfoPO po = new UserInfoPO();
         po.setId(id);
         po.setAge(234);
