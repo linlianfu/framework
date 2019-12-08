@@ -149,13 +149,13 @@ public class UserManagerServiceImpl implements IUserManagerService {
 
     @Override
     public UserInfoPO memory(String id) {
-        log.warn(">> 开始处理单个用户请求");
+        log.debug(">> 开始处理单个用户请求");
         UserInfoPO po = new UserInfoPO();
         po.setId(id);
         po.setAge(234);
         po.setIdentity("350524192121");
         po.setName("eleven");
-        log.warn(">> 单个用户请求处理完成");
+        log.debug(">> 单个用户请求处理完成");
         return po;
     }
 
@@ -182,8 +182,8 @@ public class UserManagerServiceImpl implements IUserManagerService {
 
     @Override
     public List<UserInfo> graphQLListUserInfo(GraphQLUserForm form) {
-        log.warn(">> 开始处理批量用户请求");
-        int pageSize = form.getPageSize();
+        log.debug(">> 开始处理批量用户请求");
+        int pageSize = form == null ? 10 :form.getPageSize();
         List<UserInfo> list = new ArrayList<>();
         for (;pageSize>0;pageSize--){
             UserInfo userInfo = new UserInfo();
@@ -196,7 +196,7 @@ public class UserManagerServiceImpl implements IUserManagerService {
             userInfo.setPhone("18060614807");
             list.add(userInfo);
         }
-        log.warn(">> 批量用户请求处理完成");
+        log.debug(">> 批量用户请求处理完成");
         return list;
     }
 }

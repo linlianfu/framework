@@ -51,7 +51,7 @@ public class PlatformGraphQLFactory implements GraphQLFieldProvider {
 
 
     private GraphQLFieldDefinition definitionGraphQLListUserInfo(){
-        GraphQLObjectType userInfoObjectTypeList = GraphQLObjectType.newObject().name("UserInfo")
+        GraphQLObjectType userInfoOutputObjectTypeList = GraphQLObjectType.newObject().name("UserInfo")
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("userId").type(Scalars.GraphQLString))
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("name").type(Scalars.GraphQLString).description("用户名"))
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("identity").type(Scalars.GraphQLString))
@@ -61,17 +61,17 @@ public class PlatformGraphQLFactory implements GraphQLFieldProvider {
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("unitName").type(Scalars.GraphQLInt))
                 .build();
 
-        GraphQLInputObjectType.Builder inputObjectTypeBuilder = GraphQLInputObjectType.newInputObject().name("GraphQLUserForm")
+        GraphQLInputObjectType.Builder userFormInputObjectBuilder = GraphQLInputObjectType.newInputObject().name("GraphQLUserForm")
                 .field(GraphQLInputObjectField.newInputObjectField().name("pageNo").type(Scalars.GraphQLInt).build())
                 .field(GraphQLInputObjectField.newInputObjectField().name("pageSize").type(Scalars.GraphQLInt).build())
                 .field(GraphQLInputObjectField.newInputObjectField().name("userName").type(Scalars.GraphQLString).build());
 
-        GraphQLArgument.Builder argumentBuilder = GraphQLArgument.newArgument().name("arg")
-                .type(inputObjectTypeBuilder.build());
+        GraphQLArgument.Builder userFormArgBuilder = GraphQLArgument.newArgument().name("arg")
+                .type(userFormInputObjectBuilder.build());
 
         return GraphQLFieldDefinition.newFieldDefinition().name("userInfoList")
-                .type(new GraphQLList(userInfoObjectTypeList))
-                .argument(argumentBuilder)
+                .type(new GraphQLList(userInfoOutputObjectTypeList))
+                .argument(userFormArgBuilder)
                 .description("模拟graphQL返回集合数据")
                 .dataFetcher(environment -> {
                     GraphQLUserForm form = JSON.parseObject(JSON.toJSONString(environment.getArgument("arg")),GraphQLUserForm.class);

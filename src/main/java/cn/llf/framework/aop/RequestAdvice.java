@@ -36,7 +36,7 @@ public class RequestAdvice {
     @Before("pointcut()")
     public void before(JoinPoint joinPoint){
 
-        log.warn(">>>>>前置通知");
+        log.debug(">>>>>前置通知");
     }
 
     /**
@@ -45,7 +45,7 @@ public class RequestAdvice {
      */
     @After("pointcut()")
     public void after(JoinPoint joinPoint){
-        log.warn(">>>>>后置通知");
+        log.debug(">>>>>后置通知");
     }
 
     /**

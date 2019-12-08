@@ -3,6 +3,7 @@ package cn.llf.framework.graphql;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import lombok.Data;
+import lombok.Getter;
 
 /**
  * @author eleven
@@ -13,6 +14,7 @@ import lombok.Data;
 public class GraphQLProvider {
 
 
+    @Getter
     private GraphQLSchema _schema;
 
 
