@@ -39,7 +39,7 @@ public class GraphQLAction {
 
     /**
      * 请求路径格式位：
-     * 127.0.0.1:8080/web/admin/platform/graphql?query={userInfo(id:"2222222"){id,name,age}userInfoList(arg:{pageSize:5}){userId,name,identity}}
+     * 127.0.0.1:8080/web/admin/platform/graphql?query={userInfo(id:"111111111"){id,name,age}userInfoList(arg:{pageNo:1111,pageSize:4,userName:"eleven"}){userId,name,identity,sex,phone,region,unitName}}
      *
      * 后面的graphql为：
      * query{
@@ -48,10 +48,14 @@ public class GraphQLAction {
      *         name,
      *         age
      *     }
-     *     userInfoList(arg:{pageSize:5}){
+     *     userInfoList(arg:{pageNo:1111,pageSize:4,userName:"eleven"}){
      *         userId,
      *         name,
-     *         identity
+     *         identity,
+     *         sex,
+     *         phone,
+     *         region,
+     *         unitName
      *     }
      * }
      * @param query
@@ -66,6 +70,10 @@ public class GraphQLAction {
 
     /**
      * 获取描述文档
+     *
+     * url：127.0.0.1:8080/web/admin/platform/graphql/desc
+     * result:{userInfo(id:String//用户id){id,name,age}userInfoList(arg:{pageNo:Int,//分页参数pageSize:Int,//分页参数userName:String,//用户名称}){userId,name,identity,sex,phone,region,unitName}}
+     *
      * @return
      */
     @GetMapping("desc")
