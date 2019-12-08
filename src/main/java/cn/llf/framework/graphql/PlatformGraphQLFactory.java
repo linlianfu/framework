@@ -43,7 +43,7 @@ public class PlatformGraphQLFactory implements GraphQLFieldProvider {
                                 .field(GraphQLFieldDefinition.newFieldDefinition().name("name").type(Scalars.GraphQLString))
                                 .field(GraphQLFieldDefinition.newFieldDefinition().name("age").type(Scalars.GraphQLInt))
                 )
-                .argument(GraphQLArgument.newArgument().name("id").type(Scalars.GraphQLString))
+                .argument(GraphQLArgument.newArgument().name("id").type(Scalars.GraphQLString).description("用户id"))
                 .description("根据用户id获取用户详情")
                 .dataFetcher(environment ->  userManagerService.memory(environment.getArgument("id")))
                 .build();
@@ -56,15 +56,15 @@ public class PlatformGraphQLFactory implements GraphQLFieldProvider {
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("name").type(Scalars.GraphQLString).description("用户名"))
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("identity").type(Scalars.GraphQLString))
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("sex").type(Scalars.GraphQLInt))
-                .field(GraphQLFieldDefinition.newFieldDefinition().name("phone").type(Scalars.GraphQLInt))
-                .field(GraphQLFieldDefinition.newFieldDefinition().name("region").type(Scalars.GraphQLInt))
-                .field(GraphQLFieldDefinition.newFieldDefinition().name("unitName").type(Scalars.GraphQLInt))
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("phone").type(Scalars.GraphQLString))
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("region").type(Scalars.GraphQLString))
+                .field(GraphQLFieldDefinition.newFieldDefinition().name("unitName").type(Scalars.GraphQLString))
                 .build();
 
         GraphQLInputObjectType.Builder userFormInputObjectBuilder = GraphQLInputObjectType.newInputObject().name("GraphQLUserForm")
-                .field(GraphQLInputObjectField.newInputObjectField().name("pageNo").type(Scalars.GraphQLInt).build())
-                .field(GraphQLInputObjectField.newInputObjectField().name("pageSize").type(Scalars.GraphQLInt).build())
-                .field(GraphQLInputObjectField.newInputObjectField().name("userName").type(Scalars.GraphQLString).build());
+                .field(GraphQLInputObjectField.newInputObjectField().name("pageNo").type(Scalars.GraphQLInt).description("分页参数").build())
+                .field(GraphQLInputObjectField.newInputObjectField().name("pageSize").type(Scalars.GraphQLInt).description("分页参数").build())
+                .field(GraphQLInputObjectField.newInputObjectField().name("userName").type(Scalars.GraphQLString).description("用户名称").build());
 
         GraphQLArgument.Builder userFormArgBuilder = GraphQLArgument.newArgument().name("arg")
                 .type(userFormInputObjectBuilder.build());
