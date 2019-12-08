@@ -93,6 +93,8 @@ public class GraphQLAction {
                 for (GraphQLType children : childrenList) {
                     if (children instanceof  GraphQLObjectType){
                         appendGraphQLObjectType(builder, (GraphQLObjectType) children);
+                    }else {
+                        log.warn(">> 未适配的outputObjectType:{}",children.getClass().getName());
                     }
                 }
             }else {
@@ -137,6 +139,8 @@ public class GraphQLAction {
                                 .append(definition.getDescription());
                     }
                     builder.append("}");
+                }else {
+                    log.warn(">> 未适配的outputObjectType:{}",type.getClass().getName());
                 }
             }
             builder.append(")");
