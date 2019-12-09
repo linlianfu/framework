@@ -34,7 +34,7 @@ public class ThreadProcessTask implements Runnable {
     public void run() {
 
         log.info(">>>>>线程[{}]线程号【{}】开始执行任务",Thread.currentThread().getName(),currentThreadCount);
-        UserInfoPO memory = userManagerService.memory();
+        UserInfoPO memory = userManagerService.memory("11111");
         log.info("调用用户服务返回结果:{}",memory);
 //        try {
 ////            TimeUnit.SECONDS.sleep(10);

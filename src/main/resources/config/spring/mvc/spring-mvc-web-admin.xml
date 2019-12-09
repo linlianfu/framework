@@ -28,6 +28,7 @@
     </mvc:annotation-driven>
     <mvc:interceptors>
         <bean class="cn.llf.framework.gateway.interceptor.UserLoginInterceptor"/>
+        <bean class="cn.llf.framework.gateway.interceptor.GlobalInterceptor"/>
     </mvc:interceptors>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

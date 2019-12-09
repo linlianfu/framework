@@ -1,10 +1,13 @@
 package cn.llf.framework.services.user.south.impl;
 
+import cn.eleven.common.dao.Page;
 import cn.eleven.common.exception.BasicRuntimeException;
 import cn.llf.framework.annotation.MethodInvocationStatistic;
 import cn.llf.framework.dao.impl.mybatis.UserInfoDao;
+import cn.llf.framework.gateway.web.admin.dto.UserInfo;
 import cn.llf.framework.model.mybatis.UserInfoPO;
 import cn.llf.framework.services.user.UserErrorCodeConst;
+import cn.llf.framework.services.user.dto.GraphQLUserForm;
 import cn.llf.framework.services.user.south.IUserManagerService;
 import cn.llf.jdbc.dataSource.MultipleDataSourceConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -144,11 +148,55 @@ public class UserManagerServiceImpl implements IUserManagerService {
 
 
     @Override
-    public UserInfoPO memory() {
+    public UserInfoPO memory(String id) {
+        log.debug(">> 开始处理单个用户请求");
         UserInfoPO po = new UserInfoPO();
+        po.setId(id);
         po.setAge(234);
         po.setIdentity("350524192121");
         po.setName("eleven");
+        log.debug(">> 单个用户请求处理完成");
         return po;
+    }
+
+
+    @Override
+    public Page<UserInfo> pageUserInfo() {
+        Page<UserInfo> page = new Page();
+        List<UserInfo> list = new ArrayList<>();
+        page.setCurrentPageData(list);
+
+        for (int i = 0;i<=10;i++){
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName("eleven");
+            userInfo.setIdentity("35052419920626201"+i);
+            userInfo.setSex(i%2);
+            userInfo.setRegion("福建省-泉州市-安溪县");
+            userInfo.setUnitName("华博教育");
+            userInfo.setPhone("18060614807");
+            list.add(userInfo);
+        }
+        return page;
+    }
+
+
+    @Override
+    public List<UserInfo> graphQLListUserInfo(GraphQLUserForm form) {
+        log.debug(">> 开始处理批量用户请求");
+        int pageSize = form == null ? 10 :form.getPageSize();
+        List<UserInfo> list = new ArrayList<>();
+        for (;pageSize>0;pageSize--){
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(pageSize+"");
+            userInfo.setIdentity("35052419920626201"+pageSize);
+            userInfo.setName("eleven");
+            userInfo.setSex(pageSize%2);
+            userInfo.setRegion("福建省-泉州市-安溪县");
+            userInfo.setUnitName("华博教育");
+            userInfo.setPhone("18060614807");
+            list.add(userInfo);
+        }
+        log.debug(">> 批量用户请求处理完成");
+        return list;
     }
 }

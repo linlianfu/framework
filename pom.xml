@@ -11,6 +11,8 @@
     <slf4j_version>1.7.6</slf4j_version>
     <eleven-basic-data>1.0.0-SNAPSHOT</eleven-basic-data>
     <eleven-common>1.0.0-SNAPSHOT</eleven-common>
+    <graphql-java-tools>4.3.0</graphql-java-tools>
+    <graphql-java>11.0</graphql-java>
   </properties>
   <dependencies>
 
@@ -55,6 +57,16 @@
       <groupId>org.apache.curator</groupId>
       <artifactId>curator-recipes</artifactId>
       <version>4.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.graphql-java</groupId>
+      <artifactId>graphql-java</artifactId>
+      <version>${graphql-java}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.graphql-java</groupId>
+      <artifactId>graphql-java-tools</artifactId>
+      <version>${graphql-java-tools}</version>
     </dependency>
 
     <!--dubbo-->
@@ -295,13 +307,6 @@
       <artifactId>modelmapper</artifactId>
       <version>1.1.2</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java -->
-    <dependency>
-      <groupId>com.graphql-java</groupId>
-      <artifactId>graphql-java</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-
   </dependencies>
   <build>
     <plugins>
@@ -466,6 +471,15 @@
                   </includes>
                 </resource>
               </webResources>
+            </configuration>
+          </plugin>
+          <plugin>
+            <!--如果使用IDEA选择打包环境为company的话，需要设置此插件过滤测试单元的代码-->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.18.1</version>
+            <configuration>
+              <skipTests>true</skipTests>
             </configuration>
           </plugin>
         </plugins>
