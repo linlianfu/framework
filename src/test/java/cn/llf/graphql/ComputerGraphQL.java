@@ -104,7 +104,7 @@ public class ComputerGraphQL {
 
 
     @Test
-    public void buildGraphQLWithArgument(){
+    public void buildGraphQLQueryWithArgument(){
         CpuDTO cpuType1 = new CpuDTO();
         cpuType1.setId(UUID.randomUUID().toString());
         cpuType1.setName("I7");
@@ -128,8 +128,8 @@ public class ComputerGraphQL {
         GraphQLObjectType cpuDtoObjectType = GraphQLObjectType.newObject().name("getCpuDto")
                 .field(GraphQLFieldDefinition.newFieldDefinition().name("cpuDto").type(basicOutPutType)
                         .argument(GraphQLArgument.newArgument().name("id").type(Scalars.GraphQLString).build())
-                        .dataFetcher(e -> {
-                            String id = e.getArgument("id");
+                        .dataFetcher(environment -> {
+                            String id = environment.getArgument("id");
                             log.info("参数id:{}",id);
                             return cpuType1;
                         })
