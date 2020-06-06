@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -32,8 +33,22 @@ public class SocketClient {
             Socket socket = new Socket(host, port);
             // 建立连接后获得输出流
             OutputStream outputStream = socket.getOutputStream();
-            String message="来自客户端的消息";
+            String message="服务端，你好，我已经到站了";
             socket.getOutputStream().write(message.getBytes(StandardCharsets.UTF_8));
+            // 告诉服务端，客户端已经发送完成，接下来只能接受收据
+            socket.shutdownOutput();
+
+            InputStream inputStream = socket.getInputStream();
+            byte[] bytes = new byte[1024];
+            int len;
+            StringBuilder sb = new StringBuilder();
+            while ((len = inputStream.read(bytes)) != -1) {
+                //注意指定编码格式，发送方和接收方一定要统一，建议使用UTF-8
+                sb.append(new String(bytes, 0, len, StandardCharsets.UTF_8));
+            }
+            log.warn("收到来自服务端的回应: " + sb);
+
+            inputStream.close();
             outputStream.close();
             socket.close();
         }catch (Exception e){
