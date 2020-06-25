@@ -5,11 +5,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -52,6 +54,18 @@ public class RedisDemo {
             log.warn(">>{}存在？：{}",key,exist);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void queue(){
+        BoundListOperations<String, String> queue = redisTemplate.boundListOps("queue");
+        queue.leftPush("222");
+        queue.rightPop();
+        List<String> valueList = queue.range(0, -1);
+        for (String s : valueList) {
+            log.warn("item:{}",s);
         }
     }
 }
