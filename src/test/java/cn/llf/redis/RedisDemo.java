@@ -30,6 +30,10 @@ public class RedisDemo {
         for (Object key : keys) {
             log.warn(">> key:{}",key);
         }
+        Set<String> allKeySet = redisTemplate.keys("*");
+        for (String key : allKeySet) {
+            log.warn(">> key:{}",key);
+        }
 
     }
 }
