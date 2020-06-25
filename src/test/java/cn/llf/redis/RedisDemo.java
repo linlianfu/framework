@@ -28,7 +28,7 @@ public class RedisDemo {
         BoundHashOperations<String, Object, Object> java = redisTemplate.boundHashOps("java");
         Set<Object> keys = java.keys();
         for (Object key : keys) {
-            log.warn(">> key:{}",key);
+            log.warn(">> key:{},value:{}",key,java.get(key));
         }
         Set<String> allKeySet = redisTemplate.keys("*");
         for (String key : allKeySet) {
