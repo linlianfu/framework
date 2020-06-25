@@ -5,11 +5,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author eleven
@@ -34,6 +36,22 @@ public class RedisDemo {
         for (String key : allKeySet) {
             log.warn(">> key:{}",key);
         }
+    }
 
+    @Test
+    public void expire(){
+        String key = "expireKey";
+        BoundValueOperations<String, String> valueOperations = redisTemplate.boundValueOps(key);
+        valueOperations.set("expireValue");
+        valueOperations.expire(5, TimeUnit.SECONDS);
+        Boolean exist = redisTemplate.hasKey(key);
+        log.warn(">>{}存在？：{}",key,exist);
+        try {
+            TimeUnit.SECONDS.sleep(6);
+            exist = redisTemplate.hasKey(key);
+            log.warn(">>{}存在？：{}",key,exist);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
