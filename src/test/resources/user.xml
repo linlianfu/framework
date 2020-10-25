@@ -1,0 +1,10 @@
+<user name="eleven" grade="12">
+    <course>
+        <courseId>1</courseId>
+        <courseName>语文</courseName>
+    </course>
+    <course>
+        <courseId>2</courseId>
+        <courseName>数学</courseName>
+    </course>
+</user>
