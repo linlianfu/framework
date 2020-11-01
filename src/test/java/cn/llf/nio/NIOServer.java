@@ -12,6 +12,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author eleven
@@ -23,7 +24,7 @@ public class NIOServer {
 
 
     @Test
-    public void receive() throws IOException {
+    public void receive() throws IOException, InterruptedException {
         NIOServer server = new NIOServer();
         server.init();
         server.start();
@@ -40,7 +41,7 @@ public class NIOServer {
         channel.register(this.selector, SelectionKey.OP_ACCEPT);
     }
 
-    public void start() throws IOException {
+    public void start() throws IOException, InterruptedException {
         log.warn(">> server start");
         while (true){
             selector.select();
@@ -64,12 +65,13 @@ public class NIOServer {
             channel.register(this.selector,SelectionKey.OP_READ);
         }
     }
-    public void read(SelectionKey key) throws IOException {
+    public void read(SelectionKey key) throws IOException, InterruptedException {
         SocketChannel channel = (SocketChannel)key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         channel.read(buffer);
         String request = new String(buffer.array()).trim();
         log.warn("客户端请求：{}",request);
+        TimeUnit.SECONDS.sleep(2);
         ByteBuffer outBuffer = ByteBuffer.wrap("服务端请求收到".getBytes());
         channel.write(outBuffer);
     }
